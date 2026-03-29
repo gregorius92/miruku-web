@@ -5,14 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Traits\HasTranslations;
 
 class Carousel extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTranslations;
+
+    protected $translatable = ['title', 'subtitle', 'button_text', 'button2_text'];
 
     protected $fillable = [
         'title', 'subtitle', 'image', 'button_text', 'button_link',
         'button2_text', 'button2_link', 'text_color', 'order', 'is_active',
+        'title_en', 'subtitle_en', 'button_text_en', 'button2_text_en',
     ];
 
     protected $casts = [

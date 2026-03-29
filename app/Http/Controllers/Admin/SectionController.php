@@ -22,12 +22,15 @@ class SectionController extends Controller
     public function update(Request $request, Section $section)
     {
         $data = $request->validate([
-            'title'     => 'nullable|string|max:255',
-            'subtitle'  => 'nullable|string|max:255',
-            'content'   => 'nullable|string',
-            'order'     => 'nullable|integer',
-            'is_active' => 'boolean',
-            'image'     => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
+            'title'       => 'nullable|string|max:255',
+            'title_en'    => 'nullable|string|max:255',
+            'subtitle'    => 'nullable|string|max:255',
+            'subtitle_en' => 'nullable|string|max:255',
+            'content'     => 'nullable|string',
+            'content_en'  => 'nullable|string',
+            'order'       => 'nullable|integer',
+            'is_active'   => 'boolean',
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
         ]);
 
         $data['is_active'] = $request->has('is_active');

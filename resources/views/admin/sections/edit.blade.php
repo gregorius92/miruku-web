@@ -12,17 +12,44 @@
 
     <form action="{{ route('admin.sections.update', $section) }}" method="POST" enctype="multipart/form-data" class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
         @csrf @method('PUT')
-        <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Judul</label>
-            <input type="text" name="title" value="{{ old('title', $section->title) }}" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue">
+        <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1.5">Judul (ID)</label>
+                <input type="text" name="title" value="{{ old('title', $section->getRawOriginal('title')) }}" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue">
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-blue-600 mb-1.5 flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                    Judul (EN)
+                </label>
+                <input type="text" name="title_en" value="{{ old('title_en', $section->title_en) }}" class="w-full border border-blue-100 bg-blue-50/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue" placeholder="Title in English">
+            </div>
         </div>
-        <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Subtitle</label>
-            <input type="text" name="subtitle" value="{{ old('subtitle', $section->subtitle) }}" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue">
+        <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1.5">Subtitle (ID)</label>
+                <input type="text" name="subtitle" value="{{ old('subtitle', $section->getRawOriginal('subtitle')) }}" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue">
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-blue-600 mb-1.5 flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                    Subtitle (EN)
+                </label>
+                <input type="text" name="subtitle_en" value="{{ old('subtitle_en', $section->subtitle_en) }}" class="w-full border border-blue-100 bg-blue-50/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue" placeholder="Subtitle in English">
+            </div>
         </div>
-        <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Konten</label>
-            <textarea name="content" rows="5" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue resize-y">{{ old('content', $section->content) }}</textarea>
+        <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1.5">Konten (ID)</label>
+                <textarea name="content" rows="5" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue resize-y">{{ old('content', $section->getRawOriginal('content')) }}</textarea>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-blue-600 mb-1.5 flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                    Konten (EN)
+                </label>
+                <textarea name="content_en" rows="5" class="w-full border border-blue-100 bg-blue-50/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue resize-y" placeholder="Content in English">{{ old('content_en', $section->content_en) }}</textarea>
+            </div>
         </div>
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1.5">Gambar</label>

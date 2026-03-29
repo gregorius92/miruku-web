@@ -22,15 +22,19 @@ class CarouselController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title'        => 'required|string|max:255',
-            'subtitle'     => 'nullable|string',
-            'button_text'  => 'nullable|string|max:100',
-            'button_link'  => 'nullable|string|max:255',
-            'button2_text' => 'nullable|string|max:100',
-            'button2_link' => 'nullable|string|max:255',
-            'text_color'   => 'nullable|string',
-            'order'        => 'nullable|integer',
-            'image'        => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'title'           => 'required|string|max:255',
+            'title_en'        => 'nullable|string|max:255',
+            'subtitle'        => 'nullable|string',
+            'subtitle_en'     => 'nullable|string',
+            'button_text'     => 'nullable|string|max:100',
+            'button_text_en'  => 'nullable|string|max:100',
+            'button_link'     => 'nullable|string|max:255',
+            'button2_text'    => 'nullable|string|max:100',
+            'button2_text_en' => 'nullable|string|max:100',
+            'button2_link'    => 'nullable|string|max:255',
+            'text_color'      => 'nullable|string',
+            'order'           => 'nullable|integer',
+            'image'           => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
 
         $data['is_active'] = $request->has('is_active');
@@ -51,15 +55,19 @@ class CarouselController extends Controller
     public function update(Request $request, Carousel $carousel)
     {
         $data = $request->validate([
-            'title'        => 'required|string|max:255',
-            'subtitle'     => 'nullable|string',
-            'button_text'  => 'nullable|string|max:100',
-            'button_link'  => 'nullable|string|max:255',
-            'button2_text' => 'nullable|string|max:100',
-            'button2_link' => 'nullable|string|max:255',
-            'text_color'   => 'nullable|string',
-            'order'        => 'nullable|integer',
-            'image'        => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'title'           => 'required|string|max:255',
+            'title_en'        => 'nullable|string|max:255',
+            'subtitle'        => 'nullable|string',
+            'subtitle_en'     => 'nullable|string',
+            'button_text'     => 'nullable|string|max:100',
+            'button_text_en'  => 'nullable|string|max:100',
+            'button_link'     => 'nullable|string|max:255',
+            'button2_text'    => 'nullable|string|max:100',
+            'button2_text_en' => 'nullable|string|max:100',
+            'button2_link'    => 'nullable|string|max:255',
+            'text_color'      => 'nullable|string',
+            'order'           => 'nullable|integer',
+            'image'           => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
 
         $data['is_active'] = $request->has('is_active');

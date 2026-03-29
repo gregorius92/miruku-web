@@ -4,13 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasTranslations;
 
 class Section extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTranslations;
+
+    protected $translatable = ['title', 'subtitle', 'content'];
 
     protected $fillable = [
         'section_name', 'title', 'subtitle', 'content', 'image', 'order', 'is_active',
+        'title_en', 'subtitle_en', 'content_en',
     ];
 
     protected $casts = [

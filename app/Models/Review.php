@@ -4,13 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasTranslations;
 
 class Review extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTranslations;
+
+    protected $translatable = ['comment'];
 
     protected $fillable = [
-        'name', 'email', 'rating', 'comment', 'approved', 'product_id',
+        'name', 'email', 'rating', 'comment', 'approved', 'product_id', 'comment_en',
     ];
 
     protected $casts = [

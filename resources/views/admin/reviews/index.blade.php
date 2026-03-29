@@ -5,15 +5,15 @@
 <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
     <div class="px-6 py-5 border-b border-gray-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900">Review & Ulasan</h1>
-            <p class="text-sm text-gray-500 mt-1">Kelola ulasan dari pelanggan Miruku</p>
+            <h1 class="text-2xl font-bold text-gray-900">{{ __('admin.reviews.title') }}</h1>
+            <p class="text-sm text-gray-500 mt-1">{{ __('admin.reviews.subtitle') }}</p>
         </div>
         
         <div class="flex overflow-x-auto pb-1 md:pb-0 gap-2">
             @foreach([
-                ['status' => null, 'label' => 'Semua'],
-                ['status' => 'pending', 'label' => 'Pending'],
-                ['status' => 'approved', 'label' => 'Disetujui']
+                ['status' => null, 'label' => __('admin.reviews.all')],
+                ['status' => 'pending', 'label' => __('admin.reviews.pending')],
+                ['status' => 'approved', 'label' => __('admin.reviews.approved')]
             ] as $filter)
             <a href="{{ route('admin.reviews.index', ['status' => $filter['status']]) }}" 
                class="whitespace-nowrap px-4 py-2 rounded-xl text-sm font-medium transition-colors
@@ -35,10 +35,10 @@
                     <div class="flex-1 min-w-0">
                         <div class="flex items-center gap-2 mb-1">
                             <span class="font-bold text-gray-900">{{ $review->name }}</span>
-                            @if(!$review->is_approved)
-                            <span class="text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider">Pending</span>
+                            @if(!$review->approved)
+                            <span class="text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider">{{ __('admin.reviews.pending') }}</span>
                             @else
-                            <span class="text-[10px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider">Disetujui</span>
+                            <span class="text-[10px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider">{{ __('admin.reviews.approved') }}</span>
                             @endif
                         </div>
                         <div class="flex gap-0.5 mb-2">
@@ -53,12 +53,12 @@
                                 @if(!$review->is_approved)
                                 <form action="{{ route('admin.reviews.approve', $review) }}" method="POST">
                                     @csrf
-                                    <button class="text-xs font-semibold text-miruku-blue hover:text-miruku-dark bg-blue-50 px-3 py-1.5 rounded-lg transition-colors">Setujui</button>
+                                    <button class="text-xs font-semibold text-miruku-blue hover:text-miruku-dark bg-blue-50 px-3 py-1.5 rounded-lg transition-colors">{{ __('admin.reviews.approve') }}</button>
                                 </form>
                                 @endif
-                                <form action="{{ route('admin.reviews.destroy', $review) }}" method="POST" onsubmit="return confirm('Hapus ulasan ini?')">
+                                <form action="{{ route('admin.reviews.destroy', $review) }}" method="POST" onsubmit="return confirm('{{ __('admin.reviews.delete_confirm') }}')">
                                     @csrf @method('DELETE')
-                                    <button class="text-xs font-semibold text-red-500 hover:text-red-600 bg-red-50 px-3 py-1.5 rounded-lg transition-colors">Hapus</button>
+                                    <button class="text-xs font-semibold text-red-500 hover:text-red-600 bg-red-50 px-3 py-1.5 rounded-lg transition-colors">{{ __('admin.common.delete') }}</button>
                                 </form>
                             </div>
                         </div>
@@ -68,7 +68,7 @@
             @empty
             <div class="col-span-full py-12 text-center">
                 <div class="text-4xl mb-3">💬</div>
-                <p class="text-gray-500">Belum ada ulasan untuk kategori ini.</p>
+                <p class="text-gray-500">{{ __('admin.reviews.no_reviews') }}</p>
             </div>
             @endforelse
         </div>

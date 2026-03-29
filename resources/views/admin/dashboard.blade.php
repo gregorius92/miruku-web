@@ -6,10 +6,10 @@
     <!-- Stats Grid -->
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         @foreach([
-            ['label' => 'Total Produk', 'value' => $stats['total_products'], 'sub' => $stats['active_products'].' aktif', 'color' => 'blue', 'icon' => 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'],
-            ['label' => 'Ulasan Pending', 'value' => $stats['pending_reviews'], 'sub' => $stats['approved_reviews'].' disetujui', 'color' => 'amber', 'icon' => 'M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z'],
-            ['label' => 'Lokasi Toko', 'value' => $stats['total_stores'], 'sub' => 'Aktif', 'color' => 'teal', 'icon' => 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z'],
-            ['label' => 'Carousel Aktif', 'value' => $stats['active_carousels'], 'sub' => 'Slides', 'color' => 'indigo', 'icon' => 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z'],
+            ['label' => __('admin.dashboard.total_products'), 'value' => $stats['total_products'], 'sub' => $stats['active_products'].' '.__('admin.dashboard.active'), 'color' => 'blue', 'icon' => 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'],
+            ['label' => __('admin.dashboard.pending_reviews'), 'value' => $stats['pending_reviews'], 'sub' => $stats['approved_reviews'].' '.__('admin.dashboard.approved'), 'color' => 'amber', 'icon' => 'M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z'],
+            ['label' => __('admin.dashboard.total_stores'), 'value' => $stats['total_stores'], 'sub' => ucfirst(__('admin.dashboard.active')), 'color' => 'teal', 'icon' => 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z'],
+            ['label' => __('admin.dashboard.active_carousels'), 'value' => $stats['active_carousels'], 'sub' => __('admin.dashboard.slides'), 'color' => 'indigo', 'icon' => 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z'],
         ] as $stat)
         <div class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
             <div class="flex items-center justify-between mb-3">
@@ -28,19 +28,19 @@
 
     <!-- Quick Actions -->
     <div class="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
-        <h3 class="font-semibold text-gray-900 mb-4">Aksi Cepat</h3>
+        <h3 class="font-semibold text-gray-900 mb-4">{{ __('admin.dashboard.quick_actions') }}</h3>
         <div class="flex flex-wrap gap-3">
             <a href="{{ route('admin.products.create') }}" class="inline-flex items-center gap-2 bg-miruku-blue text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-miruku-dark transition-colors">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                Tambah Produk
+                {{ __('admin.dashboard.add_product') }}
             </a>
             <a href="{{ route('admin.carousels.create') }}" class="inline-flex items-center gap-2 bg-purple-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                Tambah Carousel
+                {{ __('admin.dashboard.add_carousel') }}
             </a>
             <a href="{{ route('admin.reviews.index') }}" class="inline-flex items-center gap-2 bg-amber-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-amber-600 transition-colors">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                Kelola Ulasan
+                {{ __('admin.dashboard.manage_reviews') }}
             </a>
         </div>
     </div>
@@ -48,8 +48,8 @@
     <!-- Recent Reviews -->
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div class="px-6 py-5 border-b border-gray-50 flex items-center justify-between">
-            <h3 class="font-bold text-gray-900">Ulasan Terbaru</h3>
-            <a href="{{ route('admin.reviews.index') }}" class="text-sm text-miruku-blue hover:text-miruku-dark font-medium">Lihat semua →</a>
+            <h3 class="font-bold text-gray-900">{{ __('admin.dashboard.recent_reviews') }}</h3>
+            <a href="{{ route('admin.reviews.index') }}" class="text-sm text-miruku-blue hover:text-miruku-dark font-medium">{{ __('admin.dashboard.view_all') }} →</a>
         </div>
         <div class="divide-y divide-gray-50">
             @forelse($recentReviews as $review)
@@ -72,17 +72,17 @@
                     @if(!$review->is_approved)
                     <form action="{{ route('admin.reviews.approve', $review) }}" method="POST">
                         @csrf
-                        <button class="text-xs bg-miruku-blue hover:bg-miruku-dark text-white px-3 py-1.5 rounded-lg transition-colors">Setujui</button>
+                        <button class="text-xs bg-miruku-blue hover:bg-miruku-dark text-white px-3 py-1.5 rounded-lg transition-colors">{{ __('admin.reviews.approve') }}</button>
                     </form>
                     @endif
-                    <form action="{{ route('admin.reviews.destroy', $review) }}" method="POST" onsubmit="return confirm('Hapus ulasan ini?')">
+                    <form action="{{ route('admin.reviews.destroy', $review) }}" method="POST" onsubmit="return confirm('{{ __('admin.reviews.delete_confirm') }}')">
                         @csrf @method('DELETE')
-                        <button class="text-xs text-red-500 hover:text-red-600 font-medium px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors">Hapus</button>
+                        <button class="text-xs text-red-500 hover:text-red-600 font-medium px-3 py-1.5 rounded-lg hover:bg-red-50 transition-colors">{{ __('admin.common.delete') }}</button>
                     </form>
                 </div>
             </div>
             @empty
-            <div class="px-6 py-8 text-center text-gray-400">Belum ada ulasan terbaru.</div>
+            <div class="px-6 py-8 text-center text-gray-400">{{ __('admin.dashboard.no_recent_reviews') }}</div>
             @endforelse
         </div>
     </div>

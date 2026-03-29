@@ -4,13 +4,10 @@
             <!-- Brand -->
             <div class="lg:col-span-1">
                 <a href="{{ route('home') }}" class="flex items-center gap-3 mb-6">
-                    <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-lg">
-                        <span class="text-miruku-blue font-bold text-xl font-cormorant">M</span>
-                    </div>
-                    <span class="text-3xl font-bold tracking-tight font-cormorant">Miruku</span>
+                    <img src="{{ asset('images/logo-white.png') }}" alt="Miruku Logo" class="h-12 w-auto transition-transform duration-300 group-hover:scale-105">
                 </a>
                 <p class="text-blue-100 text-sm leading-relaxed mb-8 opacity-90">
-                    Susu lactose-free premium terinspirasi dari dedikasi dan kemurnian. 0% laktosa, 100% nutrisi asli.
+                    {{ __('footer.description') }}
                 </p>
                 <!-- Social Media -->
                 <div class="flex gap-4">
@@ -28,13 +25,13 @@
 
             <!-- Navigation -->
             <div>
-                <h3 class="text-white font-bold mb-6 text-sm uppercase tracking-widest border-b border-white/20 pb-2 inline-block">Menu</h3>
+                <h3 class="text-white font-bold mb-6 text-sm uppercase tracking-widest border-b border-white/20 pb-2 inline-block">{{ __('footer.menu') }}</h3>
                 <ul class="space-y-4">
                     @foreach([
-                        ['route' => 'home', 'label' => 'Beranda'],
-                        ['route' => 'products.index', 'label' => 'Koleksi Produk'],
-                        ['route' => 'about', 'label' => 'Kisah Miruku'],
-                        ['route' => 'benefits', 'label' => 'Edukasi Sehat'],
+                        ['route' => 'home', 'label' => __('footer.home')],
+                        ['route' => 'products.index', 'label' => __('footer.products')],
+                        ['route' => 'about', 'label' => __('footer.about')],
+                        ['route' => 'benefits', 'label' => __('footer.benefits')],
                     ] as $link)
                     <li>
                         <a href="{{ route($link['route']) }}" class="text-blue-50 hover:text-white text-sm transition-all duration-200 flex items-center gap-2 group">
@@ -48,7 +45,7 @@
 
             <!-- Shop -->
             <div>
-                <h3 class="text-white font-bold mb-6 text-sm uppercase tracking-widest border-b border-white/20 pb-2 inline-block">Belanja Online</h3>
+                <h3 class="text-white font-bold mb-6 text-sm uppercase tracking-widest border-b border-white/20 pb-2 inline-block">{{ __('footer.shop_online') }}</h3>
                 <ul class="space-y-4">
                     <li>
                         <a href="{{ $global_seo['shopee_link'] ?? '#' }}" class="text-blue-50 hover:text-white text-sm transition-all duration-200 flex items-center gap-3">
@@ -62,7 +59,7 @@
                     </li>
                     <li>
                         <a href="/#stores" class="text-blue-50 hover:text-white text-sm transition-all duration-200 flex items-center gap-3">
-                            <span class="w-2 h-2 rounded-full bg-blue-300"></span> Cari Toko Offline
+                            <span class="w-2 h-2 rounded-full bg-blue-300"></span> {{ __('footer.find_offline') }}
                         </a>
                     </li>
                 </ul>
@@ -70,7 +67,7 @@
 
             <!-- Newsletter -->
             <div>
-                <h3 class="text-white font-bold mb-6 text-sm uppercase tracking-widest border-b border-white/20 pb-2 inline-block">Hubungi Kami</h3>
+                <h3 class="text-white font-bold mb-6 text-sm uppercase tracking-widest border-b border-white/20 pb-2 inline-block">{{ __('footer.contact_us') }}</h3>
                 <div class="space-y-4 mb-6">
                     <p class="text-blue-50 text-sm flex items-center gap-3">
                         <svg class="w-5 h-5 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
@@ -82,10 +79,10 @@
                     </p>
                 </div>
                 <form class="flex gap-2">
-                    <input type="email" placeholder="Email kamu" id="newsletter-email"
+                    <input type="email" placeholder="{{ __('footer.email_placeholder') }}" id="newsletter-email"
                            class="flex-1 bg-white/10 border border-white/20 text-white placeholder-blue-200 text-sm px-4 py-3 rounded-lg focus:outline-none focus:bg-white/20 transition-all">
                     <button type="submit" class="bg-white text-miruku-blue hover:bg-blue-50 px-5 py-3 rounded-lg text-sm font-bold transition-all shadow-lg">
-                        Gabung
+                        {{ __('footer.join') }}
                     </button>
                 </form>
             </div>
@@ -94,7 +91,7 @@
         <!-- Bottom bar -->
         <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
             <p class="text-blue-100 text-xs opacity-70">
-                &copy; {{ date('Y') }} {{ $global_seo['site_name'] ?? 'Miruku' }}. All rights reserved. | Crafted with passion for a healthier Indonesia.
+                &copy; {{ date('Y') }} {{ $global_seo['site_name'] ?? 'Miruku' }}. {{ __('footer.rights_reserved') }}
             </p>
             <div class="flex gap-8">
                 <a href="#" class="text-blue-100 hover:text-white text-xs opacity-70 transition-colors uppercase tracking-widest">Privacy</a>

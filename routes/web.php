@@ -17,6 +17,13 @@ Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/benefits-lactose-free', [HomeController::class, 'benefits'])->name('benefits');
 Route::get('/sitemap.xml', [\App\Http\Controllers\SitemapController::class, 'index']);
 
+Route::get('/lang/{locale}', function ($locale) {
+    if (in_array($locale, ['id', 'en'])) {
+        session()->put('locale', $locale);
+    }
+    return redirect()->back();
+})->name('lang.switch');
+
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
 

@@ -5,15 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Traits\HasTranslations;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTranslations;
+
+    protected $translatable = ['name', 'description', 'body', 'meta_title', 'meta_description'];
 
     protected $fillable = [
         'name', 'slug', 'description', 'body', 'image',
         'price', 'variant', 'stock', 'is_featured', 'is_active',
         'meta_title', 'meta_description',
+        'name_en', 'description_en', 'body_en', 'meta_title_en', 'meta_description_en',
     ];
 
     protected $casts = [

@@ -32,7 +32,7 @@
                         <div class="max-w-2xl">
                             <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white/90 px-4 py-2 rounded-full text-sm font-medium mb-6 animate-fade-in">
                                 <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
-                                0% Lactose · 100% Premium
+                                {{ __('home.hero_badge') }}
                             </div>
                             <h1 class="text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight font-cormorant animate-slide-up">
                                 {{ $slide->title }}
@@ -66,10 +66,10 @@
                 <div class="absolute inset-0 bg-gradient-to-br from-miruku-dark via-miruku-blue to-gray-900"></div>
                 <div class="relative h-full flex items-center justify-center text-center">
                     <div class="max-w-2xl px-6">
-                        <h1 class="text-6xl font-bold text-white mb-6 font-cormorant">Susu Premium Tanpa Batas</h1>
-                        <p class="text-white/80 text-xl mb-10">0% Lactose. 100% Kenikmatan.</p>
+                        <h1 class="text-6xl font-bold text-white mb-6 font-cormorant">{{ __('home.hero_default_title', ['title' => 'Susu Premium Tanpa Batas']) }}</h1>
+                        <p class="text-white/80 text-xl mb-10">{{ __('home.hero_default_subtitle', ['subtitle' => '0% Lactose. 100% Kenikmatan.']) }}</p>
                         <a href="{{ route('products.index') }}" class="inline-flex items-center gap-2 bg-miruku-blue text-white font-semibold px-8 py-4 rounded-full hover:bg-miruku-dark transition-all">
-                            Jelajahi Produk
+                            {{ __('home.explore_products', ['text' => 'Jelajahi Produk']) }}
                         </a>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
         <div class="grid lg:grid-cols-2 gap-16 items-center">
             <!-- Text -->
             <div data-aos="fade-right">
-                <span class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">Tentang Kami</span>
+                <span class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.about_badge') }}</span>
                 <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 font-cormorant leading-tight">
                     {{ $sections['about']->title ?? 'Kenali Miruku' }}
                 </h2>
@@ -138,7 +138,7 @@
 
                 <div class="mt-10">
                     <a href="{{ route('about') }}" class="inline-flex items-center gap-2 text-miruku-blue font-semibold hover:gap-4 transition-all duration-300">
-                        Pelajari lebih lanjut
+                        {{ __('home.learn_more') }}
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                     </a>
                 </div>
@@ -160,13 +160,13 @@
                         <div class="w-12 h-12 bg-miruku-blue rounded-xl flex items-center justify-center text-white text-xl">⭐</div>
                         <div>
                             <p class="font-bold text-gray-900 text-xl">4.9/5</p>
-                            <p class="text-gray-500 text-xs">Dari 1000+ Ulasan</p>
+                            <p class="text-gray-500 text-xs">{{ __('home.total_reviews') }}</p>
                         </div>
                     </div>
                 </div>
                 <div class="absolute -top-6 -right-6 bg-miruku-blue text-white rounded-2xl shadow-2xl p-5 text-center">
                     <p class="text-3xl font-bold font-cormorant">99%</p>
-                    <p class="text-xs text-blue-100">Bebas Laktosa</p>
+                    <p class="text-xs text-blue-100">{{ __('home.lactose_free') }}</p>
                 </div>
             </div>
         </div>
@@ -179,30 +179,30 @@
 <section id="comparison" class="py-24 bg-gray-50">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <span class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">Perbandingan</span>
-            <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">Miruku vs Susu Biasa</h2>
-            <p class="text-gray-500 mt-4 text-lg">Mengapa memilih Miruku adalah keputusan terbaik untuk kesehatanmu</p>
+            <span class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.comparison_badge') }}</span>
+            <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">{{ __('home.comparison_title') }}</h2>
+            <p class="text-gray-500 mt-4 text-lg">{{ __('home.comparison_subtitle') }}</p>
         </div>
 
         <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
             <div class="grid grid-cols-3 bg-gradient-to-r from-miruku-blue to-miruku-dark text-white">
-                <div class="p-6 text-center font-semibold">Fitur</div>
+                <div class="p-6 text-center font-semibold">{{ __('home.feature') }}</div>
                 <div class="p-6 text-center font-bold text-lg border-x border-white/20">
                     <div class="flex items-center justify-center gap-2">
                         <span>🥛</span> Miruku
                     </div>
                 </div>
-                <div class="p-6 text-center font-semibold opacity-80">Susu Biasa</div>
+                <div class="p-6 text-center font-semibold opacity-80">{{ __('home.regular_milk') }}</div>
             </div>
 
             @foreach([
-                ['feature' => 'Kandungan Lactose', 'miruku' => '0% Lactose', 'regular' => 'Mengandung Laktosa', 'miruku_icon' => '✅', 'regular_icon' => '❌'],
-                ['feature' => 'Cocok untuk LI', 'miruku' => 'Ya, 100% aman', 'regular' => 'Tidak dianjurkan', 'miruku_icon' => '✅', 'regular_icon' => '❌'],
-                ['feature' => 'Kemudahan Pencernaan', 'miruku' => 'Mudah dicerna', 'regular' => 'Dapat menyebabkan kembung', 'miruku_icon' => '✅', 'regular_icon' => '⚠️'],
-                ['feature' => 'Kandungan Kalsium', 'miruku' => 'Setara / lebih tinggi', 'regular' => 'Standard', 'miruku_icon' => '✅', 'regular_icon' => '✅'],
-                ['feature' => 'Rasa', 'miruku' => 'Creamy & premium', 'regular' => 'Standard', 'miruku_icon' => '✅', 'regular_icon' => '✅'],
-                ['feature' => 'Varian Rasa', 'miruku' => 'Original, Chocolate, Banana', 'regular' => 'Terbatas', 'miruku_icon' => '✅', 'regular_icon' => '⚠️'],
-                ['feature' => 'Pengawet Buatan', 'miruku' => 'Bebas pengawet', 'regular' => 'Sering mengandung', 'miruku_icon' => '✅', 'regular_icon' => '❌'],
+                ['feature' => __('home.comp_lactose_content'), 'miruku' => __('home.comp_miruku_lactose'), 'regular' => __('home.comp_regular_lactose'), 'miruku_icon' => '✅', 'regular_icon' => '❌'],
+                ['feature' => __('home.comp_li_suitability'), 'miruku' => __('home.comp_miruku_li'), 'regular' => __('home.comp_regular_li'), 'miruku_icon' => '✅', 'regular_icon' => '❌'],
+                ['feature' => __('home.comp_digestion'), 'miruku' => __('home.comp_miruku_digestion'), 'regular' => __('home.comp_regular_digestion'), 'miruku_icon' => '✅', 'regular_icon' => '⚠️'],
+                ['feature' => __('home.comp_calcium'), 'miruku' => __('home.comp_miruku_calcium'), 'regular' => __('home.comp_regular_calcium'), 'miruku_icon' => '✅', 'regular_icon' => '✅'],
+                ['feature' => __('home.comp_taste'), 'miruku' => __('home.comp_miruku_taste'), 'regular' => __('home.comp_regular_taste'), 'miruku_icon' => '✅', 'regular_icon' => '✅'],
+                ['feature' => __('home.comp_flavor_variants'), 'miruku' => __('home.comp_miruku_variants'), 'regular' => __('home.comp_regular_variants'), 'miruku_icon' => '✅', 'regular_icon' => '⚠️'],
+                ['feature' => __('home.comp_preservatives'), 'miruku' => __('home.comp_miruku_preservatives'), 'regular' => __('home.comp_regular_preservatives'), 'miruku_icon' => '✅', 'regular_icon' => '❌'],
             ] as $i => $row)
             <div class="grid grid-cols-3 {{ $i % 2 === 0 ? 'bg-white' : 'bg-blue-50/20' }} border-b border-gray-100 last:border-0">
                 <div class="p-5 text-gray-700 font-medium flex items-center">{{ $row['feature'] }}</div>
@@ -220,7 +220,7 @@
 
         <div class="text-center mt-10">
             <a href="{{ route('products.index') }}" class="inline-flex items-center gap-2 bg-miruku-blue hover:bg-miruku-dark text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 hover:scale-105 shadow-lg shadow-miruku-blue/30">
-                Coba Miruku Sekarang
+                {{ __('home.try_now') }}
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
             </a>
         </div>
@@ -233,9 +233,9 @@
 <section id="products" class="py-24 lg:py-32 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <span class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">Koleksi Kami</span>
-            <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">Varian Produk Miruku</h2>
-            <p class="text-gray-500 mt-4 text-lg max-w-2xl mx-auto">Setiap tegukan dirancang untuk memanjakan lidahmu sekaligus menjaga kesehatan pencernaanmu.</p>
+            <span class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.collection_badge') }}</span>
+            <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">{{ __('home.collection_title') }}</h2>
+            <p class="text-gray-500 mt-4 text-lg max-w-2xl mx-auto">{{ __('home.collection_subtitle') }}</p>
         </div>
 
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -262,7 +262,7 @@
                 <!-- Badge -->
                 @if($product->is_featured)
                 <div class="absolute top-4 left-4 bg-miruku-blue text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
-                    Terlaris ⭐
+                    {{ __('home.best_seller') }}
                 </div>
                 @endif
 
@@ -284,7 +284,7 @@
                         <span class="text-2xl font-bold text-miruku-blue font-cormorant">{{ $product->formatted_price }}</span>
                         <a href="{{ route('products.show', $product->slug) }}"
                            class="inline-flex items-center gap-2 bg-gray-900 hover:bg-miruku-blue text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-300">
-                            Lihat Detail
+                            {{ __('home.view_detail') }}
                             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                         </a>
                     </div>
@@ -297,7 +297,7 @@
 
         <div class="text-center mt-12">
             <a href="{{ route('products.index') }}" class="inline-flex items-center gap-2 border-2 border-miruku-blue text-miruku-blue hover:bg-miruku-blue hover:text-white font-semibold px-8 py-4 rounded-full transition-all duration-300">
-                Lihat Semua Produk
+                {{ __('home.view_all') }}
             </a>
         </div>
     </div>
@@ -309,9 +309,9 @@
 <section id="stores" class="py-24 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <span class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">Temukan Kami</span>
-            <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">Toko Terdekat</h2>
-            <p class="text-gray-500 mt-4 text-lg">Miruku tersedia di berbagai kota di Indonesia</p>
+            <span class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.find_us') }}</span>
+            <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">{{ __('home.nearest_store') }}</h2>
+            <p class="text-gray-500 mt-4 text-lg">{{ __('home.store_availability') }}</p>
         </div>
 
         <!-- City Filter -->
@@ -321,7 +321,7 @@
                 <button @click="activeCity = 'all'"
                         :class="activeCity === 'all' ? 'bg-miruku-blue text-white' : 'bg-white text-gray-600 hover:bg-blue-50'"
                         class="px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-200 border border-gray-200">
-                    Semua Kota
+                    {{ __('home.all_cities') }}
                 </button>
                 @foreach($cities as $city)
                 <button @click="activeCity = '{{ $city }}'"
@@ -368,7 +368,7 @@
                     </div>
                 </div>
                 @empty
-                <div class="col-span-full text-center py-12 text-gray-400">Informasi toko segera hadir...</div>
+                <div class="col-span-full text-center py-12 text-gray-400">{{ __('home.store_coming_soon') }}</div>
                 @endforelse
             </div>
         </div>
@@ -398,9 +398,9 @@
 <section id="reviews" class="py-24 lg:py-32 bg-white overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <span class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">Ulasan Pelanggan</span>
-            <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">Apa Kata Mereka?</h2>
-            <p class="text-gray-500 mt-4 text-lg">Ribu pelanggan puas sudah merasakan manfaat Miruku</p>
+            <span class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.customer_reviews') }}</span>
+            <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">{{ __('home.what_they_say') }}</h2>
+            <p class="text-gray-500 mt-4 text-lg">{{ __('home.satisfied_customers') }}</p>
         </div>
 
         <!-- Reviews Slider -->
@@ -427,7 +427,7 @@
                             </div>
                             <div>
                                 <p class="font-semibold text-gray-900">{{ $review->name }}</p>
-                                <p class="text-xs text-gray-400">Pelanggan Miruku</p>
+                                <p class="text-xs text-gray-400">{{ __('home.miruku_customer') }}</p>
                             </div>
                         </div>
                     </div>
@@ -441,8 +441,8 @@
         <!-- Submit Review Form -->
         <div class="max-w-2xl mx-auto">
             <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8 border border-blue-100">
-                <h3 class="text-2xl font-bold text-gray-900 mb-2 font-cormorant">Bagikan Pengalamanmu</h3>
-                <p class="text-gray-500 text-sm mb-6">Review kamu akan ditampilkan setelah diverifikasi tim kami.</p>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2 font-cormorant">{{ __('home.share_experience') }}</h3>
+                <p class="text-gray-500 text-sm mb-6">{{ __('home.verification_note') }}</p>
 
                 @if(session('success'))
                 <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl mb-4 text-sm">
@@ -454,13 +454,13 @@
                     @csrf
                     <div class="grid sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1.5" for="review-name">Nama *</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5" for="review-name">{{ __('home.name') }} *</label>
                             <input type="text" name="name" id="review-name" required
                                    class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue focus:ring-2 focus:ring-blue-50 transition-all"
-                                   placeholder="Nama kamu">
+                                   placeholder="{{ __('home.name_placeholder') }}">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1.5" for="review-email">Email (Opsional)</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5" for="review-email">{{ __('home.email_optional') }}</label>
                             <input type="email" name="email" id="review-email"
                                    class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue focus:ring-2 focus:ring-blue-50 transition-all"
                                    placeholder="email@kamu.com">
@@ -469,7 +469,7 @@
 
                     <!-- Star Rating Input -->
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Rating *</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('home.rating') }} *</label>
                         <div x-data="{ rating: 5 }" class="flex gap-2">
                             @for($i = 1; $i <= 5; $i++)
                             <button type="button" @click="rating = {{ $i }}"
@@ -481,15 +481,15 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1.5" for="review-comment">Komentar *</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-1.5" for="review-comment">{{ __('home.comment') }} *</label>
                         <textarea name="comment" id="review-comment" rows="4" required
                                   class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue focus:ring-2 focus:ring-blue-50 transition-all resize-none"
-                                  placeholder="Bagikan pengalamanmu dengan Miruku..."></textarea>
+                                  placeholder="{{ __('home.comment_placeholder') }}"></textarea>
                     </div>
 
                     <button type="submit"
                             class="w-full bg-miruku-blue hover:bg-miruku-dark text-white font-semibold py-3.5 rounded-xl transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-miruku-blue/30">
-                        Kirim Review
+                        {{ __('home.submit_review') }}
                     </button>
                 </form>
             </div>
@@ -503,19 +503,19 @@
 <section id="why" class="section-blue">
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
-            <span class="text-blue-200 font-semibold text-sm uppercase tracking-widest mb-4 block">Mengapa Miruku?</span>
-            <h2 class="text-4xl lg:text-5xl font-bold font-cormorant text-white">{{ $sections['benefits']->title ?? 'Lebih dari Sekedar Susu' }}</h2>
-            <p class="text-blue-100 mt-4 text-lg max-w-2xl mx-auto opacity-80">{{ $sections['benefits']->subtitle ?? 'Dirancang untuk kesehatan dan kenikmatan Anda' }}</p>
+            <span class="text-blue-200 font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.why_miruku') }}</span>
+            <h2 class="text-4xl lg:text-5xl font-bold font-cormorant text-white">{{ $sections['benefits']->title ?? __('home.more_than_milk') }}</h2>
+            <p class="text-blue-100 mt-4 text-lg max-w-2xl mx-auto opacity-80">{{ $sections['benefits']->subtitle ?? __('home.join_customers') }}</p>
         </div>
 
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach([
-                ['icon' => '🧬', 'title' => 'Baik untuk Pencernaan', 'desc' => 'Bebas laktosa berarti perutmu tidak akan kembung, nyeri, atau tidak nyaman. Nikmati susu tanpa drama pencernaan.'],
-                ['icon' => '🦴', 'title' => 'Kaya Kalsium', 'desc' => 'Kandungan kalsium Miruku setara dengan susu biasa. Tulang kuat, gigi sehat — tanpa kompromi nutrisi.'],
-                ['icon' => '⚡', 'title' => 'Energi Sepanjang Hari', 'desc' => 'Protein berkualitas tinggi memberikan energi tahan lama untuk mendukung aktivitas harianmu.'],
-                ['icon' => '🌿', 'title' => 'Alami & Bersih', 'desc' => 'Tanpa pengawet buatan, tanpa warna sintetis. Hanya susu terbaik yang sudah melalui proses laktase alami.'],
-                ['icon' => '👨‍👩‍👧‍👦', 'title' => 'Untuk Seluruh Keluarga', 'desc' => 'Aman untuk anak-anak, remaja, dewasa, hingga lansia. Miruku adalah susu untuk semua generasi.'],
-                ['icon' => '🏆', 'title' => 'Kualitas Premium', 'desc' => 'Dipilih dari sapi-sapi terbaik dengan standar kebersihan dan kualitas kelas dunia.'],
+                ['icon' => '🧬', 'title' => __('home.benefit_title_1'), 'desc' => __('home.benefit_desc_1')],
+                ['icon' => '🦴', 'title' => __('home.benefit_title_2'), 'desc' => __('home.benefit_desc_2')],
+                ['icon' => '⚡', 'title' => __('home.benefit_title_3'), 'desc' => __('home.benefit_desc_3')],
+                ['icon' => '🌿', 'title' => __('home.benefit_title_4'), 'desc' => __('home.benefit_desc_4')],
+                ['icon' => '👨‍👩‍👧‍👦', 'title' => __('home.benefit_title_5'), 'desc' => __('home.benefit_desc_5')],
+                ['icon' => '🏆', 'title' => __('home.benefit_title_6'), 'desc' => __('home.benefit_desc_6')],
             ] as $benefit)
             <div class="group bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/10 hover:border-white/40 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1">
                 <div class="text-4xl mb-4 text-white">{{ $benefit['icon'] }}</div>
@@ -533,19 +533,19 @@
 <section id="cta" class="section-blue !pt-32">
     <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
         <h2 class="text-4xl lg:text-6xl font-bold mb-8 font-cormorant leading-tight text-white animate-slide-up">
-            {{ $sections['cta']->title ?? 'Beralih ke Susu yang Lebih Baik Hari Ini' }}
+            {{ $sections['cta']->title ?? __('home.switch_now') }}
         </h2>
         <p class="text-blue-100 text-lg lg:text-xl mb-12 max-w-2xl mx-auto opacity-90 animate-slide-up" style="animation-delay: 100ms">
-            {{ $sections['cta']->subtitle ?? 'Bergabung dengan ribuan pelanggan yang sudah merasakan manfaat Miruku.' }}
+            {{ $sections['cta']->subtitle ?? __('home.join_customers') }}
         </p>
         <div class="flex flex-wrap justify-center gap-6 animate-slide-up" style="animation-delay: 200ms">
             <a href="{{ route('products.index') }}"
                class="inline-flex items-center gap-2 bg-white text-miruku-blue font-bold px-10 py-4 rounded-full hover:bg-blue-50 transition-all duration-300 hover:scale-105 shadow-2xl text-lg">
-                🛒 Beli Sekarang
+                {{ __('home.buy_now') }}
             </a>
             <a href="#stores"
                class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/30 text-white font-bold px-10 py-4 rounded-full hover:bg-white/20 transition-all duration-300 hover:scale-105 text-lg">
-                📍 Cari Toko
+                {{ __('home.find_store') }}
             </a>
         </div>
     </div>

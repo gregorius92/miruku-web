@@ -23,8 +23,11 @@ class StoreLocationController extends Controller
     {
         $data = $request->validate([
             'name'       => 'required|string|max:255',
+            'name_en'    => 'nullable|string|max:255',
             'address'    => 'required|string',
+            'address_en' => 'nullable|string',
             'city'       => 'required|string|max:100',
+            'city_en'    => 'nullable|string|max:100',
             'province'   => 'nullable|string|max:100',
             'map_embed'  => 'nullable|string',
             'phone'      => 'nullable|string|max:30',
@@ -48,8 +51,11 @@ class StoreLocationController extends Controller
     {
         $data = $request->validate([
             'name'       => 'required|string|max:255',
+            'name_en'    => 'nullable|string|max:255',
             'address'    => 'required|string',
+            'address_en' => 'nullable|string',
             'city'       => 'required|string|max:100',
+            'city_en'    => 'nullable|string|max:100',
             'province'   => 'nullable|string|max:100',
             'map_embed'  => 'nullable|string',
             'phone'      => 'nullable|string|max:30',
