@@ -1,0 +1,157 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --color-primary: 52 116 162;   /* miruku-blue */
+        --color-cream: 253 248 240;
+        --color-soft-blue: 219 234 254;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply font-inter;
+    }
+
+    h1, h2, h3, .font-cormorant {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+
+    .font-inter {
+        font-family: 'Inter', system-ui, sans-serif;
+    }
+}
+
+@layer components {
+    .btn-primary {
+        @apply inline-flex items-center gap-2 bg-miruku-blue hover:bg-miruku-dark text-white font-semibold px-6 py-3 rounded-full transition-all duration-300 hover:scale-105 shadow-lg shadow-miruku-blue/30;
+    }
+
+    .btn-outline {
+        @apply inline-flex items-center gap-2 border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white font-semibold px-6 py-3 rounded-full transition-all duration-300;
+    }
+
+    .section-label {
+        @apply text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block;
+    }
+
+    .section-title {
+        @apply text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant;
+    }
+
+    .card-product {
+        @apply bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-100;
+    }
+}
+
+@layer utilities {
+    .text-gradient {
+        @apply bg-gradient-to-r from-miruku-blue to-blue-400 bg-clip-text text-transparent;
+    }
+
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+}
+
+/* Swiper Custom Styles */
+.swiper-pagination-bullet {
+    @apply !bg-white/60 !opacity-100 !w-2.5 !h-2.5 transition-all duration-300;
+}
+
+.swiper-pagination-bullet-active {
+    @apply !bg-white !w-8 !rounded-full;
+}
+
+/* Smooth scroll anchor offset for fixed navbar */
+[id]:not([id="hero"]) {
+    scroll-margin-top: 80px;
+}
+
+/* Custom animations */
+@keyframes fade-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-up {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scroll-dot {
+    0%, 100% { transform: translateY(0); opacity: 1; }
+    50% { transform: translateY(8px); opacity: 0.4; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.animate-fade-in {
+    animation: fade-in 0.8s ease-out forwards;
+}
+
+.animate-slide-up {
+    animation: slide-up 0.8s ease-out forwards;
+}
+
+.animate-scroll-dot {
+    animation: scroll-dot 1.5s ease-in-out infinite;
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Prose styles for product body */
+.prose p { @apply mb-4 leading-relaxed; }
+.prose ul { @apply list-disc list-inside mb-4 space-y-1; }
+.prose ol { @apply list-decimal list-inside mb-4 space-y-1; }
+.prose strong { @apply font-semibold text-gray-900; }
+.prose h2 { @apply text-2xl font-bold text-gray-900 mt-8 mb-4 font-cormorant; }
+.prose h3 { @apply text-xl font-bold text-gray-900 mt-6 mb-3 font-cormorant; }
+
+/* Miruku Brand Decorators */
+.miruku-wavy {
+    position: relative;
+    overflow: hidden;
+}
+
+.miruku-wavy::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1440 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40V12.5C120 12.5 120 0 240 0C360 0 360 12.5 480 12.5C600 12.5 600 0 720 0C840 0 840 12.5 960 12.5C1080 12.5 1080 0 1200 0C1320 0 1320 12.5 1440 12.5V40H0Z' fill='white'/%3E%3C/svg%3E");
+    background-size: 1440px 40px;
+    background-repeat: repeat-x;
+    z-index: 10;
+}
+
+.miruku-pattern {
+    background-color: #3474a2;
+    background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232e6392' fill-opacity='0.25'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6zM36 4V0h-2v4h-4v2h4v4h2V6h4V4h-4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.section-blue {
+    @apply miruku-wavy miruku-pattern pt-20 pb-16 text-white;
+}

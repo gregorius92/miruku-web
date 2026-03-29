@@ -1,0 +1,62 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: miruku-app
+    container_name: miruku-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    networks:
+      - miruku-network
+    command: php-fpm -F -R
+    depends_on:
+      - mysql
+      - redis
+
+  nginx:
+    image: nginx:alpine
+    container_name: miruku-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - miruku-network
+    depends_on:
+      - app
+
+  mysql:
+    image: mysql:8.0
+    container_name: miruku-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: miruku_db
+      MYSQL_USER: miruku
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - miruku-db:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - miruku-network
+
+  redis:
+    image: redis:alpine
+    container_name: miruku-redis
+    restart: unless-stopped
+    networks:
+      - miruku-network
+
+networks:
+  miruku-network:
+    driver: bridge
+
+volumes:
+  miruku-db:
+    driver: local
