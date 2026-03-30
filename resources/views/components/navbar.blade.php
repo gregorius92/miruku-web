@@ -1,6 +1,6 @@
 
 <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-     :class="(scrolled || {{ request()->routeIs('home') ? 'false' : 'true' }}) ? 'bg-miruku-blue shadow-lg border-b border-white/10' : 'bg-transparent'">
+     :class="(scrolled || {{ request()->routeIs('home') ? 'false' : 'true' }}) ? 'bg-miruku-blue miruku-pattern shadow-lg border-b border-white/10' : 'bg-transparent'">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-20">
             <!-- Logo -->

@@ -22,7 +22,7 @@
             <div class="grid lg:grid-cols-2 gap-20 items-center">
                 <div class="order-2 lg:order-1">
                     <div class="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl">
-                        <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&q=80&w=1000" alt="Susu Segar" class="w-full h-full object-cover">
+                        <img src="{{ asset('images/miruku-about-me.png') }}" alt="Miruku Story" class="w-full h-full object-cover">
                     </div>
                 </div>
                 <div class="order-1 lg:order-2">

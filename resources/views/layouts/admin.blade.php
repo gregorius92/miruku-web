@@ -13,8 +13,10 @@
 <body class="bg-gray-50 font-inter" x-data="{ sidebarOpen: false }">
 <div class="flex min-h-screen">
     <!-- Sidebar -->
-    <aside class="w-64 bg-gray-950 text-white flex flex-col fixed inset-y-0 left-0 z-50 transition-transform duration-300 lg:translate-x-0"
+    <aside class="w-64 bg-miruku-blue miruku-pattern text-white flex flex-col fixed inset-y-0 left-0 z-50 transition-transform duration-300 lg:translate-x-0"
            :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'">
+        <div class="absolute inset-0 bg-miruku-dark/40 pointer-events-none"></div>
+        <div class="relative flex flex-col h-full">
         <!-- Logo -->
         <div class="flex items-center gap-3 px-6 py-6 border-b border-white/10">
             <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 group">

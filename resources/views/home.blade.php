@@ -530,15 +530,31 @@
 {{-- =============================================
      8. CTA SECTION
      ============================================= --}}
-<section id="cta" class="section-blue !pt-32">
-    <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+<section id="cta" class="section-blue !pt-32 pb-32">
+    <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
         <h2 class="text-4xl lg:text-6xl font-bold mb-8 font-cormorant leading-tight text-white animate-slide-up">
             {{ $sections['cta']->title ?? __('home.switch_now') }}
         </h2>
-        <p class="text-blue-100 text-lg lg:text-xl mb-12 max-w-2xl mx-auto opacity-90 animate-slide-up" style="animation-delay: 100ms">
+
+        <!-- Video Section -->
+        <div class="max-w-4xl mx-auto mb-16 animate-slide-up shadow-2xl rounded-3xl overflow-hidden border-4 border-white/20" style="animation-delay: 100ms">
+            <div class="aspect-video">
+                <iframe
+                    class="w-full h-full"
+                    src="https://www.youtube.com/embed/CH3rulpG7ac?si=6o99qMhExJb-uDyY"
+                    title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+
+        <p class="text-blue-100 text-lg lg:text-xl mb-12 max-w-2xl mx-auto opacity-90 animate-slide-up" style="animation-delay: 200ms">
             {{ $sections['cta']->subtitle ?? __('home.join_customers') }}
         </p>
-        <div class="flex flex-wrap justify-center gap-6 animate-slide-up" style="animation-delay: 200ms">
+        <div class="flex flex-wrap justify-center gap-6 animate-slide-up" style="animation-delay: 300ms">
             <a href="{{ route('products.index') }}"
                class="inline-flex items-center gap-2 bg-white text-miruku-blue font-bold px-10 py-4 rounded-full hover:bg-blue-50 transition-all duration-300 hover:scale-105 shadow-2xl text-lg">
                 {{ __('home.buy_now') }}
