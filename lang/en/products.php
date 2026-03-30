@@ -1,0 +1,35 @@
+<?php
+
+return [
+    'hero_badge' => 'Full Collection',
+    'hero_title' => 'All Miruku Products',
+    'hero_subtitle' => 'Choose your favorite variant — all 0% lactose, 100% premium.',
+    'filter_all' => 'All',
+    'best_seller' => 'Best Seller',
+    'view_detail' => 'View Detail',
+    'not_found' => 'Product not found.',
+    'breadcrumb_home' => 'Home',
+    'breadcrumb_products' => 'Products',
+    'variant_label' => ':variant Variant',
+    'reviews_count' => ':rating / 5 · :count reviews',
+    'available' => 'Available',
+    'unit' => 'unit',
+    'out_of_stock' => 'Out of Stock',
+    'inside_miruku' => 'What\'s inside Miruku',
+    'benefits' => [
+        '0% Lactose', 'Rich in Calcium', 'Preservative Free', 'Easy to Digest', 'High Protein', 'Vitamin D'
+    ],
+    'buy_shopee' => 'Buy on Shopee',
+    'buy_tokopedia' => 'Tokopedia',
+    'customer_reviews' => 'Customer Reviews',
+    'no_reviews' => 'No reviews for this product yet. Be the first!',
+    'write_review' => 'Write Your Review',
+    'name_placeholder' => 'Your Name',
+    'rating_label' => 'Rating',
+    'comment_placeholder' => 'Write your review...',
+    'submit_review' => 'Submit Review',
+    'other_products' => 'Other Products',
+    'seo_index_title' => 'Miruku Products – Lactose-Free Milk | Miruku',
+    'seo_index_description' => 'Discover all Miruku lactose-free milk variants: Original, Chocolate, and Banana. Buy now and feel the difference.',
+    'seo_index_keywords' => 'miruku products, lactose free milk, buy healthy milk',
+];

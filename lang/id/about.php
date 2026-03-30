@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'hero_badge' => 'Tentang Kami',
+    'hero_title' => 'Mewujudkan Gaya Hidup Sehat Tanpa Batas',
+    'hero_subtitle' => 'Miruku lahir dari sebuah visi sederhana: memberikan kebebasan bagi setiap orang untuk menikmati keajaiban susu tanpa kompromi kesehatan.',
+    'story_title' => 'Sebuah Perjalanan Rasa',
+    'story_p1' => 'Kisah Miruku dimulai ketika kami menyadari banyaknya orang Indonesia yang harus melepaskan kenikmatan minum susu karena kondisi <em>lactose intolerance</em>. Kembung, nyeri perut, dan rasa tidak nyaman seringkali menjadi penghalang untuk mendapatkan nutrisi penting dari susu.',
+    'story_p2' => 'Kami melakukan riset mendalam dan bekerja sama dengan ahli nutrisi untuk menciptakan formula susu yang tidak hanya bebas laktosa, tetapi juga mempertahankan cita rasa asli susu yang <strong>creamy dan premium</strong>.',
+    'story_p3' => 'Nama "Miruku" sendiri diambil dari cara pelafalan "Milk" dalam bahasa Jepang, mencerminkan estetika minimalis, kebersihan, dan dedikasi terhadap kualitas sempurna yang kami usung.',
+    'values_title' => 'Nilai-Nilai Kami',
+    'values_subtitle' => 'Tiga pilar utama yang mendasari setiap tetes susu Miruku yang Anda nikmati.',
+    'value_1_title' => 'Kualitas Tanpa Kompromi',
+    'value_1_desc' => 'Kami hanya menggunakan susu dari peternakan terbaik dengan standar kebersihan kelas dunia.',
+    'value_2_title' => 'Inovasi Berkelanjutan',
+    'value_2_desc' => 'Teknologi enzim laktase kami memastikan 99.9% bebas laktosa tanpa merusak nutrisi alami.',
+    'value_3_title' => 'Dedikasi untuk Konsumen',
+    'value_3_desc' => 'Setiap masukan Anda adalah inspirasi kami untuk terus menghadirkan varian rasa yang inovatif.',
+    'cta_title' => 'Mari Menjadi Bagian dari Keluarga Miruku',
+    'cta_subtitle' => 'Mulailah hari Anda dengan energi positif dan perut yang nyaman. Susu yang sehat, untuk hidup yang lebih hebat.',
+    'cta_button' => 'Lihat Produk Kami',
+    'seo_title' => 'Tentang Miruku | Susu Lactose-Free Premium',
+    'seo_description' => 'Pelajari kisah di balik Miruku, brand susu lactose-free premium asal Indonesia yang hadir untuk mewujudkan gaya hidup sehat.',
+    'seo_keywords' => 'tentang miruku, susu lactose free indonesia',
+];

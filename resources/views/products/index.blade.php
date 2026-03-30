@@ -5,16 +5,16 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="text-center mb-12">
-            <span class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">Koleksi Lengkap</span>
-            <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">Semua Produk Miruku</h1>
-            <p class="text-gray-500 mt-4 text-lg max-w-2xl mx-auto">Pilih varian favorit kamu — semuanya 0% laktosa, 100% premium.</p>
+            <span class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('products.hero_badge') }}</span>
+            <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">{{ __('products.hero_title') }}</h1>
+            <p class="text-gray-500 mt-4 text-lg max-w-2xl mx-auto">{{ __('products.hero_subtitle') }}</p>
         </div>
 
         <!-- Filter -->
         <div class="flex flex-wrap justify-center gap-3 mb-10">
             <a href="{{ route('products.index') }}"
                class="px-6 py-2.5 rounded-full text-sm font-medium border transition-all duration-200 {{ !request('variant') ? 'bg-miruku-blue border-miruku-blue text-white' : 'bg-white border-gray-200 text-gray-600 hover:bg-blue-50' }}">
-                Semua
+                {{ __('products.filter_all') }}
             </a>
             @foreach(['original', 'chocolate', 'banana'] as $v)
             <a href="{{ route('products.index', ['variant' => $v]) }}"
@@ -41,7 +41,7 @@
                 </div>
                 @if($product->is_featured)
                 <div class="absolute -mt-40 ml-4">
-                    <span class="bg-miruku-blue text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">⭐ Terlaris</span>
+                    <span class="bg-miruku-blue text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">⭐ {{ __('products.best_seller') }}</span>
                 </div>
                 @endif
                 <div class="p-6">
@@ -52,7 +52,7 @@
                         <span class="text-2xl font-bold text-miruku-blue font-cormorant">{{ $product->formatted_price }}</span>
                         <a href="{{ route('products.show', $product->slug) }}"
                            class="inline-flex items-center gap-2 bg-gray-900 hover:bg-miruku-blue text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-300">
-                            Lihat Detail
+                            {{ __('products.view_detail') }}
                             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                         </a>
                     </div>
@@ -61,7 +61,7 @@
             @empty
             <div class="col-span-3 text-center py-20">
                 <div class="text-6xl mb-4">🥛</div>
-                <p class="text-gray-400">Produk tidak ditemukan.</p>
+                <p class="text-gray-400">{{ __('products.not_found') }}</p>
             </div>
             @endforelse
         </div>

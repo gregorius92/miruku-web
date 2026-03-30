@@ -1,0 +1,35 @@
+<?php
+
+return [
+    'hero_badge' => 'Koleksi Lengkap',
+    'hero_title' => 'Semua Produk Miruku',
+    'hero_subtitle' => 'Pilih varian favorit kamu — semuanya 0% laktosa, 100% premium.',
+    'filter_all' => 'Semua',
+    'best_seller' => 'Terlaris',
+    'view_detail' => 'Lihat Detail',
+    'not_found' => 'Produk tidak ditemukan.',
+    'breadcrumb_home' => 'Beranda',
+    'breadcrumb_products' => 'Produk',
+    'variant_label' => 'Varian :variant',
+    'reviews_count' => ':rating / 5 · :count ulasan',
+    'available' => 'Tersedia',
+    'unit' => 'unit',
+    'out_of_stock' => 'Stok Habis',
+    'inside_miruku' => 'Yang ada di dalam Miruku',
+    'benefits' => [
+        '0% Lactose', 'Kaya Kalsium', 'Tanpa Pengawet', 'Mudah Dicerna', 'Protein Tinggi', 'Vitamin D'
+    ],
+    'buy_shopee' => 'Beli di Shopee',
+    'buy_tokopedia' => 'Tokopedia',
+    'customer_reviews' => 'Ulasan Pelanggan',
+    'no_reviews' => 'Belum ada ulasan untuk produk ini. Jadilah yang pertama!',
+    'write_review' => 'Tulis Ulasanmu',
+    'name_placeholder' => 'Namamu',
+    'rating_label' => 'Rating',
+    'comment_placeholder' => 'Tulis ulasanmu...',
+    'submit_review' => 'Kirim Ulasan',
+    'other_products' => 'Produk Lainnya',
+    'seo_index_title' => 'Produk Miruku – Susu Lactose-Free | Miruku',
+    'seo_index_description' => 'Temukan semua varian susu lactose-free Miruku: Original, Chocolate, dan Banana. Beli sekarang dan rasakan perbedaannya.',
+    'seo_index_keywords' => 'produk miruku, susu lactose free, beli susu sehat',
+];

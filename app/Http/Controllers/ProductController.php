@@ -16,9 +16,9 @@ class ProductController extends Controller
             ->paginate(9);
 
         $seo = [
-            'title'       => 'Produk Miruku – Susu Lactose-Free | Miruku',
-            'description' => 'Temukan semua varian susu lactose-free Miruku: Original, Chocolate, dan Banana. Beli sekarang dan rasakan perbedaannya.',
-            'keywords'    => 'produk miruku, susu lactose free, beli susu sehat',
+            'title'       => __('products.seo_index_title'),
+            'description' => __('products.seo_index_description'),
+            'keywords'    => __('products.seo_index_keywords'),
         ];
 
         return view('products.index', compact('products', 'seo'));

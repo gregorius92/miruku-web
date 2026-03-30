@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'hero_badge' => 'About Us',
+    'hero_title' => 'Empowering a Limitless Healthy Lifestyle',
+    'hero_subtitle' => 'Miruku was born from a simple vision: to provide the freedom for everyone to enjoy the magic of milk without compromising on health.',
+    'story_title' => 'A Journey of Taste',
+    'story_p1' => 'The Miruku story began when we realized how many Indonesians had to give up the pleasure of drinking milk due to <em>lactose intolerance</em>. Bloating, stomach pain, and discomfort often became barriers to getting essential nutrition from milk.',
+    'story_p2' => 'We conducted in-depth research and collaborated with nutrition experts to create a milk formula that is not only lactose-free but also maintains the original <strong>creamy and premium</strong> taste of milk.',
+    'story_p3' => 'The name "Miruku" itself is taken from the Japanese pronunciation of "Milk," reflecting the minimalist aesthetics, purity, and dedication to perfect quality that we uphold.',
+    'values_title' => 'Our Values',
+    'values_subtitle' => 'Three main pillars that underlie every drop of Miruku milk you enjoy.',
+    'value_1_title' => 'Uncompromising Quality',
+    'value_1_desc' => 'We only use milk from the best farms with world-class hygiene standards.',
+    'value_2_title' => 'Sustainable Innovation',
+    'value_2_desc' => 'Our lactase enzyme technology ensures 99.9% lactose-free without damaging natural nutrition.',
+    'value_3_title' => 'Dedication to Consumers',
+    'value_3_desc' => 'Every input from you is our inspiration to continue presenting innovative flavor variants.',
+    'cta_title' => 'Join the Miruku Family',
+    'cta_subtitle' => 'Start your day with positive energy and a comfortable stomach. Healthy milk, for a greater life.',
+    'cta_button' => 'View Our Products',
+    'seo_title' => 'About Miruku | Premium Lactose-Free Milk',
+    'seo_description' => 'Learn the story behind Miruku, a premium lactose-free milk brand from Indonesia present to realize a healthy lifestyle.',
+    'seo_keywords' => 'about miruku, lactose free milk indonesia',
+];

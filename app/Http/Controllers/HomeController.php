@@ -38,9 +38,9 @@ class HomeController extends Controller
     public function benefits()
     {
         $seo = [
-            'title'       => 'Manfaat Susu Lactose-Free | Miruku',
-            'description' => 'Pelajari manfaat susu lactose-free dan mengapa Miruku adalah pilihan terbaik untuk kesehatan Anda dan keluarga.',
-            'keywords'    => 'manfaat susu lactose free, susu sehat, lactose intolerance',
+            'title'       => __('benefits.seo_title'),
+            'description' => __('benefits.seo_description'),
+            'keywords'    => __('benefits.seo_keywords'),
         ];
         return view('benefits', compact('seo'));
     }
@@ -48,9 +48,9 @@ class HomeController extends Controller
     public function about()
     {
         $seo = [
-            'title'       => 'Tentang Miruku | Susu Lactose-Free Premium',
-            'description' => 'Pelajari kisah di balik Miruku, brand susu lactose-free premium asal Indonesia yang hadir untuk mewujudkan gaya hidup sehat.',
-            'keywords'    => 'tentang miruku, susu lactose free indonesia',
+            'title'       => __('about.seo_title'),
+            'description' => __('about.seo_description'),
+            'keywords'    => __('about.seo_keywords'),
         ];
         return view('about', compact('seo'));
     }
