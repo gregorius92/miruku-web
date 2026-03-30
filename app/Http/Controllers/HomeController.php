@@ -21,7 +21,7 @@ class HomeController extends Controller
         $cities = StoreLocation::active()->distinct()->pluck('city');
 
         $sections = [
-            'about'    => Section::getByName('about'),
+            'about'    => Section::where('section_name', 'about')->with('features')->first(),
             'benefits' => Section::getByName('benefits'),
             'cta'      => Section::getByName('cta'),
         ];

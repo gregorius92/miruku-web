@@ -2,7 +2,7 @@
 @section('title', 'Edit Toko')
 
 @section('admin-content')
-<div class="max-w-2xl">
+<div class="w-full">
     <div class="flex items-center gap-3 mb-6">
         <a href="{{ route('admin.stores.index') }}" class="text-gray-400 hover:text-gray-600">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
@@ -12,39 +12,38 @@
     <form action="{{ route('admin.stores.update', $store) }}" method="POST" class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
         @csrf @method('PUT')
         <div class="grid sm:grid-cols-2 gap-4">
-        <div class="grid sm:grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nama Toko (ID) *</label>
-                <input type="text" name="name" value="{{ old('name', $store->getRawOriginal('name')) }}" required class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue">
+                <input type="text" name="name" id="name_id" value="{{ old('name', $store->getRawOriginal('name')) }}" required class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue">
             </div>
             <div>
                 <label class="block text-sm font-semibold text-blue-600 mb-1.5 flex items-center gap-1.5">
                     <span class="w-2 h-2 rounded-full bg-blue-500"></span>
                     Nama Toko (EN)
                 </label>
-                <input type="text" name="name_en" value="{{ old('name_en', $store->name_en) }}" class="w-full border border-blue-100 bg-blue-50/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue" placeholder="Store name in English">
+                <input type="text" name="name_en" id="name_en" value="{{ old('name_en', $store->name_en) }}" class="w-full border border-blue-100 bg-blue-50/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue" placeholder="Store name in English">
             </div>
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1.5">Alamat (ID) *</label>
-                <textarea name="address" rows="2" required class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue resize-none">{{ old('address', $store->getRawOriginal('address')) }}</textarea>
+                <textarea name="address" id="addr_id" rows="2" required class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue resize-none">{{ old('address', $store->getRawOriginal('address')) }}</textarea>
             </div>
             <div>
                 <label class="block text-sm font-semibold text-blue-600 mb-1.5 flex items-center gap-1.5">
                     <span class="w-2 h-2 rounded-full bg-blue-500"></span>
                     Alamat (EN)
                 </label>
-                <textarea name="address_en" rows="2" class="w-full border border-blue-100 bg-blue-50/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue resize-none" placeholder="Address in English">{{ old('address_en', $store->address_en) }}</textarea>
+                <textarea name="address_en" id="addr_en" rows="2" class="w-full border border-blue-100 bg-blue-50/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue resize-none" placeholder="Address in English">{{ old('address_en', $store->address_en) }}</textarea>
             </div>
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1.5">Kota (ID) *</label>
-                <input type="text" name="city" value="{{ old('city', $store->getRawOriginal('city')) }}" required class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue">
+                <input type="text" name="city" id="city_id" value="{{ old('city', $store->getRawOriginal('city')) }}" required class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue">
             </div>
             <div>
                 <label class="block text-sm font-semibold text-blue-600 mb-1.5 flex items-center gap-1.5">
                     <span class="w-2 h-2 rounded-full bg-blue-500"></span>
                     Kota (EN)
                 </label>
-                <input type="text" name="city_en" value="{{ old('city_en', $store->city_en) }}" class="w-full border border-blue-100 bg-blue-50/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue" placeholder="City in English">
+                <input type="text" name="city_en" id="city_en" value="{{ old('city_en', $store->city_en) }}" class="w-full border border-blue-100 bg-blue-50/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue" placeholder="City in English">
             </div>
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1.5">Provinsi</label>
@@ -79,4 +78,9 @@
         </div>
     </form>
 </div>
+<script>
+    autoTranslate('name_id', 'name_en');
+    autoTranslate('addr_id', 'addr_en');
+    autoTranslate('city_id', 'city_en');
+</script>
 @endsection

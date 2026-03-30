@@ -15,12 +15,13 @@ class Carousel extends Model
 
     protected $fillable = [
         'title', 'subtitle', 'image', 'button_text', 'button_link',
-        'button2_text', 'button2_link', 'text_color', 'order', 'is_active',
+        'button2_text', 'button2_link', 'text_color', 'show_content', 'order', 'is_active',
         'title_en', 'subtitle_en', 'button_text_en', 'button2_text_en',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'show_content' => 'boolean',
         'order' => 'integer',
     ];
 

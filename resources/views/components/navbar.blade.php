@@ -4,7 +4,9 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-20">
             <!-- Logo -->
-            <a href="{{ route('home') }}" class="flex items-center gap-3 group">
+            <a href="{{ request()->routeIs('home') ? 'javascript:void(0)' : route('home') }}" 
+               @click="{{ request()->routeIs('home') ? 'window.scrollTo({top: 0, behavior: \'smooth\'})' : '' }}"
+               class="flex items-center gap-3 group">
                 <img src="{{ asset('images/logo-white.png') }}" alt="Miruku Logo"
                      class="h-12 w-auto transition-transform duration-300 group-hover:scale-105">
             </a>
@@ -17,7 +19,8 @@
                     ['route' => 'about', 'label' => __('navbar.about')],
                     ['route' => 'benefits', 'label' => __('navbar.benefits')],
                 ] as $link)
-                <a href="{{ route($link['route']) }}"
+                <a href="{{ ($link['route'] === 'home' && request()->routeIs('home')) ? 'javascript:void(0)' : route($link['route']) }}"
+                   @if($link['route'] === 'home' && request()->routeIs('home')) @click="window.scrollTo({top: 0, behavior: 'smooth'})" @endif
                    class="text-sm font-medium transition-all duration-300 hover:opacity-70 relative group text-white">
                     {{ $link['label'] }}
                     <span class="absolute -bottom-1 left-0 h-0.5 w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
@@ -89,7 +92,9 @@
                 </div>
             </div>
             
-            <a href="{{ route('home') }}" class="block text-white/90 font-medium py-2 hover:text-white transition-colors border-b border-white/5">{{ __('navbar.home') }}</a>
+            <a href="{{ request()->routeIs('home') ? 'javascript:void(0)' : route('home') }}" 
+               @click="{{ request()->routeIs('home') ? 'window.scrollTo({top: 0, behavior: \'smooth\'}); mobileMenu = false' : '' }}"
+               class="block text-white/90 font-medium py-2 hover:text-white transition-colors border-b border-white/5">{{ __('navbar.home') }}</a>
             <a href="{{ route('products.index') }}" class="block text-white/90 font-medium py-2 hover:text-white transition-colors border-b border-white/5">{{ __('navbar.products') }}</a>
             <a href="{{ route('about') }}" class="block text-white/90 font-medium py-2 hover:text-white transition-colors border-b border-white/5">{{ __('navbar.about') }}</a>
             <a href="{{ route('benefits') }}" class="block text-white/90 font-medium py-2 hover:text-white transition-colors border-b border-white/5">{{ __('navbar.benefits') }}</a>

@@ -11,7 +11,7 @@
             @forelse($carousels as $slide)
             <div class="swiper-slide relative">
                 <!-- Background Image -->
-                <div class="absolute inset-0 bg-gradient-to-r from-gray-950/80 via-gray-900/60 to-gray-800/40">
+                <div class="absolute inset-0 {{ $slide->show_content ? 'bg-gradient-to-r from-gray-950/80 via-gray-900/60 to-gray-800/40' : 'bg-transparent' }}">
                     @if($slide->image)
                     <img src="{{ $slide->image_url }}" alt="{{ $slide->title }}"
                          class="absolute inset-0 w-full h-full object-cover -z-10">
@@ -21,12 +21,15 @@
                 </div>
 
                 <!-- Floating abstract shapes -->
+                @if($slide->show_content)
                 <div class="absolute inset-0 overflow-hidden pointer-events-none">
                     <div class="absolute top-20 right-20 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl animate-pulse"></div>
                     <div class="absolute bottom-20 left-32 w-48 h-48 bg-blue-300/20 rounded-full blur-2xl animate-pulse" style="animation-delay: 1s"></div>
                 </div>
+                @endif
 
                 <!-- Content -->
+                @if($slide->show_content)
                 <div class="relative h-full flex items-center">
                     <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full">
                         <div class="max-w-2xl">
@@ -60,6 +63,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
             </div>
             @empty
             <div class="swiper-slide relative">
@@ -108,7 +112,14 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-16 items-center">
             <!-- Text -->
-            <div data-aos="fade-right">
+            <div data-aos="fade-right" class="relative group">
+                @auth
+                <a href="{{ route('admin.sections.edit', $sections['about']->id ?? 1) }}" 
+                   class="absolute -top-6 -right-6 bg-miruku-blue text-white p-2 rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-10 hover:scale-110"
+                   title="Edit Section">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                </a>
+                @endauth
                 <span class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.about_badge') }}</span>
                 <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 font-cormorant leading-tight">
                     {{ $sections['about']->title ?? 'Kenali Miruku' }}
@@ -119,21 +130,35 @@
 
                 <!-- Bullet Points -->
                 <div class="space-y-4">
-                    @foreach([
-                        ['icon' => '🥛', 'title' => '0% Lactose', 'desc' => 'Aman untuk penderita lactose intolerance'],
-                        ['icon' => '✨', 'title' => 'Tekstur Creamy', 'desc' => 'Kelezatan premium di setiap tegukan'],
-                        ['icon' => '💚', 'title' => 'Mudah Dicerna', 'desc' => 'Nyaman di perut, energi sepanjang hari'],
-                    ] as $point)
-                    <div class="flex items-start gap-4">
-                        <div class="flex-shrink-0 w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-2xl">
-                            {{ $point['icon'] }}
+                    @if(isset($sections['about']) && $sections['about']->features->count() > 0)
+                        @foreach($sections['about']->features as $point)
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-2xl">
+                                {{ $point->icon }}
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">{{ $point->title }}</h4>
+                                <p class="text-gray-500 text-sm">{{ $point->description }}</p>
+                            </div>
                         </div>
-                        <div>
-                            <h4 class="font-semibold text-gray-900">{{ $point['title'] }}</h4>
-                            <p class="text-gray-500 text-sm">{{ $point['desc'] }}</p>
+                        @endforeach
+                    @else
+                        @foreach([
+                            ['icon' => '🥛', 'title' => '0% Lactose', 'desc' => 'Aman untuk penderita lactose intolerance'],
+                            ['icon' => '✨', 'title' => 'Tekstur Creamy', 'desc' => 'Kelezatan premium di setiap tegukan'],
+                            ['icon' => '💚', 'title' => 'Mudah Dicerna', 'desc' => 'Nyaman di perut, energi sepanjang hari'],
+                        ] as $point)
+                        <div class="flex items-start gap-4">
+                            <div class="flex-shrink-0 w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-2xl">
+                                {{ $point['icon'] }}
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">{{ $point['title'] }}</h4>
+                                <p class="text-gray-500 text-sm">{{ $point['desc'] }}</p>
+                            </div>
                         </div>
-                    </div>
-                    @endforeach
+                        @endforeach
+                    @endif
                 </div>
 
                 <div class="mt-10">
@@ -145,14 +170,18 @@
             </div>
 
             <!-- Image -->
-            <div class="relative" data-aos="fade-left">
-                <div class="aspect-square rounded-3xl overflow-hidden bg-gradient-to-br from-blue-100 to-indigo-50">
-                    <div class="w-full h-full flex items-center justify-center">
-                        <div class="text-center p-12">
-                            <div class="text-[120px] mb-4">🥛</div>
-                            <p class="text-miruku-blue font-cormorant text-2xl italic">Pure. Natural. Premium.</p>
+            <div class="relative max-w-lg mx-auto lg:ml-auto w-full" data-aos="fade-left">
+                <div class="aspect-square rounded-3xl overflow-hidden bg-gradient-to-br from-blue-100 to-indigo-50 shadow-2xl">
+                    @if($sections['about']->image)
+                        <img src="{{ $sections['about']->image_url }}" alt="{{ $sections['about']->title }}" class="w-full h-full object-cover object-center">
+                    @else
+                        <div class="w-full h-full flex items-center justify-center">
+                            <div class="text-center p-12">
+                                <div class="text-[120px] mb-4">🥛</div>
+                                <p class="text-miruku-blue font-cormorant text-2xl italic">Pure. Natural. Premium.</p>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
                 <!-- Floating badge -->
                 <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-2xl p-5">

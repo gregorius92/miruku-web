@@ -37,6 +37,7 @@ class CarouselController extends Controller
             'image'           => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
 
+        $data['show_content'] = $request->has('show_content');
         $data['is_active'] = $request->has('is_active');
 
         if ($request->hasFile('image')) {
@@ -70,6 +71,7 @@ class CarouselController extends Controller
             'image'           => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
 
+        $data['show_content'] = $request->has('show_content');
         $data['is_active'] = $request->has('is_active');
 
         if ($request->hasFile('image')) {

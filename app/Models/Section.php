@@ -39,4 +39,9 @@ class Section extends Model
     {
         return $query->where('is_active', true);
     }
+
+    public function features()
+    {
+        return $this->hasMany(Feature::class)->orderBy('order');
+    }
 }

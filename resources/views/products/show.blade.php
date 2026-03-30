@@ -92,7 +92,7 @@
                 <!-- Price -->
                 <div class="flex items-center gap-4 mb-8">
                     <span class="text-4xl font-bold text-miruku-blue font-cormorant">{{ $product->formatted_price }}</span>
-                    <span class="text-gray-400 text-sm">/ 1000ml</span>
+                    <span class="text-gray-400 text-sm">/ {{ $product->unit }}</span>
                 </div>
 
                 <!-- Stock Status -->

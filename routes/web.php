@@ -53,6 +53,7 @@ require __DIR__.'/auth.php';
 Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', [Admin\DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/translate', [Admin\TranslationController::class, 'translate'])->name('translate');
 
     // Products
     Route::resource('products', Admin\ProductController::class);

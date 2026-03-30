@@ -2,7 +2,7 @@
 @section('title', 'Tambah Produk')
 
 @section('admin-content')
-<div class="max-w-3xl">
+<div class="w-full">
     <div class="flex items-center gap-3 mb-6">
         <a href="{{ route('admin.products.index') }}" class="text-gray-400 hover:text-gray-600 transition-colors">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
@@ -13,9 +13,16 @@
     <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data" class="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-5">
         @csrf
         <div class="grid sm:grid-cols-2 gap-5">
-            <div class="sm:col-span-2">
-                <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nama Produk *</label>
-                <input type="text" name="name" value="{{ old('name') }}" required class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue focus:ring-2 focus:ring-blue-50" placeholder="Miruku Original">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nama Produk (ID) *</label>
+                <input type="text" name="name" id="name_id" value="{{ old('name') }}" required class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue focus:ring-2 focus:ring-blue-50" placeholder="Miruku Original">
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-blue-600 mb-1.5 flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                    Nama Produk (EN)
+                </label>
+                <input type="text" name="name_en" id="name_en" value="{{ old('name_en') }}" class="w-full border border-blue-100 bg-blue-50/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue" placeholder="Product name in English">
             </div>
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1.5">Varian *</label>
@@ -30,30 +37,70 @@
                 <input type="number" name="price" value="{{ old('price', 35000) }}" required min="0" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue">
             </div>
             <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1.5">Unit/Volume *</label>
+                <input type="text" name="unit" value="{{ old('unit', '1000ml') }}" required class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue" placeholder="1000ml">
+            </div>
+            <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1.5">Stok *</label>
                 <input type="number" name="stock" value="{{ old('stock', 100) }}" required min="0" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue">
             </div>
-            <div>
+            <div class="sm:col-span-2">
                 <label class="block text-sm font-semibold text-gray-700 mb-1.5">Gambar Produk</label>
                 <input type="file" name="image" accept="image/*" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue file:mr-3 file:text-xs file:font-medium file:bg-blue-50 file:text-miruku-blue file:border-0 file:rounded-lg file:px-3 file:py-1.5">
             </div>
         </div>
 
-        <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Deskripsi Singkat</label>
-            <textarea name="description" rows="2" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue resize-none" placeholder="Deskripsi singkat untuk card produk...">{{ old('description') }}</textarea>
+        <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1.5">Deskripsi Singkat (ID)</label>
+                <textarea name="description" id="desc_id" rows="2" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue resize-none" placeholder="Deskripsi singkat untuk card produk...">{{ old('description') }}</textarea>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-blue-600 mb-1.5 flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                    Deskripsi Singkat (EN)
+                </label>
+                <textarea name="description_en" id="desc_en" rows="2" class="w-full border border-blue-100 bg-blue-50/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue resize-none" placeholder="Short description in English">{{ old('description_en') }}</textarea>
+            </div>
         </div>
 
-        <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Konten Lengkap (HTML)</label>
-            <textarea name="body" rows="6" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue font-mono resize-y" placeholder="<p>Detail produk lengkap...</p>">{{ old('body') }}</textarea>
+        <div class="grid sm:grid-cols-2 gap-5">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1.5">Konten Lengkap (ID)</label>
+                <textarea name="body" rows="6" class="editor w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue resize-y" placeholder="Detail produk lengkap...">{{ old('body') }}</textarea>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-blue-600 mb-1.5 flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                    Konten Lengkap (EN)
+                </label>
+                <textarea name="body_en" rows="6" class="editor w-full border border-blue-100 bg-blue-50/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue resize-y" placeholder="Full content in English">{{ old('body_en') }}</textarea>
+            </div>
         </div>
 
         <div class="border-t border-gray-100 pt-4">
-            <h3 class="text-sm font-semibold text-gray-700 mb-3">SEO</h3>
-            <div class="space-y-3">
-                <input type="text" name="meta_title" value="{{ old('meta_title') }}" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue" placeholder="Meta Title">
-                <textarea name="meta_description" rows="2" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue resize-none" placeholder="Meta Description">{{ old('meta_description') }}</textarea>
+            <h3 class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">SEO Settings</h3>
+            <div class="grid sm:grid-cols-2 gap-5">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 mb-1">Meta Title (ID)</label>
+                        <input type="text" name="meta_title" id="meta_t_id" value="{{ old('meta_title') }}" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue" placeholder="Meta Title">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 mb-1">Meta Description (ID)</label>
+                        <textarea name="meta_description" id="meta_d_id" rows="2" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue resize-none" placeholder="Meta Description">{{ old('meta_description') }}</textarea>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-blue-500 mb-1">Meta Title (EN)</label>
+                        <input type="text" name="meta_title_en" id="meta_t_en" value="{{ old('meta_title_en') }}" class="w-full border border-blue-100 bg-blue-50/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue" placeholder="Meta Title in English">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-blue-500 mb-1">Meta Description (EN)</label>
+                        <textarea name="meta_description_en" id="meta_d_en" rows="2" class="w-full border border-blue-100 bg-blue-50/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue resize-none" placeholder="Meta Description in English">{{ old('meta_description_en') }}</textarea>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -74,4 +121,11 @@
         </div>
     </form>
 </div>
+<script>
+    autoTranslate('name_id', 'name_en');
+    autoTranslate('desc_id', 'desc_en');
+    autoTranslate('meta_t_id', 'meta_t_en');
+    autoTranslate('meta_d_id', 'meta_d_en');
+    autoTranslateCKEditor('body', 'body_en');
+</script>
 @endsection

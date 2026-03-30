@@ -16,6 +16,7 @@ class SectionController extends Controller
 
     public function edit(Section $section)
     {
+        $section->load('features');
         return view('admin.sections.edit', compact('section'));
     }
 
@@ -29,8 +30,17 @@ class SectionController extends Controller
             'content'     => 'nullable|string',
             'content_en'  => 'nullable|string',
             'order'       => 'nullable|integer',
-            'is_active'   => 'boolean',
-            'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
+            'is_active'   => 'nullable',
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            
+            // Features validation
+            'features'               => 'nullable|array',
+            'features.*.id'          => 'nullable|exists:features,id',
+            'features.*.icon'        => 'required|string',
+            'features.*.title'       => 'required|string|max:255',
+            'features.*.title_en'    => 'nullable|string|max:255',
+            'features.*.description' => 'required|string',
+            'features.*.description_en' => 'nullable|string',
         ]);
 
         $data['is_active'] = $request->has('is_active');
@@ -40,6 +50,23 @@ class SectionController extends Controller
         }
 
         $section->update($data);
-        return redirect()->route('admin.sections.index')->with('success', 'Section berhasil diperbarui!');
+
+        // Handle Features
+        if ($section->section_name === 'about' && $request->has('features')) {
+            $existingIds = collect($request->features)->pluck('id')->filter()->toArray();
+            
+            // Delete features not in the request
+            $section->features()->whereNotIn('id', $existingIds)->delete();
+
+            foreach ($request->features as $index => $featureData) {
+                if (isset($featureData['id'])) {
+                    $section->features()->find($featureData['id'])->update(array_merge($featureData, ['order' => $index]));
+                } else {
+                    $section->features()->create(array_merge($featureData, ['order' => $index]));
+                }
+            }
+        }
+
+        return redirect()->route('admin.sections.index')->with('success', 'Section ' . ($section->section_name === 'about' ? 'dan Keunggulan ' : '') . 'berhasil diperbarui!');
     }
 }
