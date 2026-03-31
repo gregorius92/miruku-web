@@ -5,6 +5,7 @@ services:
       dockerfile: docker/Dockerfile
     image: miruku-app
     container_name: miruku-app
+    user: "1000:1000"
     restart: unless-stopped
     working_dir: /var/www/html
     volumes:

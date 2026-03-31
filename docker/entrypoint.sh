@@ -51,9 +51,8 @@ fi
 echo "Linking storage..."
 php artisan storage:link || true
 
-echo "Fixing permissions..."
-chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache || true
-chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache || true
+# Permissions handled by matching host UID.
+
 
 echo "Clearing cache..."
 php artisan cache:clear || true
