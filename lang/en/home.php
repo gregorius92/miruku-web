@@ -10,6 +10,7 @@ return [
     'explore_products' => ':text',
     'lactose_free' => 'Lactose Free',
     'comparison_badge' => 'Comparison',
+    'benefits_badge' => 'Benefits',
     'comparison_title' => 'Miruku vs Regular Milk',
     'comparison_subtitle' => 'Why choosing Miruku is the best decision for your health',
     'feature' => 'Feature',

@@ -39,6 +39,19 @@
             </div>
         </div>
         <div class="grid sm:grid-cols-2 gap-4">
+            @if($section->section_name === 'cta')
+            <div class="col-span-2 bg-blue-50/30 p-5 rounded-2xl border border-blue-100">
+                <label class="block text-sm font-bold text-miruku-blue mb-2 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+                    URL Video YouTube
+                </label>
+                <input type="text" name="content" value="{{ old('content', $section->getRawOriginal('content')) }}" 
+                    class="w-full border border-blue-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue transition-all" 
+                    placeholder="Contoh: https://www.youtube.com/watch?v=CH3rulpG7ac">
+                <p class="text-[10px] text-gray-400 mt-2 italic">Masukkan link video YouTube yang ingin ditampilkan di section CTA.</p>
+                <input type="hidden" name="content_en" value="{{ old('content_en', $section->content_en) }}">
+            </div>
+            @else
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1.5">Konten (ID)</label>
                 <textarea name="content" rows="5" class="editor w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue resize-y">{{ old('content', $section->getRawOriginal('content')) }}</textarea>
@@ -50,12 +63,15 @@
                 </label>
                 <textarea name="content_en" rows="5" class="editor w-full border border-blue-100 bg-blue-50/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue resize-y" placeholder="Content in English">{{ old('content_en', $section->content_en) }}</textarea>
             </div>
+            @endif
         </div>
+        @if($section->section_name === 'about')
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1.5">Gambar</label>
             @if($section->image_url) <div class="mb-2"><img src="{{ $section->image_url }}" class="h-20 rounded-lg border border-gray-200"></div> @endif
             <input type="file" name="image" accept="image/*" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm file:mr-3 file:text-xs file:font-medium file:bg-blue-50 file:text-miruku-blue file:border-0 file:rounded-lg file:px-3 file:py-1.5">
         </div>
+        @endif
         <div class="flex items-center gap-4">
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1.5">Urutan</label>
@@ -67,7 +83,7 @@
             </div>
         </div>
 
-        @if($section->section_name === 'about')
+        @if(in_array($section->section_name, ['about', 'benefits']))
         <div class="border-t border-gray-100 pt-8 mt-8" x-data="{ 
             features: {{ json_encode($section->features->map(function($f) { 
                 return [

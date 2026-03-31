@@ -10,6 +10,7 @@ return [
     'explore_products' => ':text',
     'lactose_free' => 'Bebas Laktosa',
     'comparison_badge' => 'Perbandingan',
+    'benefits_badge' => 'Keunggulan',
     'comparison_title' => 'Miruku vs Susu Biasa',
     'comparison_subtitle' => 'Mengapa memilih Miruku adalah keputusan terbaik untuk kesehatanmu',
     'feature' => 'Fitur',

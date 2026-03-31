@@ -53,7 +53,7 @@ class SectionController extends Controller
         $section->update($data);
 
         // Handle Features
-        if ($section->section_name === 'about' && $request->has('features')) {
+        if (in_array($section->section_name, ['about', 'benefits']) && $request->has('features')) {
             $existingIds = collect($request->features)->pluck('id')->filter()->toArray();
             
             // Delete features not in the request

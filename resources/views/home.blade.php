@@ -182,9 +182,10 @@
                         <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 font-cormorant leading-tight">
                             {{ $sections['about']->title ?? 'Kenali Miruku' }}
                         </h2>
-                        <p class="text-gray-500 text-lg leading-relaxed mb-8">
-                            {{ $sections['about']->content ?? 'Miruku hadir sebagai jawaban atas kebutuhan Anda akan susu berkualitas premium yang ramah bagi sistem pencernaan.' }}
-                        </p>
+                        <div class="text-gray-500 text-lg leading-relaxed mb-8">
+                            {!! $sections['about']->content ??
+                                'Miruku hadir sebagai jawaban atas kebutuhan Anda akan susu berkualitas premium yang ramah bagi sistem pencernaan.' !!}
+                        </div>
 
                         <!-- Bullet Points -->
                         <div class="space-y-4">
@@ -269,8 +270,58 @@
         </section>
     </div>
 
+
     {{-- =============================================
-     3. COMPARISON SECTION
+     3. BENEFITS / WHY MIRUKU
+     ============================================= --}}
+    <section id="why" class="relative py-24 lg:py-32 overflow-hidden bg-miruku-blue miruku-pattern text-white">
+        <div class="absolute inset-0 bg-miruku-dark/20 pointer-events-none"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 px-4" data-aos="fade-up">
+                <span
+                    class="text-blue-200 font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.benefits_badge') }}</span>
+                <h2 class="text-4xl lg:text-5xl font-bold font-cormorant text-white text-shadow-premium">
+                    {!! $sections['benefits']->title ?? __('home.more_than_milk') !!}</h2>
+
+                @if (isset($sections['benefits']->subtitle))
+                    <p class="text-blue-100 mt-4 text-lg max-w-2xl mx-auto opacity-80">
+                        {!! $sections['benefits']->subtitle !!}</p>
+                @endif
+
+                @if (isset($sections['benefits']) && $sections['benefits']->content)
+                    <div class="mt-6 text-blue-50/70 text-base max-w-3xl mx-auto leading-relaxed">
+                        {!! $sections['benefits']->content !!}
+                    </div>
+                @endif
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                @if (isset($sections['benefits']) && $sections['benefits']->features->count() > 0)
+                    @foreach ($sections['benefits']->features as $i => $benefit)
+                        <div data-aos="fade-up" data-aos-delay="{{ $i * 100 }}"
+                            class="group bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/10 hover:border-white/40 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1">
+                            <div class="text-4xl mb-4 text-white">{{ $benefit->icon }}</div>
+                            <h3 class="text-xl font-bold mb-2 font-cormorant text-white">{!! $benefit->title !!}</h3>
+                            <p class="text-blue-50 text-sm leading-relaxed opacity-80">{!! $benefit->description !!}</p>
+                        </div>
+                    @endforeach
+                @else
+                    @foreach ([['icon' => '🧬', 'title' => __('home.benefit_title_1'), 'desc' => __('home.benefit_desc_1')], ['icon' => '🦴', 'title' => __('home.benefit_title_2'), 'desc' => __('home.benefit_desc_2')], ['icon' => '⚡', 'title' => __('home.benefit_title_3'), 'desc' => __('home.benefit_desc_3')], ['icon' => '🌿', 'title' => __('home.benefit_title_4'), 'desc' => __('home.benefit_desc_4')], ['icon' => '👨‍👩‍👧‍👦', 'title' => __('home.benefit_title_5'), 'desc' => __('home.benefit_desc_5')], ['icon' => '🏆', 'title' => __('home.benefit_title_6'), 'desc' => __('home.benefit_desc_6')]] as $i => $benefit)
+                        <div data-aos="fade-up" data-aos-delay="{{ $i * 100 }}"
+                            class="group bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/10 hover:border-white/40 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1">
+                            <div class="text-4xl mb-4 text-white">{{ $benefit['icon'] }}</div>
+                            <h3 class="text-xl font-bold mb-2 font-cormorant text-white">{{ $benefit['title'] }}</h3>
+                            <p class="text-blue-50 text-sm leading-relaxed opacity-80">{{ $benefit['desc'] }}</p>
+                        </div>
+                    @endforeach
+                @endif
+            </div>
+        </div>
+    </section>
+
+    {{-- =============================================
+     4. COMPARISON SECTION
      ============================================= --}}
     <section id="comparison" class="py-24 bg-gray-50 relative overflow-hidden">
         <!-- Wave transition from About to Comparison -->
@@ -344,8 +395,9 @@
         </div>
     </section>
 
+
     {{-- =============================================
-     4. PRODUCTS SECTION
+     5. PRODUCTS SECTION
      ============================================= --}}
     <section id="products" class="py-24 lg:py-32 bg-white relative overflow-hidden">
         <!-- Wave transition from Comparison to Products -->
@@ -451,13 +503,143 @@
         </div>
     </section>
 
+
+
+
     {{-- =============================================
-     5. STORE LOCATIONS
+     6. CUSTOMER REVIEWS
      ============================================= --}}
-    <section id="stores" class="py-24 bg-gray-50 relative">
-        <!-- Wave transition from Products to Stores -->
+    <section id="reviews" class="py-24 lg:py-32 bg-gray-50 overflow-hidden relative">
+        <!-- Wave transition from Products to Reviews -->
         <div class="absolute top-0 left-0 w-full overflow-hidden leading-[0] transform -translate-y-[99%]">
             <svg fill="#f9fafb" class="relative block w-[calc(100%+1.3px)] h-[60px]" viewBox="0 0 1200 120"
+                preserveAspectRatio="none">
+                <path
+                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z">
+                </path>
+            </svg>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" data-aos="fade-up">
+            <div class="text-center mb-16">
+                <span
+                    class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.customer_reviews') }}</span>
+                <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">{{ __('home.what_they_say') }}
+                </h2>
+                <p class="text-gray-500 mt-4 text-lg">{{ __('home.satisfied_customers') }}</p>
+            </div>
+
+            <!-- Reviews Slider -->
+            @if ($reviews && $reviews->count() > 0)
+                <div class="swiper reviews-swiper mb-16">
+                    <div class="swiper-wrapper pb-10">
+                        @foreach ($reviews as $review)
+                            <div class="swiper-slide">
+                                <div
+                                    class="bg-white rounded-3xl p-8 h-full shadow-sm border border-gray-100 hover:border-blue-200 transition-all duration-300">
+                                    <!-- Stars -->
+                                    <div class="flex gap-1 mb-4">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <svg class="w-5 h-5 {{ $i <= $review->rating ? 'text-amber-400 fill-amber-400' : 'text-gray-200 fill-gray-200' }}"
+                                                viewBox="0 0 24 24">
+                                                <path
+                                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                                            </svg>
+                                        @endfor
+                                    </div>
+                                    <!-- Comment -->
+                                    <p class="text-gray-600 leading-relaxed mb-6 text-base italic">
+                                        "{{ $review->comment }}"</p>
+                                    <!-- Author -->
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-10 h-10 rounded-full bg-gradient-to-br from-miruku-blue to-blue-600 flex items-center justify-center text-white font-bold text-sm">
+                                            {{ strtoupper(substr($review->name, 0, 1)) }}
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-900">{{ $review->name }}</p>
+                                            <p class="text-xs text-gray-400">{{ __('home.miruku_customer') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="swiper-pagination !relative !mt-2"></div>
+                </div>
+            @endif
+
+            <!-- Submit Review Form -->
+            <div class="max-w-2xl mx-auto mt-16" data-aos="fade-up" data-aos-delay="200">
+                <div class="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2 font-cormorant">{{ __('home.share_experience') }}
+                    </h3>
+                    <p class="text-gray-500 text-sm mb-6">{{ __('home.verification_note') }}</p>
+
+                    @if (session('success'))
+                        <div
+                            class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl mb-4 text-sm animate-fade-in">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    <form action="{{ route('reviews.store') }}" method="POST" class="space-y-4">
+                        @csrf
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5"
+                                    for="review-name">{{ __('home.name') }} *</label>
+                                <input type="text" name="name" id="review-name" required
+                                    class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue focus:ring-2 focus:ring-blue-50 transition-all bg-gray-50"
+                                    placeholder="{{ __('home.name_placeholder') }}">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5"
+                                    for="review-email">{{ __('home.email_optional') }}</label>
+                                <input type="email" name="email" id="review-email"
+                                    class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue focus:ring-2 focus:ring-blue-50 transition-all bg-gray-50"
+                                    placeholder="email@kamu.com">
+                            </div>
+                        </div>
+
+                        <!-- Star Rating Input -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('home.rating') }} *</label>
+                            <div x-data="{ rating: 5 }" class="flex gap-2">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <button type="button" @click="rating = {{ $i }}"
+                                        :class="rating >= {{ $i }} ? 'text-amber-400' : 'text-gray-300'"
+                                        class="text-3xl transition-colors hover:text-amber-400 cursor-pointer focus:outline-none">★</button>
+                                @endfor
+                                <input type="hidden" name="rating" :value="rating">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5"
+                                for="review-comment">{{ __('home.comment') }} *</label>
+                            <textarea name="comment" id="review-comment" rows="4" required
+                                class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue focus:ring-2 focus:ring-blue-50 transition-all resize-none bg-gray-50"
+                                placeholder="{{ __('home.comment_placeholder') }}"></textarea>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full bg-miruku-blue hover:bg-miruku-dark text-white font-semibold py-4 rounded-xl transition-all duration-300 hover:scale-[1.01] shadow-lg shadow-miruku-blue/30">
+                            {{ __('home.submit_review') }}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- =============================================
+     7. STORE LOCATIONS
+     ============================================= --}}
+    <section id="stores" class="py-24 bg-white relative">
+        <!-- Wave transition from Reviews to Stores -->
+        <div class="absolute top-0 left-0 w-full overflow-hidden leading-[0] transform -translate-y-[99%]">
+            <svg fill="white" class="relative block w-[calc(100%+1.3px)] h-[60px]" viewBox="0 0 1200 120"
                 preserveAspectRatio="none">
                 <path
                     d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.83C1132.19,118.92,1055.71,111.31,985.66,92.83Z">
@@ -496,7 +678,7 @@
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                         @forelse($stores as $store)
                             <div x-show="activeCity === 'all' || activeCity === '{{ $store->city }}'" x-transition
-                                class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300">
+                                class="bg-gray-50 rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300">
                                 @if ($store->map_embed)
                                     <div class="h-40 bg-gray-200 overflow-hidden">
                                         <iframe src="{{ $store->map_embed }}" class="w-full h-full border-0"
@@ -549,7 +731,7 @@
             @else
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach ($stores as $store)
-                        <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100">
+                        <div class="bg-gray-50 rounded-2xl shadow-md overflow-hidden border border-gray-100">
                             @if ($store->map_embed)
                                 <div class="h-40 bg-gray-200 overflow-hidden">
                                     <iframe src="{{ $store->map_embed }}" class="w-full h-full border-0"
@@ -567,164 +749,37 @@
         </div>
     </section>
 
-    {{-- =============================================
-     6. CUSTOMER REVIEWS
-     ============================================= --}}
-    <section id="reviews" class="py-24 lg:py-32 bg-white overflow-hidden relative">
-        <div class="absolute inset-0 bg-mesh-light opacity-30"></div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <span
-                    class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.customer_reviews') }}</span>
-                <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">{{ __('home.what_they_say') }}
-                </h2>
-                <p class="text-gray-500 mt-4 text-lg">{{ __('home.satisfied_customers') }}</p>
-            </div>
 
-            <!-- Reviews Slider -->
-            @if ($reviews->count() > 0)
-                <div class="swiper reviews-swiper mb-16">
-                    <div class="swiper-wrapper pb-4">
-                        @foreach ($reviews as $review)
-                            <div class="swiper-slide">
-                                <div
-                                    class="bg-gray-50 rounded-3xl p-8 h-full border border-gray-100 hover:border-blue-200 transition-all duration-300">
-                                    <!-- Stars -->
-                                    <div class="flex gap-1 mb-4">
-                                        @for ($i = 1; $i <= 5; $i++)
-                                            <svg class="w-5 h-5 {{ $i <= $review->rating ? 'text-amber-400 fill-amber-400' : 'text-gray-200 fill-gray-200' }}"
-                                                viewBox="0 0 24 24">
-                                                <path
-                                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                            </svg>
-                                        @endfor
-                                    </div>
-                                    <!-- Comment -->
-                                    <p class="text-gray-600 leading-relaxed mb-6 text-base italic">
-                                        "{{ $review->comment }}"</p>
-                                    <!-- Author -->
-                                    <div class="flex items-center gap-3">
-                                        <div
-                                            class="w-10 h-10 rounded-full bg-gradient-to-br from-miruku-blue to-blue-600 flex items-center justify-center text-white font-bold text-sm">
-                                            {{ strtoupper(substr($review->name, 0, 1)) }}
-                                        </div>
-                                        <div>
-                                            <p class="font-semibold text-gray-900">{{ $review->name }}</p>
-                                            <p class="text-xs text-gray-400">{{ __('home.miruku_customer') }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    <div class="swiper-pagination !relative !mt-6"></div>
-                </div>
-            @endif
 
-            <!-- Submit Review Form -->
-            <div class="max-w-2xl mx-auto">
-                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-8 border border-blue-100">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2 font-cormorant">{{ __('home.share_experience') }}
-                    </h3>
-                    <p class="text-gray-500 text-sm mb-6">{{ __('home.verification_note') }}</p>
 
-                    @if (session('success'))
-                        <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl mb-4 text-sm">
-                            {{ session('success') }}
-                        </div>
-                    @endif
 
-                    <form action="{{ route('reviews.store') }}" method="POST" class="space-y-4">
-                        @csrf
-                        <div class="grid sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1.5"
-                                    for="review-name">{{ __('home.name') }} *</label>
-                                <input type="text" name="name" id="review-name" required
-                                    class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue focus:ring-2 focus:ring-blue-50 transition-all"
-                                    placeholder="{{ __('home.name_placeholder') }}">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1.5"
-                                    for="review-email">{{ __('home.email_optional') }}</label>
-                                <input type="email" name="email" id="review-email"
-                                    class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue focus:ring-2 focus:ring-blue-50 transition-all"
-                                    placeholder="email@kamu.com">
-                            </div>
-                        </div>
-
-                        <!-- Star Rating Input -->
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">{{ __('home.rating') }} *</label>
-                            <div x-data="{ rating: 5 }" class="flex gap-2">
-                                @for ($i = 1; $i <= 5; $i++)
-                                    <button type="button" @click="rating = {{ $i }}"
-                                        :class="rating >= {{ $i }} ? 'text-amber-400' : 'text-gray-300'"
-                                        class="text-3xl transition-colors hover:text-amber-400 cursor-pointer">★</button>
-                                @endfor
-                                <input type="hidden" name="rating" :value="rating">
-                            </div>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1.5"
-                                for="review-comment">{{ __('home.comment') }} *</label>
-                            <textarea name="comment" id="review-comment" rows="4" required
-                                class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue focus:ring-2 focus:ring-blue-50 transition-all resize-none"
-                                placeholder="{{ __('home.comment_placeholder') }}"></textarea>
-                        </div>
-
-                        <button type="submit"
-                            class="w-full bg-miruku-blue hover:bg-miruku-dark text-white font-semibold py-3.5 rounded-xl transition-all duration-300 hover:scale-[1.02] shadow-lg shadow-miruku-blue/30">
-                            {{ __('home.submit_review') }}
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    {{-- =============================================
-     7. BENEFITS / WHY MIRUKU
-     ============================================= --}}
-    <section id="why" class="section-blue">
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <span
-                    class="text-blue-200 font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.why_miruku') }}</span>
-                <h2 class="text-4xl lg:text-5xl font-bold font-cormorant text-white">
-                    {{ $sections['benefits']->title ?? __('home.more_than_milk') }}</h2>
-                <p class="text-blue-100 mt-4 text-lg max-w-2xl mx-auto opacity-80">
-                    {{ $sections['benefits']->subtitle ?? __('home.join_customers') }}</p>
-            </div>
-
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach ([['icon' => '🧬', 'title' => __('home.benefit_title_1'), 'desc' => __('home.benefit_desc_1')], ['icon' => '🦴', 'title' => __('home.benefit_title_2'), 'desc' => __('home.benefit_desc_2')], ['icon' => '⚡', 'title' => __('home.benefit_title_3'), 'desc' => __('home.benefit_desc_3')], ['icon' => '🌿', 'title' => __('home.benefit_title_4'), 'desc' => __('home.benefit_desc_4')], ['icon' => '👨‍👩‍👧‍👦', 'title' => __('home.benefit_title_5'), 'desc' => __('home.benefit_desc_5')], ['icon' => '🏆', 'title' => __('home.benefit_title_6'), 'desc' => __('home.benefit_desc_6')]] as $benefit)
-                    <div
-                        class="group bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/10 hover:border-white/40 rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1">
-                        <div class="text-4xl mb-4 text-white">{{ $benefit['icon'] }}</div>
-                        <h3 class="text-xl font-bold mb-2 font-cormorant text-white">{{ $benefit['title'] }}</h3>
-                        <p class="text-blue-50 text-sm leading-relaxed opacity-80">{{ $benefit['desc'] }}</p>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
 
     {{-- =============================================
      8. CTA SECTION
      ============================================= --}}
-    <section id="cta" class="section-blue !pt-32 pb-32">
-        <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-            <h2 class="text-4xl lg:text-6xl font-bold mb-8 font-cormorant leading-tight text-white animate-slide-up">
-                {{ $sections['cta']->title ?? __('home.switch_now') }}
+    <section id="cta" class="relative py-40 lg:py-56 bg-miruku-blue miruku-pattern text-white">
+        <div class="absolute inset-0 bg-miruku-dark/20 pointer-events-none"></div>
+
+        <!-- Wave transition from Stores to CTA -->
+        <div class="absolute top-0 left-0 w-full overflow-hidden leading-[0] transform -translate-y-full translate-z-0">
+            <svg fill="white" class="relative block w-[calc(100%+1.3px)] h-[60px]" viewBox="0 0 1200 120"
+                preserveAspectRatio="none">
+                <path
+                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z">
+                </path>
+            </svg>
+        </div>
+
+        <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-12 lg:pt-60" data-aos="fade-up">
+            <h2 class="text-3xl lg:text-5xl font-bold mb-8 font-cormorant leading-tight text-white text-shadow-premium">
+                {!! $sections['cta']->title ?? __('home.switch_now') !!}
             </h2>
 
-            <!-- Video Section -->
-            <div class="max-w-4xl mx-auto mb-16 animate-slide-up shadow-2xl rounded-3xl overflow-hidden border-4 border-white/20"
+            <div class="max-w-4xl mx-auto mb-16 rounded-3xl overflow-hidden shadow-[0_30px_70px_-15px_rgba(0,0,0,0.5)] border border-white/20 ring-1 ring-white/30 animate-fade-in"
                 style="animation-delay: 100ms">
-                <div class="aspect-video">
-                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/CH3rulpG7ac?si=6o99qMhExJb-uDyY"
+                <div class="aspect-video relative">
+                    <iframe class="w-full h-full"
+                        src="{{ ($sections['cta']->youtube_embed_url ?? 'https://www.youtube.com/embed/CH3rulpG7ac') . (strpos(($sections['cta']->youtube_embed_url ?? ''), '?') !== false ? '&' : '?') }}vq=hd1080&rel=0"
                         title="YouTube video player" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
@@ -732,13 +787,13 @@
                 </div>
             </div>
 
-            <p class="text-blue-100 text-lg lg:text-xl mb-12 max-w-2xl mx-auto opacity-90 animate-slide-up"
+            <p class="text-blue-100 text-lg lg:text-xl mb-12 max-w-2xl mx-auto opacity-95 animate-slide-up text-shadow-premium"
                 style="animation-delay: 200ms">
-                {{ $sections['cta']->subtitle ?? __('home.join_customers') }}
+                {!! $sections['cta']->subtitle ?? __('home.join_customers') !!}
             </p>
             <div class="flex flex-wrap justify-center gap-6 animate-slide-up" style="animation-delay: 300ms">
                 <a href="{{ route('products.index') }}"
-                    class="inline-flex items-center gap-2 bg-white text-miruku-blue font-bold px-10 py-4 rounded-full hover:bg-blue-50 transition-all duration-300 hover:scale-105 shadow-2xl text-lg">
+                    class="inline-flex items-center gap-2 bg-white text-miruku-blue font-bold px-10 py-4 rounded-full hover:bg-blue-50 transition-all duration-300 hover:scale-105 shadow-[0_10px_30px_-5px_rgba(255,255,255,0.3)] text-lg">
                     {{ __('home.buy_now') }}
                 </a>
                 <a href="#stores"

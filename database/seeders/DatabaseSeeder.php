@@ -149,7 +149,7 @@ class DatabaseSeeder extends Seeder
                 'section_name' => 'cta',
                 'title' => 'Beralih ke Susu yang Lebih Baik Hari Ini',
                 'subtitle' => 'Bergabung dengan ribuan pelanggan yang sudah merasakan manfaat Miruku',
-                'content' => 'Mulai perjalanan hidup sehatmu bersama Miruku. Tersedia di toko-toko pilihan dan platform e-commerce terpercaya.',
+                'content' => 'https://www.youtube.com/watch?v=CH3rulpG7ac',
                 'order' => 3,
                 'is_active' => true,
             ],

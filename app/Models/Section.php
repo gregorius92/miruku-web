@@ -45,4 +45,38 @@ class Section extends Model
     {
         return $this->hasMany(Feature::class)->orderBy('order');
     }
+
+    public function getYoutubeEmbedUrlAttribute()
+    {
+        $url = $this->getRawOriginal('content');
+        if (!$url) return null;
+
+        // Try to extract YouTube Video ID
+        $youtubeId = null;
+        
+        // Pattern for different YouTube URL formats
+        $patterns = [
+            '/(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/',
+            '/(?:https?:\/\/)?(?:www\.)?youtu\.be\/([a-zA-Z0-9_-]{11})/',
+            '/(?:https?:\/\/)?(?:www\.)?youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/'
+        ];
+
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $url, $matches)) {
+                $youtubeId = $matches[1];
+                break;
+            }
+        }
+
+        if ($youtubeId) {
+            return "https://www.youtube.com/embed/{$youtubeId}";
+        }
+
+        // If no ID found but looks like embed code, or already is an embed URL
+        if (str_contains($url, 'youtube.com/embed/')) {
+            return $url;
+        }
+
+        return null;
+    }
 }
