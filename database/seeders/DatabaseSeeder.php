@@ -159,6 +159,8 @@ class DatabaseSeeder extends Seeder
             Section::firstOrCreate(['section_name' => $section['section_name']], $section);
         }
 
+        $this->call(FeatureSeeder::class);
+
         // Carousels
         $carousels = [
             [
