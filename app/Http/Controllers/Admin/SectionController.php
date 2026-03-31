@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Section;
 use Illuminate\Http\Request;
+use App\Services\UploadService;
 
 class SectionController extends Controller
 {
@@ -46,7 +47,7 @@ class SectionController extends Controller
         $data['is_active'] = $request->has('is_active');
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('sections', 'public');
+            $data['image'] = UploadService::upload($request->file('image'), 'sections');
         }
 
         $section->update($data);

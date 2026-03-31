@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\HasTranslations;
+use Illuminate\Support\Facades\Storage;
 
 class Section extends Model
 {
@@ -27,7 +28,7 @@ class Section extends Model
         if ($this->image && str_starts_with($this->image, 'http')) {
             return $this->image;
         }
-        return $this->image ? asset('storage/' . $this->image) : null;
+        return $this->image ? Storage::disk('supabase')->url($this->image) : null;
     }
 
     public static function getByName($name)

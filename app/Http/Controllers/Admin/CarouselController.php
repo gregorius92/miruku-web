@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Carousel;
 use Illuminate\Http\Request;
+use App\Services\UploadService;
 
 class CarouselController extends Controller
 {
@@ -41,7 +42,7 @@ class CarouselController extends Controller
         $data['is_active'] = $request->has('is_active');
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('carousels', 'public');
+            $data['image'] = UploadService::upload($request->file('image'), 'carousels');
         }
 
         Carousel::create($data);
@@ -75,7 +76,7 @@ class CarouselController extends Controller
         $data['is_active'] = $request->has('is_active');
 
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('carousels', 'public');
+            $data['image'] = UploadService::upload($request->file('image'), 'carousels');
         }
 
         $carousel->update($data);

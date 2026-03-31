@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Traits\HasTranslations;
+use Illuminate\Support\Facades\Storage;
 
 class Carousel extends Model
 {
@@ -41,7 +42,7 @@ class Carousel extends Model
                     return asset($this->image);
                 }
 
-                return asset('storage/' . $this->image);
+                return Storage::disk('supabase')->url($this->image);
             }
         );
     }
