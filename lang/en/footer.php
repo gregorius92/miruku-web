@@ -13,4 +13,6 @@ return [
     'email_placeholder' => 'Your email',
     'join' => 'Join',
     'rights_reserved' => 'All rights reserved. | Crafted with passion for a healthier Indonesia.',
+    'subscription_success' => 'Thank you for subscribing to our newsletter!',
+    'already_subscribed' => 'You are already subscribed to our newsletter.',
 ];

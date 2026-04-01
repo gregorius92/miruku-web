@@ -339,7 +339,7 @@
             class="absolute top-1/2 -right-20 w-80 h-80 bg-blue-100/50 rounded-full blur-3xl opacity-60 animate-float-slow">
         </div>
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16" data-aos="fade-up">
                 <span
                     class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.comparison_badge') }}</span>
                 <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">{{ __('home.comparison_title') }}
@@ -347,7 +347,7 @@
                 <p class="text-gray-500 mt-4 text-lg">{{ __('home.comparison_subtitle') }}</p>
             </div>
 
-            <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100" data-aos="fade-up" data-aos-delay="100">
                 <div class="grid grid-cols-3 bg-gradient-to-r from-miruku-blue to-miruku-dark text-white">
                     <div class="p-6 text-center font-semibold">{{ __('home.feature') }}</div>
                     <div class="p-6 text-center font-bold text-lg border-x border-white/20">
@@ -382,7 +382,7 @@
                 @endforeach
             </div>
 
-            <div class="text-center mt-10">
+            <div class="text-center mt-10" data-aos="fade-up" data-aos-delay="200">
                 <a href="{{ route('products.index') }}"
                     class="inline-flex items-center gap-2 bg-miruku-blue hover:bg-miruku-dark text-white font-semibold px-8 py-4 rounded-full transition-all duration-300 hover:scale-105 shadow-lg shadow-miruku-blue/30">
                     {{ __('home.try_now') }}
@@ -416,7 +416,7 @@
         <div class="absolute bottom-40 -right-20 w-64 h-64 bg-indigo-50 rounded-full blur-3xl opacity-60 animate-pulse">
         </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16" data-aos="fade-up">
                 <span
                     class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.collection_badge') }}</span>
                 <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">{{ __('home.collection_title') }}
@@ -426,7 +426,7 @@
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse($products as $product)
-                    <div
+                    <div data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}"
                         class="group relative bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-100">
                         <!-- Image -->
                         <div
@@ -647,7 +647,7 @@
             </svg>
         </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16" data-aos="fade-up">
                 <span
                     class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.find_us') }}</span>
                 <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">{{ __('home.nearest_store') }}
@@ -678,6 +678,7 @@
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                         @forelse($stores as $store)
                             <div x-show="activeCity === 'all' || activeCity === '{{ $store->city }}'" x-transition
+                                data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}"
                                 class="bg-gray-50 rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300">
                                 @if ($store->map_embed)
                                     <div class="h-40 bg-gray-200 overflow-hidden">
@@ -731,7 +732,8 @@
             @else
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach ($stores as $store)
-                        <div class="bg-gray-50 rounded-2xl shadow-md overflow-hidden border border-gray-100">
+                        <div data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}"
+                            class="bg-gray-50 rounded-2xl shadow-md overflow-hidden border border-gray-100">
                             @if ($store->map_embed)
                                 <div class="h-40 bg-gray-200 overflow-hidden">
                                     <iframe src="{{ $store->map_embed }}" class="w-full h-full border-0"
@@ -757,7 +759,7 @@
     {{-- =============================================
      8. CTA SECTION
      ============================================= --}}
-    <section id="cta" class="relative py-40 lg:py-56 bg-miruku-blue miruku-pattern text-white">
+    <section id="cta" class="relative py-24 lg:py-32 bg-miruku-blue miruku-pattern text-white">
         <div class="absolute inset-0 bg-miruku-dark/20 pointer-events-none"></div>
 
         <!-- Wave transition from Stores to CTA -->
@@ -770,7 +772,7 @@
             </svg>
         </div>
 
-        <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-12 lg:pt-60" data-aos="fade-up">
+        <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-10 lg:pt-20" data-aos="fade-up">
             <h2 class="text-3xl lg:text-5xl font-bold mb-8 font-cormorant leading-tight text-white text-shadow-premium">
                 {!! $sections['cta']->title ?? __('home.switch_now') !!}
             </h2>

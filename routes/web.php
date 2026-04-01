@@ -29,6 +29,10 @@ Route::get('/products/{slug}', [ProductController::class, 'show'])->name('produc
 
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 
+// Newsletter
+Route::post('/newsletter/subscribe', [\App\Http\Controllers\NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+Route::get('/newsletter/unsubscribe/{email}/{token?}', [\App\Http\Controllers\NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe');
+
 /*
 |--------------------------------------------------------------------------
 | Sitemap
@@ -54,6 +58,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
 
     Route::get('/dashboard', [Admin\DashboardController::class, 'index'])->name('dashboard');
     Route::post('/translate', [Admin\TranslationController::class, 'translate'])->name('translate');
+    Route::post('/upload-image', [Admin\ImageUploadController::class, 'upload'])->name('upload-image');
 
     // Products
     Route::resource('products', Admin\ProductController::class);
@@ -78,4 +83,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     // Settings
     Route::get('settings', [Admin\SettingController::class, 'index'])->name('settings.index');
     Route::post('settings', [Admin\SettingController::class, 'update'])->name('settings.update');
+
+    // Newsletter
+    Route::get('newsletter', [Admin\NewsletterController::class, 'index'])->name('newsletter.index');
+    Route::delete('newsletter/{id}', [Admin\NewsletterController::class, 'destroy'])->name('newsletter.destroy');
+    Route::post('newsletter/{id}/restore', [Admin\NewsletterController::class, 'restore'])->name('newsletter.restore');
+    Route::get('newsletter/broadcast', [Admin\NewsletterController::class, 'broadcast'])->name('newsletter.broadcast');
+    Route::post('newsletter/broadcast', [Admin\NewsletterController::class, 'sendBroadcast'])->name('newsletter.send-broadcast');
 });

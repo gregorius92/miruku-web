@@ -78,12 +78,18 @@
                         {{ $global_seo['contact_phone'] ?? '+62 812-3456-7890' }}
                     </p>
                 </div>
-                <form class="flex gap-2">
-                    <input type="email" placeholder="{{ __('footer.email_placeholder') }}" id="newsletter-email"
-                           class="flex-1 bg-white/10 border border-white/20 text-white placeholder-blue-200 text-sm px-4 py-3 rounded-lg focus:outline-none focus:bg-white/20 transition-all">
-                    <button type="submit" class="bg-white text-miruku-blue hover:bg-blue-50 px-5 py-3 rounded-lg text-sm font-bold transition-all shadow-lg">
-                        {{ __('footer.join') }}
-                    </button>
+                <form id="newsletter-form" class="space-y-3">
+                    @csrf
+                    <div class="flex gap-2">
+                        <input type="email" name="email" placeholder="{{ __('footer.email_placeholder') }}" id="newsletter-email" required
+                               class="flex-1 bg-white/10 border border-white/20 text-white placeholder-blue-200 text-sm px-4 py-3 rounded-lg focus:outline-none focus:bg-white/20 transition-all">
+                        <button type="submit" id="newsletter-submit" class="bg-white text-miruku-blue hover:bg-blue-50 px-5 py-3 rounded-lg text-sm font-bold transition-all shadow-lg flex items-center gap-2">
+                            <span id="submit-text">{{ __('footer.join') }}</span>
+                            <span id="submit-loader" class="hidden w-4 h-4 border-2 border-miruku-blue border-t-transparent rounded-full animate-spin"></span>
+                        </button>
+                    </div>
+                    <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}" data-theme="dark"></div>
+                    <p id="newsletter-message" class="text-xs mt-2 hidden"></p>
                 </form>
             </div>
         </div>
@@ -101,3 +107,74 @@
         </div>
     </div>
 </footer>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('newsletter-form');
+    const messageEl = document.getElementById('newsletter-message');
+    const submitBtn = document.getElementById('newsletter-submit');
+    const submitText = document.getElementById('submit-text');
+    const loader = document.getElementById('submit-loader');
+
+    if (form) {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Reset state
+            messageEl.classList.add('hidden');
+            messageEl.classList.remove('text-green-300', 'text-red-300');
+            submitBtn.disabled = true;
+            submitText.classList.add('opacity-50');
+            loader.classList.remove('hidden');
+
+            const formData = new FormData(form);
+            const recaptchaResponse = grecaptcha.getResponse();
+
+            if (!recaptchaResponse) {
+                showMessage('Please complete the reCAPTCHA.', 'error');
+                resetButton();
+                return;
+            }
+
+            try {
+                const response = await fetch('{{ route("newsletter.subscribe") }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json',
+                    },
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.status === 'success') {
+                    showMessage(data.message, 'success');
+                    form.reset();
+                    grecaptcha.reset();
+                } else {
+                    showMessage(data.message || 'Something went wrong. Please try again.', 'error');
+                    grecaptcha.reset();
+                }
+            } catch (error) {
+                showMessage('An error occurred. Please try again later.', 'error');
+            } finally {
+                resetButton();
+            }
+        });
+    }
+
+    function showMessage(text, type) {
+        messageEl.textContent = text;
+        messageEl.classList.remove('hidden');
+        messageEl.classList.add(type === 'success' ? 'text-green-300' : 'text-red-300');
+    }
+
+    function resetButton() {
+        submitBtn.disabled = false;
+        submitText.classList.remove('opacity-50');
+        loader.classList.add('hidden');
+    }
+});
+</script>

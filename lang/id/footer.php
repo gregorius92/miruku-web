@@ -13,4 +13,6 @@ return [
     'email_placeholder' => 'Email kamu',
     'join' => 'Gabung',
     'rights_reserved' => 'All rights reserved. | Dibuat dengan semangat untuk Indonesia yang lebih sehat.',
+    'subscription_success' => 'Terima kasih telah bergabung dengan newsletter kami!',
+    'already_subscribed' => 'Kamu sudah berlangganan newsletter kami.',
 ];
