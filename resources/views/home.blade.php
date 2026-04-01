@@ -632,6 +632,70 @@
             </div>
         </div>
     </section>
+    
+    {{-- =============================================
+     Blog / Latest Articles
+     ============================================= --}}
+    <section id="blog" class="py-24 lg:py-32 bg-white relative overflow-hidden">
+        <!-- Wave transition from Reviews to Blog -->
+        <div class="absolute top-0 left-0 w-full overflow-hidden leading-[0] transform -translate-y-[99%]">
+            <svg fill="white" class="relative block w-[calc(100%+1.3px)] h-[60px]" viewBox="0 0 1200 120"
+                preserveAspectRatio="none">
+                <path
+                    d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z">
+                </path>
+            </svg>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.blog_badge') }}</span>
+                <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">{{ __('home.blog_title') }}</h2>
+                <p class="text-gray-500 mt-4 text-lg max-w-2xl mx-auto">{{ __('home.blog_subtitle') }}</p>
+            </div>
+
+            @if($posts->count() > 0)
+            <div class="grid md:grid-cols-3 gap-8">
+                @foreach($posts as $post)
+                <article class="bg-gray-50 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group border border-gray-100 flex flex-col h-full" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                    <a href="{{ route('blog.show', $post) }}" class="relative block aspect-[16/10] overflow-hidden">
+                        <img src="{{ $post->image_url }}" alt="{{ $post->title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-white/90 backdrop-blur-md text-miruku-blue text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
+                                {{ $post->published_at->format('M d, Y') }}
+                            </span>
+                        </div>
+                    </a>
+                    <div class="p-8 flex flex-col flex-1">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4 group-hover:text-miruku-blue transition-colors">
+                            <a href="{{ route('blog.show', $post) }}">{{ $post->title }}</a>
+                        </h3>
+                        <div class="text-gray-500 text-sm mb-6 line-clamp-4">
+                            {!! Str::limit(strip_tags($post->content), 180) !!}
+                        </div>
+                        <div class="mt-auto pt-6 border-t border-gray-100 flex items-center justify-between">
+                            <a href="{{ route('blog.show', $post) }}" class="text-sm font-bold text-miruku-blue flex items-center gap-2 group/link">
+                                {{ __('home.read_more') }}
+                                <svg class="w-4 h-4 transition-transform duration-300 group-hover/link:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+                @endforeach
+            </div>
+            <div class="text-center mt-12">
+                <a href="{{ route('blog.index') }}" class="inline-flex items-center gap-2 border-2 border-miruku-blue text-miruku-blue hover:bg-miruku-blue hover:text-white font-semibold px-8 py-4 rounded-full transition-all duration-300">
+                    {{ __('home.view_all_articles') }}
+                </a>
+            </div>
+            @else
+            <div class="text-center py-12 text-gray-400">Artikel sedang dalam proses penulisan...</div>
+            @endif
+        </div>
+    </section>
 
     {{-- =============================================
      7. STORE LOCATIONS

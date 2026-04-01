@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Review;
 use App\Models\Section;
 use App\Models\Setting;
+use App\Models\Post;
 use App\Models\StoreLocation;
 use Illuminate\Http\Request;
 
@@ -19,6 +20,7 @@ class HomeController extends Controller
         $reviews = Review::approved()->latest()->take(8)->get();
         $stores = StoreLocation::active()->get();
         $cities = StoreLocation::active()->distinct()->pluck('city');
+        $posts = Post::active()->latest()->take(3)->get();
 
         $sections = [
             'about'    => Section::where('section_name', 'about')->with('features')->first(),
@@ -32,7 +34,7 @@ class HomeController extends Controller
             'keywords'    => Setting::get('meta_keywords', 'susu lactose free, susu sehat, miruku'),
         ];
 
-        return view('home', compact('carousels', 'products', 'reviews', 'stores', 'cities', 'sections', 'seo'));
+        return view('home', compact('carousels', 'products', 'reviews', 'stores', 'cities', 'sections', 'seo', 'posts'));
     }
 
     public function benefits()

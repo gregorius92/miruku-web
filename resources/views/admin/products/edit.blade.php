@@ -127,6 +127,6 @@
     autoTranslate('desc_id', 'desc_en');
     autoTranslate('meta_t_id', 'meta_t_en');
     autoTranslate('meta_d_id', 'meta_d_en');
-    autoTranslateCKEditor('body', 'body_en');
+    autoTranslateSummernote('body', 'body_en');
 </script>
 @endsection

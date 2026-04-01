@@ -27,6 +27,9 @@ Route::get('/lang/{locale}', function ($locale) {
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
 
+Route::get('/blog', [\App\Http\Controllers\BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{post}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blog.show');
+
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 
 // Newsletter
@@ -74,6 +77,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
 
     // Store Locations
     Route::resource('stores', Admin\StoreLocationController::class);
+
+    // Blog / Posts
+    Route::resource('posts', Admin\PostController::class);
 
     // Sections
     Route::get('sections', [Admin\SectionController::class, 'index'])->name('sections.index');

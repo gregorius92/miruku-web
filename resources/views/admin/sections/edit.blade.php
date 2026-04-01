@@ -215,6 +215,6 @@
 <script>
     autoTranslate('title_id', 'title_en');
     autoTranslate('subtitle_id', 'subtitle_en');
-    autoTranslateCKEditor('content', 'content_en');
+    autoTranslateSummernote('content', 'content_en');
 </script>
 @endsection

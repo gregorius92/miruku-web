@@ -18,6 +18,7 @@
                     ['route' => 'products.index', 'label' => __('navbar.products')],
                     ['route' => 'about', 'label' => __('navbar.about')],
                     ['route' => 'benefits', 'label' => __('navbar.benefits')],
+                    ['route' => 'blog.index', 'label' => __('navbar.blog')],
                 ] as $link)
                 <a href="{{ ($link['route'] === 'home' && request()->routeIs('home')) ? 'javascript:void(0)' : route($link['route']) }}"
                    @if($link['route'] === 'home' && request()->routeIs('home')) @click="window.scrollTo({top: 0, behavior: 'smooth'})" @endif
@@ -98,6 +99,7 @@
             <a href="{{ route('products.index') }}" class="block text-white/90 font-medium py-2 hover:text-white transition-colors border-b border-white/5">{{ __('navbar.products') }}</a>
             <a href="{{ route('about') }}" class="block text-white/90 font-medium py-2 hover:text-white transition-colors border-b border-white/5">{{ __('navbar.about') }}</a>
             <a href="{{ route('benefits') }}" class="block text-white/90 font-medium py-2 hover:text-white transition-colors border-b border-white/5">{{ __('navbar.benefits') }}</a>
+            <a href="{{ route('blog.index') }}" class="block text-white/90 font-medium py-2 hover:text-white transition-colors border-b border-white/5">{{ __('navbar.blog') }}</a>
             <a href="{{ route('products.index') }}" class="block w-full text-center bg-white text-miruku-blue font-bold py-3 rounded-full hover:bg-blue-50 transition-colors mt-4 shadow-lg">
                 {{ __('navbar.buy_now') }}
             </a>

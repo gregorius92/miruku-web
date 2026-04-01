@@ -69,7 +69,7 @@
     @include('components.navbar')
 
     <!-- Main Content -->
-    <main>
+    <main class="{{ request()->routeIs('home') ? '' : 'pt-20' }}">
         @yield('content')
     </main>
 

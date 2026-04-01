@@ -160,6 +160,7 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->call(FeatureSeeder::class);
+        $this->call(PostSeeder::class);
 
         // Carousels
         $carousels = [

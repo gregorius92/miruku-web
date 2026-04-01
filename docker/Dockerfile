@@ -43,5 +43,8 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 # Copy custom fpm config
 COPY docker/php/fpm.conf /usr/local/etc/php-fpm.d/fpm-custom.conf
 
+# Copy custom php config
+COPY docker/php/php.ini /usr/local/etc/php/conf.d/php-custom.ini
+
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["php-fpm"]

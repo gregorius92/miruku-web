@@ -81,6 +81,12 @@ return [
     'benefit_desc_4' => 'Tanpa pengawet buatan, tanpa warna sintetis. Hanya susu terbaik yang sudah melalui proses laktase alami.',
     'benefit_title_5' => 'Untuk Seluruh Keluarga',
     'benefit_desc_5' => 'Aman untuk anak-anak, remaja, dewasa, hingga lansia. Miruku adalah susu untuk semua generasi.',
-    'benefit_title_6' => 'Kualitas Premium',
     'benefit_desc_6' => 'Dipilih dari sapi-sapi terbaik dengan standar kebersihan dan kualitas kelas dunia.',
+    
+    // Blog Section
+    'blog_badge' => 'Artikel Terbaru',
+    'blog_title' => 'Wawasan & Inspirasi Sehat',
+    'blog_subtitle' => 'Temukan tips kesehatan, resep menarik, dan berita terbaru seputar susu lactose-free dari para ahli kami.',
+    'read_more' => 'Baca Selengkapnya',
+    'view_all_articles' => 'Lihat Semua Artikel',
 ];

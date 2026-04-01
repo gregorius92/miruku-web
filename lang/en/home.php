@@ -81,6 +81,12 @@ return [
     'benefit_desc_4' => 'No artificial preservatives, no synthetic colors. Only the best milk that has gone through a natural lactase process.',
     'benefit_title_5' => 'For the Whole Family',
     'benefit_desc_5' => 'Safe for children, teenagers, adults, and seniors. Miruku is milk for all generations.',
-    'benefit_title_6' => 'Premium Quality',
     'benefit_desc_6' => 'Selected from the best cows with world-class standards of cleanliness and quality.',
+    
+    // Blog Section
+    'blog_badge' => 'Latest Articles',
+    'blog_title' => 'Healthy Insights & Inspiration',
+    'blog_subtitle' => 'Find health tips, exciting recipes, and the latest news about lactose-free milk from our experts.',
+    'read_more' => 'Read More',
+    'view_all_articles' => 'View All Articles',
 ];

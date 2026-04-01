@@ -17,6 +17,10 @@ class ImageUploadController extends Controller
      */
     public function upload(Request $request)
     {
+        $request->validate([
+            'upload' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ]);
+
         if ($request->hasFile('upload')) {
             try {
                 // Upload image using the existing service

@@ -10,49 +10,54 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <style>
-        .ck-editor__editable_inline {
-            min-height: 250px;
-        }
-
-        .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused) {
-            border-color: #f3f4f6;
-        }
-
-        .ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.05);
-        }
-
-        .ck.ck-editor__main>.ck-editor__editable {
-            border-radius: 0 0 0.75rem 0.75rem !important;
-            padding: 1rem 1.5rem !important;
-            font-size: 0.875rem;
-        }
-
-        .ck.ck-toolbar {
-            border-radius: 0.75rem 0.75rem 0 0 !important;
+        .note-editor.note-frame {
+            border-radius: 0.75rem !important;
             border-color: #f3f4f6 !important;
+            overflow: hidden;
+            box-shadow: none !important;
+        }
+
+        .note-toolbar {
             background: #f9fafb !important;
+            border-bottom: 1px solid #f3f4f6 !important;
+            padding: 0.5rem !important;
+        }
+
+        .note-editable {
+            min-height: 300px;
+            background: white !important;
+            padding: 1.5rem !important;
+            font-size: 0.875rem !important;
+            line-height: 1.6 !important;
+        }
+
+        .note-btn {
+            border-radius: 0.5rem !important;
+            border-color: #f3f4f6 !important;
             padding: 0.25rem 0.5rem !important;
         }
 
+        .note-btn:hover {
+            background-color: #f3f4f6 !important;
+        }
+
         /* Fix for Tailwind CSS resetting list styles */
+        .note-editable ul,
         .ck-content ul {
             list-style-type: disc !important;
             padding-left: 1.5rem !important;
             margin-bottom: 1rem !important;
         }
 
+        .note-editable ol,
         .ck-content ol {
             list-style-type: decimal !important;
             padding-left: 1.5rem !important;
             margin-bottom: 1rem !important;
-        }
-
-        .ck-content li {
-            margin-bottom: 0.25rem !important;
         }
     </style>
     <script>
@@ -68,21 +73,15 @@
         const autoTranslate = (sourceId, targetId) => {
             const source = document.getElementById(sourceId);
             const target = document.getElementById(targetId);
-            if (!source || !target) {
-                if (!source) console.warn(`autoTranslate: Source element #${sourceId} not found.`);
-                if (!target) console.warn(`autoTranslate: Target element #${targetId} not found.`);
-                return;
-            }
+            if (!source || !target || source === target) return;
             
             let manualEdit = false;
-
-            target.addEventListener('input', () => {
-                manualEdit = true;
-                target.classList.remove('animate-pulse');
-            });
+            target.addEventListener('input', () => { manualEdit = true; });
 
             const translate = debounce(async (text) => {
-                if (!text.trim() || manualEdit) return;
+                const currentTargetValue = target.value.trim();
+                // ONLY translate if target is empty AND has NOT been manually edited
+                if (!text.trim() || currentTargetValue !== '' || manualEdit) return;
 
                 target.style.opacity = '0.5';
                 target.classList.add('animate-pulse');
@@ -98,7 +97,8 @@
                     });
                     
                     const data = await response.json();
-                    if (data.success && !manualEdit) {
+                    // DOUBLE CHECK target is still empty and not manually edited before assigning
+                    if (data.success && target.value.trim() === '' && !manualEdit) {
                         target.value = data.translatedText;
                     }
                 } catch (error) {
@@ -107,35 +107,34 @@
                     target.style.opacity = '1';
                     target.classList.remove('animate-pulse');
                 }
-            }, 1500); // 1.5s delay to be safe
+            }, 1000);
 
-            source.addEventListener('input', (e) => {
-                if (!manualEdit) {
-                    translate(e.target.value);
-                }
-            });
+            source.addEventListener('input', (e) => translate(e.target.value));
         };
 
-        const autoTranslateCKEditor = (sourceName, targetName) => {
-            // Wait for editors to be ready
+        const autoTranslateSummernote = (sourceName, targetName) => {
+            if (sourceName === targetName) return;
+            let manualEdit = false;
+
             const checkEditors = setInterval(() => {
-                const sourceEditor = window.editors[sourceName];
-                const targetEditor = window.editors[targetName];
+                const $source = $(`[name="${sourceName}"]`);
+                const $target = $(`[name="${targetName}"]`);
                 
-                if (sourceEditor && targetEditor) {
+                if ($source.length && $target.length && $source.data('summernote') && $target.data('summernote')) {
                     clearInterval(checkEditors);
                     
-                    let manualEdit = false;
-                    targetEditor.editing.view.document.on('keydown', () => {
-                        manualEdit = true;
-                    });
+                    const $targetEditor = $target.next('.note-editor');
+                    $targetEditor.find('.note-editable').on('keydown', () => { manualEdit = true; });
 
                     const translate = debounce(async (html) => {
-                        if (!html.trim() || manualEdit) return;
+                        const targetHtml = $target.summernote('code');
+                        const isTargetEmpty = targetHtml === '' || targetHtml === '<p><br></p>' || targetHtml === '<br>';
 
-                        const targetElement = targetEditor.ui.view.editable.element;
-                        targetElement.style.opacity = '0.5';
-                        targetElement.classList.add('animate-pulse');
+                        // ONLY translate if target is empty AND has NOT been manually edited
+                        if (!html.trim() || html === '<p><br></p>' || !isTargetEmpty || manualEdit) return;
+
+                        $targetEditor.css('opacity', '0.5');
+                        $targetEditor.addClass('animate-pulse');
 
                         try {
                             const response = await fetch('{{ route("admin.translate") }}', {
@@ -148,22 +147,22 @@
                             });
                             
                             const data = await response.json();
-                            if (data.success && !manualEdit) {
-                                targetEditor.setData(data.translatedText);
+                            const currentTargetHtml = $target.summernote('code');
+                            const isStillEmpty = currentTargetHtml === '' || currentTargetHtml === '<p><br></p>' || currentTargetHtml === '<br>';
+
+                            // DOUBLE CHECK target is still empty and not manually edited before assigning
+                            if (data.success && isStillEmpty && !manualEdit) {
+                                $target.summernote('code', data.translatedText);
                             }
                         } catch (error) {
-                            console.error('CKEditor Translation error:', error);
+                            console.error('Summernote Translation error:', error);
                         } finally {
-                            targetElement.style.opacity = '1';
-                            targetElement.classList.remove('animate-pulse');
+                            $targetEditor.css('opacity', '1');
+                            $targetEditor.removeClass('animate-pulse');
                         }
-                    }, 2000);
+                    }, 1500);
 
-                    sourceEditor.model.document.on('change:data', () => {
-                        if (!manualEdit) {
-                            translate(sourceEditor.getData());
-                        }
-                    });
+                    $source.on('summernote.change', (we, contents) => translate(contents));
                 }
             }, 500);
         };
@@ -197,6 +196,7 @@
         ['route' => 'admin.products.index', 'icon' => 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10', 'label' => __('admin.sidebar.products')],
         ['route' => 'admin.reviews.index', 'icon' => 'M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z', 'label' => __('admin.sidebar.reviews')],
         ['route' => 'admin.stores.index', 'icon' => 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z', 'label' => __('admin.sidebar.stores')],
+        ['route' => 'admin.posts.index', 'icon' => 'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v10a2 2 0 01-2 2zM14 4v4h4', 'label' => __('admin.sidebar.posts')],
         ['route' => 'admin.settings.index', 'icon' => 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z', 'label' => __('admin.sidebar.settings')],
         ['route' => 'admin.newsletter.index', 'icon' => 'M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', 'label' => __('admin.sidebar.newsletter')],
     ] as $navItem)
@@ -312,93 +312,62 @@
     </div>
 
     <script>
-        class MyUploadAdapter {
-            constructor(loader) {
-                this.loader = loader;
-            }
-
-            upload() {
-                return this.loader.file
-                    .then(file => new Promise((resolve, reject) => {
-                        this._initRequest();
-                        this._initListeners(resolve, reject, file);
-                        this._sendRequest(file);
-                    }));
-            }
-
-            abort() {
-                if (this.xhr) {
-                    this.xhr.abort();
-                }
-            }
-
-            _initRequest() {
-                const xhr = this.xhr = new XMLHttpRequest();
-                xhr.open('POST', '{{ route('admin.upload-image') }}', true);
-                xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
-                xhr.responseType = 'json';
-            }
-
-            _initListeners(resolve, reject, file) {
-                const xhr = this.xhr;
-                const loader = this.loader;
-                const genericErrorText = `Couldn't upload file: ${file.name}.`;
-
-                xhr.addEventListener('error', () => reject(genericErrorText));
-                xhr.addEventListener('abort', () => reject());
-                xhr.addEventListener('load', () => {
-                    const response = xhr.response;
-                    if (!response || response.error) {
-                        return reject(response && response.error ? response.error.message : genericErrorText);
-                    }
-                    resolve({
-                        default: response.url
-                    });
-                });
-
-                if (xhr.upload) {
-                    xhr.upload.addEventListener('progress', evt => {
-                        if (evt.lengthComputable) {
-                            loader.uploadTotal = evt.total;
-                            loader.uploaded = evt.loaded;
-                        }
-                    });
-                }
-            }
-
-            _sendRequest(file) {
-                const data = new FormData();
-                data.append('upload', file);
-                this.xhr.send(data);
-            }
-        }
-
-        function MyCustomUploadAdapterPlugin(editor) {
-            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-                return new MyUploadAdapter(loader);
-            };
-        }
-
-        // CKEditor initialization and global storage
-        window.editors = {};
-        document.querySelectorAll('.editor').forEach(el => {
-            ClassicEditor
-                .create(el, {
-                    extraPlugins: [MyCustomUploadAdapterPlugin],
+        $(document).ready(function() {
+            $('.editor').each(function() {
+                var $editor = $(this);
+                $editor.summernote({
+                    height: 300,
+                    tabsize: 2,
+                    fontNames: ['Inter', 'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New'],
                     toolbar: [
-                        'heading', '|',
-                        'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|',
-                        'outdent', 'indent', '|',
-                        'imageUpload', 'blockQuote', 'insertTable', 'mediaEmbed', 'undo', 'redo'
+                        ['style', ['style']],
+                        ['font', ['bold', 'underline', 'clear']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['table', ['table']],
+                        ['insert', ['link', 'picture', 'video']],
+                        ['view', ['fullscreen', 'codeview', 'help']]
                     ],
-                })
-                .then(editor => {
-                    window.editors[el.name] = editor;
-                })
-                .catch(error => {
-                    console.error(error);
+                    callbacks: {
+                        onImageUpload: function(files) {
+                            uploadImage(files[0], this);
+                        }
+                    }
                 });
+            });
         });
+
+        function uploadImage(file, editor) {
+            let data = new FormData();
+            data.append("upload", file);
+            
+            $.ajax({
+                url: "{{ route('admin.upload-image') }}",
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: data,
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.url) {
+                        $(editor).summernote('insertImage', response.url);
+                    }
+                },
+                error: function(data) {
+                    console.error("Image upload failed:", data);
+                    let message = "The image failed to upload.";
+                    if (data.responseJSON && data.responseJSON.error && data.responseJSON.error.message) {
+                        message = data.responseJSON.error.message;
+                    } else if (data.status === 413) {
+                        message = "File too large. Maximum size is 100MB.";
+                    }
+                    alert(message);
+                }
+            });
+        }
     </script>
 </body>
 
