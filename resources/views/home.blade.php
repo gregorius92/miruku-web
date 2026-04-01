@@ -509,10 +509,10 @@
     {{-- =============================================
      6. CUSTOMER REVIEWS
      ============================================= --}}
-    <section id="reviews" class="py-24 lg:py-32 bg-gray-50 overflow-hidden relative">
+    <section id="reviews" x-data="{ activeReview: null }" class="py-24 lg:py-32 bg-miruku-blue miruku-pattern overflow-hidden relative text-white">
         <!-- Wave transition from Products to Reviews -->
         <div class="absolute top-0 left-0 w-full overflow-hidden leading-[0] transform -translate-y-[99%]">
-            <svg fill="#f9fafb" class="relative block w-[calc(100%+1.3px)] h-[60px]" viewBox="0 0 1200 120"
+            <svg fill="#3474a2" class="relative block w-[calc(100%+1.3px)] h-[60px]" viewBox="0 0 1200 120"
                 preserveAspectRatio="none">
                 <path
                     d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z">
@@ -521,12 +521,12 @@
         </div>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" data-aos="fade-up">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16 px-4">
                 <span
-                    class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.customer_reviews') }}</span>
-                <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">{{ __('home.what_they_say') }}
+                    class="text-blue-200 font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.customer_reviews') }}</span>
+                <h2 class="text-4xl lg:text-5xl font-bold text-white font-cormorant text-shadow-premium">{{ __('home.what_they_say') }}
                 </h2>
-                <p class="text-gray-500 mt-4 text-lg">{{ __('home.satisfied_customers') }}</p>
+                <p class="text-blue-100 mt-4 text-lg opacity-80">{{ __('home.satisfied_customers') }}</p>
             </div>
 
             <!-- Reviews Slider -->
@@ -534,13 +534,14 @@
                 <div class="swiper reviews-swiper mb-16">
                     <div class="swiper-wrapper pb-10">
                         @foreach ($reviews as $review)
-                            <div class="swiper-slide">
+                            <div class="swiper-slide h-auto">
                                 <div
-                                    class="bg-white rounded-3xl p-8 h-full shadow-sm border border-gray-100 hover:border-blue-200 transition-all duration-300">
+                                    @click="activeReview = { name: '{{ addslashes($review->name) }}', rating: {{ $review->rating }}, comment: {{ json_encode($review->comment) }} }; $dispatch('open-modal', 'review-detail')"
+                                    class="bg-white/10 backdrop-blur-md rounded-3xl p-8 h-full border border-white/10 hover:border-white/40 hover:bg-white/20 hover:shadow-2xl hover:shadow-black/20 transition-all duration-500 cursor-pointer group flex flex-col">
                                     <!-- Stars -->
                                     <div class="flex gap-1 mb-4">
                                         @for ($i = 1; $i <= 5; $i++)
-                                            <svg class="w-5 h-5 {{ $i <= $review->rating ? 'text-amber-400 fill-amber-400' : 'text-gray-200 fill-gray-200' }}"
+                                            <svg class="w-5 h-5 {{ $i <= $review->rating ? 'text-amber-400 fill-amber-400' : 'text-white/20 fill-white/20' }}"
                                                 viewBox="0 0 24 24">
                                                 <path
                                                     d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
@@ -548,17 +549,17 @@
                                         @endfor
                                     </div>
                                     <!-- Comment -->
-                                    <p class="text-gray-600 leading-relaxed mb-6 text-base italic">
+                                    <p class="text-blue-50 leading-relaxed mb-6 text-base italic line-clamp-3 flex-grow opacity-90">
                                         "{{ $review->comment }}"</p>
                                     <!-- Author -->
-                                    <div class="flex items-center gap-3">
+                                    <div class="flex items-center gap-3 mt-auto">
                                         <div
-                                            class="w-10 h-10 rounded-full bg-gradient-to-br from-miruku-blue to-blue-600 flex items-center justify-center text-white font-bold text-sm">
+                                            class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white font-bold text-sm border border-white/20 shadow-inner">
                                             {{ strtoupper(substr($review->name, 0, 1)) }}
                                         </div>
                                         <div>
-                                            <p class="font-semibold text-gray-900">{{ $review->name }}</p>
-                                            <p class="text-xs text-gray-400">{{ __('home.miruku_customer') }}</p>
+                                            <p class="font-semibold text-white group-hover:text-blue-200 transition-colors">{{ $review->name }}</p>
+                                            <p class="text-xs text-blue-200/60">{{ __('home.miruku_customer') }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -590,14 +591,14 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-1.5"
                                     for="review-name">{{ __('home.name') }} *</label>
                                 <input type="text" name="name" id="review-name" required
-                                    class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue focus:ring-2 focus:ring-blue-50 transition-all bg-gray-50"
+                                    class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue focus:ring-2 focus:ring-blue-50 transition-all text-gray-900 placeholder-gray-400"
                                     placeholder="{{ __('home.name_placeholder') }}">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1.5"
                                     for="review-email">{{ __('home.email_optional') }}</label>
                                 <input type="email" name="email" id="review-email"
-                                    class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue focus:ring-2 focus:ring-blue-50 transition-all bg-gray-50"
+                                    class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue focus:ring-2 focus:ring-blue-50 transition-all text-gray-900 placeholder-gray-400"
                                     placeholder="email@kamu.com">
                             </div>
                         </div>
@@ -608,7 +609,7 @@
                             <div x-data="{ rating: 5 }" class="flex gap-2">
                                 @for ($i = 1; $i <= 5; $i++)
                                     <button type="button" @click="rating = {{ $i }}"
-                                        :class="rating >= {{ $i }} ? 'text-amber-400' : 'text-gray-300'"
+                                        :class="rating >= {{ $i }} ? 'text-amber-400' : 'text-gray-200'"
                                         class="text-3xl transition-colors hover:text-amber-400 cursor-pointer focus:outline-none">★</button>
                                 @endfor
                                 <input type="hidden" name="rating" :value="rating">
@@ -619,18 +620,65 @@
                             <label class="block text-sm font-medium text-gray-700 mb-1.5"
                                 for="review-comment">{{ __('home.comment') }} *</label>
                             <textarea name="comment" id="review-comment" rows="4" required
-                                class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue focus:ring-2 focus:ring-blue-50 transition-all resize-none bg-gray-50"
+                                class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue focus:ring-2 focus:ring-blue-50 transition-all resize-none text-gray-900 placeholder-gray-400"
                                 placeholder="{{ __('home.comment_placeholder') }}"></textarea>
                         </div>
 
                         <button type="submit"
-                            class="w-full bg-miruku-blue hover:bg-miruku-dark text-white font-semibold py-4 rounded-xl transition-all duration-300 hover:scale-[1.01] shadow-lg shadow-miruku-blue/30">
+                            class="w-full bg-miruku-blue hover:bg-miruku-dark text-white font-bold py-4 rounded-xl transition-all duration-300 hover:scale-[1.01] shadow-lg shadow-miruku-blue/30">
                             {{ __('home.submit_review') }}
                         </button>
                     </form>
                 </div>
             </div>
         </div>
+
+        <!-- Review Detail Modal -->
+        <x-modal name="review-detail" maxWidth="lg">
+            <div x-show="activeReview" class="p-8 relative overflow-hidden">
+                <!-- Decoration -->
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-blue-50 rounded-full blur-2xl opacity-60"></div>
+                
+                <div class="relative">
+                    <button @click="$dispatch('close')" class="absolute -top-2 -right-2 p-2 text-gray-400 hover:text-gray-600 transition-colors">
+                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-miruku-blue to-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-lg text-shadow-premium">
+                            <template x-if="activeReview">
+                                <span x-text="activeReview.name.charAt(0).toUpperCase()"></span>
+                            </template>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-gray-900 font-cormorant leading-tight" x-text="activeReview?.name"></h4>
+                            <div class="flex gap-0.5 mt-1">
+                                <template x-for="i in 5">
+                                    <svg class="w-4 h-4" :class="i <= activeReview?.rating ? 'text-amber-400 fill-amber-400' : 'text-gray-200 fill-gray-200'" viewBox="0 0 24 24">
+                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                                    </svg>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
+                        <svg class="w-8 h-8 text-miruku-blue/10 mb-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 7.55228 14.017 7V5C14.017 4.44772 14.4647 4 15.017 4H19.017C20.6739 4 22.017 5.34315 22.017 7V15C22.017 16.6569 20.6739 18 19.017 18H16.017L16.017 21H14.017ZM2.017 21L2.017 18C2.017 16.8954 2.91243 16 4.017 16H7.017C7.56928 16 8.017 15.5523 8.017 15V9C8.017 8.44772 7.56928 8 7.017 8H3.017C2.46472 8 2.017 7.55228 2.017 7V5C2.017 4.44772 2.46472 4 3.017 4H7.017C8.67386 4 10.017 5.34315 10.017 7V15C10.017 16.6569 8.67386 18 7.017 18H4.017L4.017 21H2.017Z" />
+                        </svg>
+                        <p class="text-gray-700 leading-relaxed italic text-lg whitespace-pre-line" x-text="activeReview?.comment"></p>
+                    </div>
+
+                    <div class="mt-8 flex justify-end">
+                        <button @click="$dispatch('close')" class="bg-miruku-blue hover:bg-miruku-dark text-white font-bold px-8 py-3 rounded-xl transition-all duration-300 shadow-lg shadow-miruku-blue/20">
+                            Tutup
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </x-modal>
     </section>
     
     {{-- =============================================
