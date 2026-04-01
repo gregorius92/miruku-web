@@ -14,14 +14,14 @@
             <!-- Desktop Links -->
             <div class="hidden md:flex items-center gap-8">
                 @foreach([
-                    ['route' => 'home', 'label' => __('navbar.home')],
-                    ['route' => 'products.index', 'label' => __('navbar.products')],
-                    ['route' => 'about', 'label' => __('navbar.about')],
-                    ['route' => 'benefits', 'label' => __('navbar.benefits')],
-                    ['route' => 'blog.index', 'label' => __('navbar.blog')],
+                    ['id' => 'hero', 'label' => __('navbar.home')],
+                    ['id' => 'about', 'label' => __('navbar.about')],
+                    ['id' => 'why', 'label' => __('navbar.benefits')],
+                    ['id' => 'products', 'label' => __('navbar.products')],
+                    ['id' => 'reviews', 'label' => __('navbar.reviews')],
+                    ['id' => 'blog', 'label' => __('navbar.blog')],
                 ] as $link)
-                <a href="{{ ($link['route'] === 'home' && request()->routeIs('home')) ? 'javascript:void(0)' : route($link['route']) }}"
-                   @if($link['route'] === 'home' && request()->routeIs('home')) @click="window.scrollTo({top: 0, behavior: 'smooth'})" @endif
+                <a href="{{ request()->routeIs('home') ? '#' . $link['id'] : route('home') . '#' . $link['id'] }}"
                    class="text-sm font-medium transition-all duration-300 hover:opacity-70 relative group text-white">
                     {{ $link['label'] }}
                     <span class="absolute -bottom-1 left-0 h-0.5 w-0 bg-white transition-all duration-300 group-hover:w-full"></span>
@@ -93,13 +93,20 @@
                 </div>
             </div>
             
-            <a href="{{ request()->routeIs('home') ? 'javascript:void(0)' : route('home') }}" 
-               @click="{{ request()->routeIs('home') ? 'window.scrollTo({top: 0, behavior: \'smooth\'}); mobileMenu = false' : '' }}"
-               class="block text-white/90 font-medium py-2 hover:text-white transition-colors border-b border-white/5">{{ __('navbar.home') }}</a>
-            <a href="{{ route('products.index') }}" class="block text-white/90 font-medium py-2 hover:text-white transition-colors border-b border-white/5">{{ __('navbar.products') }}</a>
-            <a href="{{ route('about') }}" class="block text-white/90 font-medium py-2 hover:text-white transition-colors border-b border-white/5">{{ __('navbar.about') }}</a>
-            <a href="{{ route('benefits') }}" class="block text-white/90 font-medium py-2 hover:text-white transition-colors border-b border-white/5">{{ __('navbar.benefits') }}</a>
-            <a href="{{ route('blog.index') }}" class="block text-white/90 font-medium py-2 hover:text-white transition-colors border-b border-white/5">{{ __('navbar.blog') }}</a>
+            @foreach([
+                ['id' => 'hero', 'label' => __('navbar.home')],
+                ['id' => 'about', 'label' => __('navbar.about')],
+                ['id' => 'why', 'label' => __('navbar.benefits')],
+                ['id' => 'products', 'label' => __('navbar.products')],
+                ['id' => 'reviews', 'label' => __('navbar.reviews')],
+                ['id' => 'blog', 'label' => __('navbar.blog')],
+            ] as $link)
+            <a href="{{ request()->routeIs('home') ? '#' . $link['id'] : route('home') . '#' . $link['id'] }}" 
+               @click="mobileMenu = false"
+               class="block text-white/90 font-medium py-2 hover:text-white transition-colors border-b border-white/5">
+                {{ $link['label'] }}
+            </a>
+            @endforeach
             <a href="{{ route('products.index') }}" class="block w-full text-center bg-white text-miruku-blue font-bold py-3 rounded-full hover:bg-blue-50 transition-colors mt-4 shadow-lg">
                 {{ __('navbar.buy_now') }}
             </a>
