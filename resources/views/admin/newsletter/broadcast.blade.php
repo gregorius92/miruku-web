@@ -40,11 +40,11 @@
                 </div>
 
                 <!-- Action Button -->
-                <div class="pt-4 flex items-center justify-end gap-4">
-                    <button type="button" @click="window.history.back()" class="px-6 py-3 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 transition-all">
+                <div class="flex justify-end items-center gap-3 pt-6 border-t border-gray-100 mt-8">
+                    <button type="button" onclick="window.history.back()" class="border border-gray-200 text-gray-600 hover:bg-gray-50 font-medium px-6 py-2.5 rounded-xl transition-colors text-sm">
                         {{ __('admin.common.cancel') }}
                     </button>
-                    <button type="submit" class="bg-miruku-blue text-white px-8 py-3 rounded-xl text-sm font-bold shadow-lg shadow-miruku-blue/20 hover:bg-miruku-dark transition-all flex items-center gap-2">
+                    <button type="submit" class="bg-miruku-blue hover:bg-miruku-dark text-white font-semibold px-6 py-2.5 rounded-xl transition-colors text-sm flex items-center gap-2">
                         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                         </svg>

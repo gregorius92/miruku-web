@@ -32,7 +32,7 @@
     </div>
     @endforeach
 
-    <div class="flex gap-3">
+    <div class="flex justify-end items-center gap-3 pt-6 border-t border-gray-100 mt-8">
         <button type="submit" class="bg-miruku-blue hover:bg-miruku-dark text-white font-semibold px-6 py-2.5 rounded-xl transition-colors text-sm">Simpan Pengaturan</button>
     </div>
 </form>

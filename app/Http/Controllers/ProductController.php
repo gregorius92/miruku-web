@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductUnit;
+use App\Models\Variant;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 
@@ -10,8 +12,11 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
+        $units = ProductUnit::where('is_active', true)->orderBy('sort_order')->get();
+        $variants = Variant::where('is_active', true)->get();
         $products = Product::active()
-            ->when($request->variant, fn($q) => $q->where('variant', $request->variant))
+            ->with(['variantInfo', 'unitInfo'])
+            ->when($request->unit, fn($q) => $q->where('unit', $request->unit))
             ->latest()
             ->paginate(9);
 
@@ -21,7 +26,11 @@ class ProductController extends Controller
             'keywords'    => __('products.seo_index_keywords'),
         ];
 
-        return view('products.index', compact('products', 'seo'));
+        if ($request->ajax()) {
+            return view('products._product_list', compact('products'));
+        }
+
+        return view('products.index', compact('products', 'seo', 'units', 'variants'));
     }
 
     public function show($slug)

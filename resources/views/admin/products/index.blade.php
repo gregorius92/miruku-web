@@ -20,7 +20,7 @@
                 <th class="text-left px-5 py-3.5 font-semibold text-gray-600">{{ __('admin.products.title') }}</th>
                 <th class="text-left px-5 py-3.5 font-semibold text-gray-600">{{ __('admin.products.fields.variant') }}</th>
                 <th class="text-left px-5 py-3.5 font-semibold text-gray-600">{{ __('admin.products.fields.price') }}</th>
-                <th class="text-left px-5 py-3.5 font-semibold text-gray-600">{{ __('admin.products.fields.stock') }}</th>
+                <th class="text-left px-5 py-3.5 font-semibold text-gray-600">Flags</th>
                 <th class="text-left px-5 py-3.5 font-semibold text-gray-600">{{ __('admin.common.status') }}</th>
                 <th class="text-right px-5 py-3.5 font-semibold text-gray-600">{{ __('admin.common.actions') }}</th>
             </tr>
@@ -38,15 +38,27 @@
                         </div>
                         <div class="truncate">
                             <div class="font-semibold text-gray-900 truncate">{{ $product->name }}</div>
-                            <div class="text-xs text-gray-500">{{ __('admin.products.fields.stock') }}: {{ $product->stock }}</div>
+                            <div class="text-[10px] text-gray-400 uppercase tracking-tight">{{ $product->unitInfo->name ?? $product->unit }}</div>
                         </div>
                     </div>
                 </td>
                 <td class="px-5 py-4">
-                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-miruku-blue">{{ ucfirst($product->variant) }}</span>
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-miruku-blue">{{ $product->variantInfo->name ?? ucfirst($product->variant) }}</span>
                 </td>
                 <td class="px-5 py-4 font-medium text-gray-900">{{ $product->formatted_price }}</td>
-                <td class="px-5 py-4 text-gray-600">{{ $product->stock }}</td>
+                <td class="px-5 py-4">
+                    <div class="flex flex-col gap-1">
+                        @if($product->show_on_home)
+                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-purple-50 text-purple-600 border border-purple-100 italic">HOMEPAGE</span>
+                        @endif
+                        @if($product->is_best_seller)
+                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-600 border border-amber-100 italic">BEST SELLER</span>
+                        @endif
+                        @if($product->is_featured)
+                        <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-600 border border-blue-100 italic">FEATURED</span>
+                        @endif
+                    </div>
+                </td>
                 <td class="px-5 py-4">
                     @if($product->is_active)
                     <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700">
@@ -69,7 +81,7 @@
                 </td>
             </tr>
             @empty
-            <tr><td colspan="6" class="text-center py-12 text-gray-400">{{ __('admin.products.empty') }}</td></tr>
+            <tr><td colspan="6" class="text-center py-12 text-gray-400">Belum ada produk.</td></tr>
             @endforelse
         </tbody>
     </table>

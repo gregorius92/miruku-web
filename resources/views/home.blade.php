@@ -422,6 +422,20 @@
                 <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">{{ __('home.collection_title') }}
                 </h2>
                 <p class="text-gray-500 mt-4 text-lg max-w-2xl mx-auto">{{ __('home.collection_subtitle') }}</p>
+                
+                <!-- Filter Units/Categories -->
+                <div class="flex flex-wrap justify-center gap-3 mt-10">
+                    <a href="{{ route('home') }}#products" 
+                        class="px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 {{ !request('unit') ? 'bg-miruku-blue text-white shadow-lg shadow-miruku-blue/20' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' }}">
+                        All
+                    </a>
+                    @foreach($units as $u)
+                        <a href="{{ route('home', ['unit' => $u->slug]) }}#products" 
+                            class="px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 {{ request('unit') === $u->slug ? 'bg-miruku-blue text-white shadow-lg shadow-miruku-blue/20' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' }}">
+                            {{ $u->name }}
+                        </a>
+                    @endforeach
+                </div>
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -431,7 +445,7 @@
                         <!-- Image -->
                         <div
                             class="aspect-square overflow-hidden bg-gradient-to-br
-                    {{ $product->variant === 'original' ? 'from-blue-50 to-indigo-50' : ($product->variant === 'chocolate' ? 'from-amber-50 to-orange-50' : 'from-yellow-50 to-lime-50') }}">
+                    {{ $product->variantInfo->color_class ?? 'from-blue-50 to-indigo-50' }}">
                             @if ($product->image)
                                 <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
@@ -439,18 +453,18 @@
                                 <div class="w-full h-full flex items-center justify-center">
                                     <div class="text-center">
                                         <div class="text-7xl mb-2">
-                                            {{ $product->variant === 'original' ? '🥛' : ($product->variant === 'chocolate' ? '🍫' : '🍌') }}
+                                            {{ $product->variantInfo->icon ?? '🥛' }}
                                         </div>
-                                        <p class="text-sm font-medium text-gray-400">{{ ucfirst($product->variant) }}</p>
+                                        <p class="text-sm font-medium text-gray-400">{{ $product->variantInfo->name ?? ucfirst($product->variant) }}</p>
                                     </div>
                                 </div>
                             @endif
                         </div>
 
                         <!-- Badge -->
-                        @if ($product->is_featured)
+                        @if ($product->is_best_seller)
                             <div
-                                class="absolute top-4 left-4 bg-miruku-blue text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                                class="absolute top-4 left-4 bg-miruku-blue text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg z-10">
                                 {{ __('home.best_seller') }}
                             </div>
                         @endif
@@ -458,10 +472,16 @@
                         <!-- Content -->
                         <div class="p-6">
                             <div class="flex items-center justify-between mb-2">
-                                <span
-                                    class="text-xs font-semibold uppercase tracking-wider text-miruku-blue bg-blue-50 px-3 py-1 rounded-full">
-                                    {{ ucfirst($product->variant) }}
-                                </span>
+                                <div class="flex items-center gap-2">
+                                    <span
+                                        class="text-[10px] font-bold uppercase tracking-wider text-miruku-blue bg-blue-50 px-2.5 py-1 rounded-full">
+                                        {{ $product->variantInfo->name ?? ucfirst($product->variant) }}
+                                    </span>
+                                    <span
+                                        class="text-[10px] font-bold uppercase tracking-wider text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full">
+                                        {{ $product->unitInfo->name ?? $product->unit }}
+                                    </span>
+                                </div>
                                 <div class="flex items-center gap-1">
                                     <svg class="w-4 h-4 text-amber-400 fill-amber-400" viewBox="0 0 24 24">
                                         <path

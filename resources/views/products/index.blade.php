@@ -10,64 +10,139 @@
             <p class="text-gray-500 mt-4 text-lg max-w-2xl mx-auto">{{ __('products.hero_subtitle') }}</p>
         </div>
 
-        <!-- Filter -->
-        <div class="flex flex-wrap justify-center gap-3 mb-10">
-            <a href="{{ route('products.index') }}"
-               class="px-6 py-2.5 rounded-full text-sm font-medium border transition-all duration-200 {{ !request('variant') ? 'bg-miruku-blue border-miruku-blue text-white' : 'bg-white border-gray-200 text-gray-600 hover:bg-blue-50' }}">
-                {{ __('products.filter_all') }}
-            </a>
-            @foreach(['original', 'chocolate', 'banana'] as $v)
-            <a href="{{ route('products.index', ['variant' => $v]) }}"
-               class="px-6 py-2.5 rounded-full text-sm font-medium border transition-all duration-200 {{ request('variant') === $v ? 'bg-miruku-blue border-miruku-blue text-white' : 'bg-white border-gray-200 text-gray-600 hover:bg-blue-50' }}">
-                {{ ucfirst($v) }}
-            </a>
-            @endforeach
+        <!-- Filters -->
+        <div class="space-y-6 mb-12">
+            <!-- Unit/Size Filter (Kategori) -->
+            <div class="flex flex-wrap justify-center gap-3">
+                <a href="{{ route('products.index', request()->except('unit')) }}"
+                   class="px-6 py-2.5 rounded-full text-sm font-semibold border transition-all duration-200 {{ !request('unit') ? 'bg-miruku-blue border-miruku-blue text-white shadow-lg shadow-miruku-blue/20' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50' }}">
+                    Semua Kategori
+                </a>
+                @foreach($units as $u)
+                <a href="{{ route('products.index', array_merge(request()->query(), ['unit' => $u->slug])) }}"
+                   class="px-6 py-2.5 rounded-full text-sm font-semibold border transition-all duration-200 {{ request('unit') === $u->slug ? 'bg-miruku-blue border-miruku-blue text-white shadow-lg shadow-miruku-blue/20' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50' }}">
+                    {{ $u->name }}
+                </a>
+                @endforeach
+            </div>
         </div>
 
+        @if($products->count() > 0)
         <!-- Products Grid -->
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            @forelse($products as $product)
-            <div class="group bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-100">
-                <div class="aspect-square overflow-hidden bg-gradient-to-br
-                    {{ $product->variant === 'original' ? 'from-blue-50 to-indigo-50' : ($product->variant === 'chocolate' ? 'from-amber-50 to-orange-50' : 'from-yellow-50 to-lime-50') }}">
-                    @if($product->image)
-                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
-                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                    @else
-                    <div class="w-full h-full flex items-center justify-center text-7xl">
-                        {{ $product->variant === 'original' ? '🥛' : ($product->variant === 'chocolate' ? '🍫' : '🍌') }}
-                    </div>
-                    @endif
-                </div>
-                @if($product->is_featured)
-                <div class="absolute -mt-40 ml-4">
-                    <span class="bg-miruku-blue text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">⭐ {{ __('products.best_seller') }}</span>
-                </div>
-                @endif
-                <div class="p-6">
-                    <span class="text-xs font-semibold uppercase tracking-wider text-miruku-blue bg-blue-50 px-3 py-1 rounded-full">{{ ucfirst($product->variant) }}</span>
-                    <h2 class="text-xl font-bold text-gray-900 mt-3 mb-2 font-cormorant">{{ $product->name }}</h2>
-                    <p class="text-gray-500 text-sm leading-relaxed mb-4 line-clamp-2">{{ $product->description }}</p>
-                    <div class="flex items-center justify-between">
-                        <span class="text-2xl font-bold text-miruku-blue font-cormorant">{{ $product->formatted_price }}</span>
-                        <a href="{{ route('products.show', $product->slug) }}"
-                           class="inline-flex items-center gap-2 bg-gray-900 hover:bg-miruku-blue text-white text-sm font-semibold px-5 py-2.5 rounded-full transition-all duration-300">
-                            {{ __('products.view_detail') }}
-                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            @empty
-            <div class="col-span-3 text-center py-20">
-                <div class="text-6xl mb-4">🥛</div>
-                <p class="text-gray-400">{{ __('products.not_found') }}</p>
-            </div>
-            @endforelse
+        <div id="product-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            @include('products._product_list')
         </div>
 
-        <!-- Pagination -->
-        <div class="mt-12">{{ $products->links() }}</div>
+        <!-- Loading Sentinel -->
+        <div id="loading-sentinel" class="mt-16 flex flex-col items-center justify-center space-y-4 py-8">
+            <div id="loading-spinner" class="hidden">
+                <div class="w-12 h-12 border-4 border-miruku-blue/20 border-t-miruku-blue rounded-full animate-spin"></div>
+                <p class="text-sm text-gray-500 font-medium mt-4">{{ __('products.loading') }}</p>
+            </div>
+            <div id="end-of-content" class="hidden text-center">
+                <div class="text-3xl mb-2">✨</div>
+                <p class="text-gray-400 font-medium text-sm">{{ __('products.all_loaded') }}</p>
+            </div>
+        </div>
+
+        <!-- Hidden Standard Pagination (Used to get next page URL) -->
+        <div id="pagination-wrapper" class="hidden">
+            {{ $products->links() }}
+        </div>
+        @else
+        <div class="text-center py-20">
+            <div class="text-6xl mb-4">🥛</div>
+            <p class="text-gray-400">{{ __('products.not_found') }}</p>
+        </div>
+        @endif
     </div>
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let nextPageUrl = document.querySelector('#pagination-wrapper a[rel="next"]')?.href;
+    const grid = document.querySelector('#product-grid');
+    const sentinel = document.querySelector('#loading-sentinel');
+    const spinner = document.querySelector('#loading-spinner');
+    const endMessage = document.querySelector('#end-of-content');
+    
+    if (!nextPageUrl) {
+        if (grid.children.length > 0) {
+            endMessage.classList.remove('hidden');
+        }
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && nextPageUrl) {
+            loadMoreProducts();
+        }
+    }, {
+        rootMargin: '200px'
+    });
+
+    observer.observe(sentinel);
+
+    async function loadMoreProducts() {
+        if (!nextPageUrl) return;
+        
+        const currentUrl = nextPageUrl;
+        nextPageUrl = null; // Prevent double trigger
+        
+        spinner.classList.remove('hidden');
+        
+        try {
+            const response = await fetch(currentUrl, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+            
+            if (!response.ok) throw new Error('Network response was not ok');
+            
+            const html = await response.text();
+            
+            // Append new items
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+            
+            // Re-enable AOS if exists
+            const newItems = tempDiv.querySelectorAll('[data-aos]');
+            
+            grid.insertAdjacentHTML('beforeend', html);
+            
+            if (typeof AOS !== 'undefined') {
+                AOS.refresh();
+            }
+
+            // Get the next page URL from the new response if we were to parse the whole page, 
+            // but since we only return partial, we need to handle pagination differently.
+            // Better approach: the Controller should ideally return JSON with html and next_page_url,
+            // OR we can just keep fetching page 2, 3, etc. until we get empty results.
+            
+            // Let's refine the controller or the logic:
+            // Since we're using standard Laravel pagination, let's just increment a counter.
+            const url = new URL(currentUrl);
+            let currentPage = parseInt(url.searchParams.get('page')) || 1;
+            const nextPage = currentPage + 1;
+            url.searchParams.set('page', nextPage);
+            
+            // Check if we should continue
+            if (html.trim().length > 0) {
+                nextPageUrl = url.toString();
+            } else {
+                nextPageUrl = null;
+                endMessage.classList.remove('hidden');
+            }
+            
+        } catch (error) {
+            console.error('Error loading more products:', error);
+        } finally {
+            spinner.classList.add('hidden');
+        }
+    }
+});
+</script>
+@endpush
 @endsection

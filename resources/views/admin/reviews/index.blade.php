@@ -50,7 +50,7 @@
                         <div class="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
                             <span class="text-[11px] text-gray-400">{{ $review->created_at->format('d M Y') }}</span>
                             <div class="flex gap-2">
-                                @if(!$review->is_approved)
+                                @if(!$review->approved)
                                 <form action="{{ route('admin.reviews.approve', $review) }}" method="POST">
                                     @csrf
                                     <button class="text-xs font-semibold text-miruku-blue hover:text-miruku-dark bg-blue-50 px-3 py-1.5 rounded-lg transition-colors">{{ __('admin.reviews.approve') }}</button>

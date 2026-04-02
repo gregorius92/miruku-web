@@ -72,9 +72,9 @@
             <input type="checkbox" name="is_active" {{ old('is_active', $store->is_active) ? 'checked' : '' }} class="rounded border-gray-300 text-miruku-blue">
             <span class="text-sm font-semibold text-gray-700">Toko Aktif</span>
         </label>
-        <div class="flex justify-end gap-3 pt-2">
-            <a href="{{ route('admin.stores.index') }}" class="bg-white border border-gray-300 text-gray-700 font-semibold px-6 py-2.5 rounded-xl hover:bg-gray-50 transition-colors text-sm">Batal</a>
-            <button type="submit" class="bg-miruku-blue hover:bg-miruku-dark text-white font-semibold px-6 py-2.5 rounded-xl transition-colors text-sm">Simpan</button>
+        <div class="flex justify-end items-center gap-3 pt-6 border-t border-gray-100 mt-8">
+            <a href="{{ route('admin.stores.index') }}" class="border border-gray-200 text-gray-600 hover:bg-gray-50 font-medium px-6 py-2.5 rounded-xl transition-colors text-sm">Batal</a>
+            <button type="submit" class="bg-miruku-blue hover:bg-miruku-dark text-white font-semibold px-6 py-2.5 rounded-xl transition-colors text-sm">Simpan Perubahan</button>
         </div>
     </form>
 </div>

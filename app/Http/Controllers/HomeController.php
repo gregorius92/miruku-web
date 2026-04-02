@@ -9,14 +9,26 @@ use App\Models\Section;
 use App\Models\Setting;
 use App\Models\Post;
 use App\Models\StoreLocation;
+use App\Models\ProductUnit;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $carousels = Carousel::active()->get();
-        $products = Product::active()->orderBy('is_featured', 'desc')->get();
+        $units = ProductUnit::where('is_active', true)->orderBy('sort_order')->get();
+        
+        $products = Product::active()
+            ->with(['variantInfo', 'unitInfo'])
+            ->where('show_on_home', true)
+            ->when($request->unit, function($query) use ($request) {
+                return $query->where('unit', $request->unit);
+            })
+            ->orderBy('is_featured', 'desc')
+            ->take(3)
+            ->get();
+            
         $reviews = Review::approved()->latest()->take(8)->get();
         $stores = StoreLocation::active()->get();
         $cities = StoreLocation::active()->distinct()->pluck('city');
@@ -34,7 +46,7 @@ class HomeController extends Controller
             'keywords'    => Setting::get('meta_keywords', 'susu lactose free, susu sehat, miruku'),
         ];
 
-        return view('home', compact('carousels', 'products', 'reviews', 'stores', 'cities', 'sections', 'seo', 'posts'));
+        return view('home', compact('carousels', 'products', 'reviews', 'stores', 'cities', 'sections', 'seo', 'posts', 'units'));
     }
 
     public function benefits()

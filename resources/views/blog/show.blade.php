@@ -51,13 +51,37 @@
                 </svg>
                 {{ __('blog.back_to_list') }}
             </a>
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-4" x-data="{ copied: false }">
                 <p class="text-sm font-medium text-gray-400">{{ __('blog.share_this') }}:</p>
                 <div class="flex gap-2">
-                    <button class="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-blue-50 hover:text-miruku-blue transition-all" title="Copy Link">
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                    </button>
-                    <!-- More social icons if needed -->
+                    <!-- WhatsApp -->
+                    <a href="https://wa.me/?text={{ urlencode($post->title . ' ' . url()->current()) }}" target="_blank" class="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-green-50 hover:text-green-600 transition-all" title="Share to WhatsApp">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.01 2.01c-5.52 0-9.99 4.47-9.99 9.99 0 1.77.46 3.42 1.25 4.86L2 22l5.31-1.39c1.39.75 2.97 1.18 4.65 1.18 5.52 0 9.99-4.47 9.99-9.99a9.99 9.99 0 0 0-9.94-9.79zm5.35 14.23c-.23.64-1.31 1.22-1.81 1.3-1.01.16-2.58-.27-4.48-1.57-1.46-1-2.48-2.61-2.83-3.1s-.41-.58-.5-1c-.08-.43.08-.82.16-1 .08-.18.23-.31.32-.42.09-.1.12-.17.18-.28.06-.11.03-.21-.01-.3-.04-.09-.32-.78-.44-1.07-.12-.29-.24-.25-.33-.25-.09 0-.2-.01-.32-.01s-.3.04-.46.21c-.16.16-.62.6-.62 1.48 0 .88.64 1.73.73 1.85s1.26 1.93 3.05 2.7c1.79.77 1.79.52 2.12.49.33-.03 1.05-.43 1.2-.84.15-.41.15-.76.1-.84-.04-.08-.17-.12-.35-.21-.18-.09-1.05-.52-1.21-.58-.16-.06-.27-.09-.39.09-.12.18-.45.58-.55.7-.1.12-.2.13-.38.04s-.76-.28-1.45-.9c-.53-.47-.89-1.05-1-1.23-.1-.18-.01-.28.08-.37.08-.08.18-.21.27-.32.09-.11.12-.18.18-.3.06-.12.03-.22-.01-.3-.04-.08-.35-.84-.48-1.15-.13-.3-.26-.25-.35-.26h-.3c-.11 0-.27.04-.42.21-.15.17-.6.59-.6 1.43 0 .84.62 1.66.71 1.77.09.12 1.22 1.86 2.96 2.61.41.18.82.33 1.11.42.42.14.8.12 1.1.07.33-.04 1.05-.43 1.2-.84.15-.41.15-.76.09-.84-.05-.08-.18-.12-.36-.21z"/></svg>
+                    </a>
+                    
+                    <!-- Facebook -->
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}" target="_blank" class="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-blue-50 hover:text-blue-700 transition-all" title="Share to Facebook">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.8c4.56-.93 8-4.96 8-9.8z"/></svg>
+                    </a>
+
+                    <!-- Twitter / X -->
+                    <a href="https://twitter.com/intent/tweet?text={{ urlencode($post->title) }}&url={{ url()->current() }}" target="_blank" class="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-gray-50 hover:text-black transition-all" title="Share to X">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    </a>
+
+                    <!-- Copy Link -->
+                    <div class="relative">
+                        <button 
+                            @click="navigator.clipboard.writeText('{{ url()->current() }}'); copied = true; setTimeout(() => copied = false, 2000)"
+                            class="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-miruku-blue hover:text-white transition-all" 
+                            title="Copy Link">
+                            <svg x-show="!copied" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                            <svg x-show="copied" x-cloak class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </button>
+                        <div x-show="copied" x-cloak x-transition class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-[10px] rounded whitespace-nowrap">
+                            Tersalin!
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -17,7 +17,7 @@
         "@type": "Offer",
         "price": "{{ $product->price }}",
         "priceCurrency": "IDR",
-        "availability": "{{ $product->stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock' }}"
+        "availability": "https://schema.org/InStock"
     }
     @if($reviews->count() > 0)
     ,"aggregateRating": {
@@ -49,7 +49,7 @@
             <!-- Product Image -->
             <div class="relative">
                 <div class="aspect-square rounded-3xl overflow-hidden bg-gradient-to-br
-                    {{ $product->variant === 'original' ? 'from-blue-50 to-indigo-100' : ($product->variant === 'chocolate' ? 'from-amber-50 to-orange-100' : 'from-yellow-50 to-lime-100') }}">
+                    {{ $product->variantInfo->color_class ?? 'from-blue-50 to-indigo-100' }}">
                     @if($product->image)
                     <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
                     @else
@@ -59,8 +59,8 @@
                     </div>
                     @endif
                 </div>
-                @if($product->is_featured)
-                <div class="absolute top-6 left-6 bg-miruku-blue text-white text-sm font-bold px-4 py-2 rounded-full shadow-lg">
+                @if($product->is_best_seller)
+                <div class="absolute top-6 left-6 bg-miruku-blue text-white text-sm font-bold px-4 py-2 rounded-full shadow-lg z-10">
                     ⭐ {{ __('products.best_seller') }}
                 </div>
                 @endif
@@ -69,7 +69,7 @@
             <!-- Product Info -->
             <div class="pt-4">
                 <span class="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-miruku-blue bg-blue-50 px-3 py-1.5 rounded-full mb-4">
-                    {{ __('products.variant_label', ['variant' => ucfirst($product->variant)]) }}
+                    {{ __('products.variant_label', ['variant' => $product->variantInfo->name ?? ucfirst($product->variant)]) }}
                 </span>
                 <h1 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4 font-cormorant leading-tight">{{ $product->name }}</h1>
 
@@ -95,22 +95,14 @@
                     <span class="text-gray-400 text-sm">/ {{ $product->unit }}</span>
                 </div>
 
-                <!-- Stock Status -->
-                <div class="flex items-center gap-2 mb-8">
-                    @if($product->stock > 0)
-                    <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
-                    <span class="text-green-600 text-sm font-medium">{{ __('products.available') }} ({{ $product->stock }} {{ __('products.unit') ?? 'unit' }})</span>
-                    @else
-                    <div class="w-2 h-2 rounded-full bg-red-400"></div>
-                    <span class="text-red-500 text-sm font-medium">{{ __('products.out_of_stock') }}</span>
-                    @endif
-                </div>
-
                 <!-- Benefits list -->
                 <div class="bg-blue-50 rounded-2xl p-5 mb-8">
                     <h4 class="font-semibold text-gray-900 mb-3 text-sm uppercase tracking-wide">{{ __('products.inside_miruku') }}</h4>
                     <div class="grid grid-cols-2 gap-2">
-                        @foreach(__('products.benefits') as $benefit)
+                        @php
+                            $benefits = $product->benefits ?? __('products.benefits');
+                        @endphp
+                        @foreach($benefits as $benefit)
                         <div class="flex items-center gap-2 text-sm text-gray-700">
                             <svg class="w-4 h-4 text-miruku-blue flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
@@ -121,14 +113,46 @@
                     </div>
                 </div>
 
-                <!-- CTAs -->
-                <div class="flex flex-wrap gap-4">
-                    <a href="#" class="flex-1 min-w-0 bg-miruku-blue hover:bg-miruku-dark text-white font-bold py-4 px-6 rounded-full text-center transition-all duration-300 hover:scale-105 shadow-xl shadow-miruku-blue/30">
-                        🛒 {{ __('products.buy_shopee') }}
-                    </a>
-                    <a href="#" class="flex-1 min-w-0 border-2 border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white font-bold py-4 px-6 rounded-full text-center transition-all duration-300">
-                        {{ __('products.buy_tokopedia') }}
-                    </a>
+                <!-- CTAs (Marketplaces) -->
+                <div class="space-y-4">
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest px-1">{{ __('products.buy_now_at') }}</h4>
+                    <div class="flex flex-wrap gap-4">
+                        @forelse($product->marketplaces as $mp)
+                            <a href="{{ $mp->url }}" target="_blank" rel="noopener noreferrer" 
+                               @if(str_starts_with($mp->color, 'bg-['))
+                                   style="background-color: {{ str_replace(['bg-[', ']'], '', $mp->color) }}"
+                               @endif
+                               class="flex-1 min-w-[140px] {{ !str_starts_with($mp->color, 'bg-[') ? $mp->color : '' }} hover:brightness-110 text-white font-bold py-4 px-6 rounded-full text-center transition-all duration-300 shadow-lg hover:scale-[1.02]">
+                                {{ $mp->name }}
+                            </a>
+                        @empty
+                            <p class="text-gray-400 text-sm italic px-1">{{ __('products.no_marketplaces') }}</p>
+                        @endforelse
+                    </div>
+
+                    <!-- Share Section -->
+                    <div class="pt-6 border-t border-gray-50 flex items-center gap-4" x-data="{ copied: false }">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">{{ __('products.share_product') }}:</span>
+                        <div class="flex gap-2">
+                            <!-- WhatsApp -->
+                            <a href="https://wa.me/?text={{ urlencode($product->name . ' ' . url()->current()) }}" target="_blank" class="w-9 h-9 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-green-50 hover:text-green-600 transition-all">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.01 2.01c-5.52 0-9.99 4.47-9.99 9.99 0 1.77.46 3.42 1.25 4.86L2 22l5.31-1.39c1.39.75 2.97 1.18 4.65 1.18 5.52 0 9.99-4.47 9.99-9.99a9.99 9.99 0 0 0-9.94-9.79zm5.35 14.23c-.23.64-1.31 1.22-1.81 1.3-1.01.16-2.58-.27-4.48-1.57-1.46-1-2.48-2.61-2.83-3.1s-.41-.58-.5-1c-.08-.43.08-.82.16-1 .08-.18.23-.31.32-.42.09-.1.12-.17.18-.28.06-.11.03-.21-.01-.3-.04-.09-.32-.78-.44-1.07-.12-.29-.24-.25-.33-.25-.09 0-.2-.01-.32-.01s-.3.04-.46.21c-.16.16-.62.6-.62 1.48 0 .88.64 1.73.73 1.85s1.26 1.93 3.05 2.7c1.79.77 1.79.52 2.12.49.33-.03 1.05-.43 1.2-.84.15-.41.15-.76.1-.84-.04-.08-.17-.12-.35-.21-.18-.09-1.05-.52-1.21-.58-.16-.06-.27-.09-.39.09-.12.18-.45.58-.55.7-.1.12-.2.13-.38.04s-.76-.28-1.45-.9c-.53-.47-.89-1.05-1-1.23-.1-.18-.01-.28.08-.37.08-.08.18-.21.27-.32.09-.11.12-.18.18-.3.06-.12.03-.22-.01-.3-.04-.08-.35-.84-.48-1.15-.13-.3-.26-.25-.35-.26h-.3c-.11 0-.27.04-.42.21-.15.17-.6.59-.6 1.43 0 .84.62 1.66.71 1.77.09.12 1.22 1.86 2.96 2.61.41.18.82.33 1.11.42.42.14.8.12 1.1.07.33-.04 1.05-.43 1.2-.84.15-.41.15-.76.09-.84-.05-.08-.18-.12-.36-.21z"/></svg>
+                            </a>
+                            <!-- Facebook -->
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ url()->current() }}" target="_blank" class="w-9 h-9 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-blue-50 hover:text-blue-700 transition-all">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.8c4.56-.93 8-4.96 8-9.8z"/></svg>
+                            </a>
+                            <!-- Copy -->
+                            <div class="relative">
+                                <button @click="navigator.clipboard.writeText('{{ url()->current() }}'); copied = true; setTimeout(() => copied = false, 2000)"
+                                        class="w-9 h-9 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-miruku-blue hover:text-white transition-all">
+                                    <svg x-show="!copied" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                                    <svg x-show="copied" x-cloak class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                </button>
+                                <div x-show="copied" x-cloak x-transition class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-900 text-white text-[10px] rounded whitespace-nowrap">Tersalin!</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -200,7 +224,7 @@
                         <img src="{{ $item->image_url }}" alt="{{ $item->name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         @else
                         <div class="w-full h-full flex items-center justify-center text-6xl">
-                            {{ $item->variant === 'original' ? '🥛' : ($item->variant === 'chocolate' ? '🍫' : '🍌') }}
+                            {{ $item->variantInfo->icon ?? '🥛' }}
                         </div>
                         @endif
                     </div>

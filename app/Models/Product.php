@@ -12,19 +12,25 @@ class Product extends Model
 {
     use HasFactory, HasTranslations;
 
-    protected $translatable = ['name', 'description', 'body', 'meta_title', 'meta_description'];
+    protected $translatable = ['name', 'description', 'body', 'meta_title', 'meta_description', 'benefits'];
 
     protected $fillable = [
         'name', 'slug', 'description', 'body', 'image',
-        'price', 'unit', 'variant', 'stock', 'is_featured', 'is_active',
+        'price', 'unit', 'variant', 'is_featured', 'is_active',
+        'show_on_home', 'is_best_seller',
         'meta_title', 'meta_description',
+        'benefits', 'benefits_en',
         'name_en', 'description_en', 'body_en', 'meta_title_en', 'meta_description_en',
     ];
 
     protected $casts = [
         'is_featured' => 'boolean',
         'is_active' => 'boolean',
+        'show_on_home' => 'boolean',
+        'is_best_seller' => 'boolean',
         'price' => 'decimal:2',
+        'benefits' => 'array',
+        'benefits_en' => 'array',
     ];
 
     public function reviews()
@@ -32,9 +38,24 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
 
+    public function variantInfo()
+    {
+        return $this->belongsTo(Variant::class, 'variant', 'slug');
+    }
+
+    public function unitInfo()
+    {
+        return $this->belongsTo(ProductUnit::class, 'unit', 'slug');
+    }
+
     public function approvedReviews()
     {
         return $this->hasMany(Review::class)->where('approved', true);
+    }
+
+    public function marketplaces()
+    {
+        return $this->hasMany(ProductMarketplace::class);
     }
 
     public function getRouteKeyName()

@@ -4,6 +4,7 @@ return [
     'sidebar' => [
         'dashboard' => 'Dashboard',
         'products' => 'Produk',
+        'product_units' => 'Unit & Kategori',
         'reviews' => 'Ulasan',
         'carousels' => 'Carousel',
         'sections' => 'Sections',
@@ -11,6 +12,7 @@ return [
         'posts' => 'Blog / Artikel',
         'settings' => 'Pengaturan',
         'newsletter' => 'Newsletter',
+        'variants' => 'Varian Produk',
         'view_site' => 'Lihat Situs',
         'logout' => 'Keluar',
     ],

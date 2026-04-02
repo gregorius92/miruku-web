@@ -84,9 +84,9 @@
             </label>
         </div>
 
-        <div class="flex gap-3 pt-4">
-            <button type="submit" class="bg-miruku-blue hover:bg-miruku-dark text-white font-semibold px-8 py-3 rounded-xl transition-colors text-sm">{{ __('admin.common.save') }}</button>
-            <a href="{{ route('admin.posts.index') }}" class="border border-gray-200 text-gray-600 hover:bg-gray-50 font-medium px-8 py-3 rounded-xl transition-colors text-sm">{{ __('admin.common.cancel') }}</a>
+        <div class="flex justify-end items-center gap-3 pt-6 border-t border-gray-100 mt-8">
+            <a href="{{ route('admin.posts.index') }}" class="border border-gray-200 text-gray-600 hover:bg-gray-50 font-medium px-6 py-2.5 rounded-xl transition-colors text-sm">Batal</a>
+            <button type="submit" class="bg-miruku-blue hover:bg-miruku-dark text-white font-semibold px-6 py-2.5 rounded-xl transition-colors text-sm">Simpan Artikel</button>
         </div>
     </form>
 </div>

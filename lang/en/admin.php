@@ -4,6 +4,7 @@ return [
     'sidebar' => [
         'dashboard' => 'Dashboard',
         'products' => 'Products',
+        'product_units' => 'Units & Categories',
         'reviews' => 'Reviews',
         'carousels' => 'Carousels',
         'sections' => 'Sections',
@@ -11,6 +12,7 @@ return [
         'posts' => 'Blog / Articles',
         'settings' => 'Settings',
         'newsletter' => 'Newsletter',
+        'variants' => 'Product Variants',
         'view_site' => 'View Site',
         'logout' => 'Logout',
     ],

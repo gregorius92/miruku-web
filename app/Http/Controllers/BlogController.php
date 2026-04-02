@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $posts = Post::active()->latest()->paginate(9);
         
@@ -18,6 +18,10 @@ class BlogController extends Controller
             'description' => Setting::get('blog_meta_description', 'Baca artikel terbaru dari Miruku tentang kesehatan dan susu lactose-free.'),
             'keywords'    => Setting::get('blog_meta_keywords', 'blog, artikel, susu lactose free, miruku'),
         ];
+
+        if ($request->ajax()) {
+            return view('blog._blog_list', compact('posts'));
+        }
 
         return view('blog.index', compact('posts', 'seo'));
     }

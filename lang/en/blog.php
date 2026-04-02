@@ -10,4 +10,6 @@ return [
     'related_posts' => 'Related Articles',
     'empty_title' => 'No Articles Yet',
     'empty_subtitle' => 'Content is being prepared. Check back later!',
+    'loading' => 'Loading more articles...',
+    'all_loaded' => 'All articles have been displayed.',
 ];

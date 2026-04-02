@@ -110,6 +110,7 @@
                     x-effect="if(linkType !== 'custom' && !isCustom) customValue = linkType">
             </div>
         </div>
+        <div class="grid sm:grid-cols-2 gap-4">
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1.5">Gambar Slide *</label>
                 <input type="file" name="image" accept="image/*" required class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue file:mr-3 file:text-xs file:font-medium file:bg-blue-50 file:text-miruku-blue file:border-0 file:rounded-lg file:px-3 file:py-1.5">
@@ -131,9 +132,9 @@
             </label>
         </div>
 
-        <div class="flex justify-end gap-3 border-t border-gray-100 pt-6">
-            <a href="{{ route('admin.carousels.index') }}" class="px-6 py-2.5 border border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-colors text-sm">Batal</a>
-            <button type="submit" class="bg-miruku-blue hover:bg-miruku-dark text-white font-semibold px-6 py-2.5 rounded-xl transition-colors text-sm">Simpan Slide</button>
+        <div class="flex justify-end items-center gap-3 pt-6 border-t border-gray-100 mt-8">
+            <a href="{{ route('admin.carousels.index') }}" class="border border-gray-200 text-gray-600 hover:bg-gray-50 font-medium px-6 py-2.5 rounded-xl transition-colors text-sm">Batal</a>
+            <button type="submit" class="bg-miruku-blue hover:bg-miruku-dark text-white font-semibold px-6 py-2.5 rounded-xl transition-colors text-sm">Simpan Carousel</button>
         </div>
     </form>
 </div>

@@ -65,6 +65,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
 
     // Products
     Route::resource('products', Admin\ProductController::class);
+    Route::resource('variants', Admin\VariantController::class);
+    Route::resource('product_units', Admin\ProductUnitController::class);
 
     // Reviews
     Route::get('reviews', [Admin\ReviewController::class, 'index'])->name('reviews.index');

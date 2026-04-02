@@ -24,43 +24,25 @@
 <section class="bg-gray-50 py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         @if($posts->count() > 0)
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            @foreach($posts as $post)
-            <article class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group border border-gray-100 flex flex-col h-full" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-                <a href="{{ route('blog.show', $post) }}" class="relative block aspect-[16/10] overflow-hidden">
-                    <img src="{{ $post->image_url }}" alt="{{ $post->title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <div class="absolute top-4 left-4">
-                        <span class="bg-white/90 backdrop-blur-md text-miruku-blue text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
-                            {{ $post->published_at->format('M d, Y') }}
-                        </span>
-                    </div>
-                </a>
-                <div class="p-8 flex flex-col flex-1">
-                    <h2 class="text-xl font-bold text-gray-900 mb-4 group-hover:text-miruku-blue transition-colors">
-                        <a href="{{ route('blog.show', $post) }}">{{ $post->title }}</a>
-                    </h2>
-                    <div class="text-gray-500 text-sm mb-6 line-clamp-4">
-                        {!! Str::limit(strip_tags($post->content), 200) !!}
-                    </div>
-                    <div class="mt-auto pt-6 border-t border-gray-50 flex items-center justify-between">
-                        <a href="{{ route('blog.show', $post) }}" class="text-sm font-bold text-miruku-blue flex items-center gap-2 group/link">
-                            {{ __('blog.read_more') }}
-                            <svg class="w-4 h-4 transition-transform duration-300 group-hover/link:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                            </svg>
-                        </a>
-                        <span class="text-xs text-gray-400 flex items-center gap-1">
-                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                            {{ number_format($post->view_count) }}
-                        </span>
-                    </div>
-                </div>
-            </article>
-            @endforeach
+        <!-- Blog Grid -->
+        <div id="blog-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            @include('blog._blog_list')
         </div>
 
-        <div class="mt-12">
+        <!-- Loading Sentinel -->
+        <div id="loading-sentinel" class="mt-8 flex flex-col items-center justify-center space-y-4 py-8">
+            <div id="loading-spinner" class="hidden">
+                <div class="w-12 h-12 border-4 border-miruku-blue/20 border-t-miruku-blue rounded-full animate-spin"></div>
+                <p class="text-sm text-gray-400 font-medium mt-4">{{ __('blog.loading') }}</p>
+            </div>
+            <div id="end-of-content" class="hidden text-center mt-8">
+                <div class="text-3xl mb-2">✨</div>
+                <p class="text-gray-400 font-medium text-sm">{{ __('blog.all_loaded') }}</p>
+            </div>
+        </div>
+
+        <!-- Hidden Standard Pagination -->
+        <div id="pagination-wrapper" class="hidden">
             {{ $posts->links() }}
         </div>
         @else
@@ -72,4 +54,77 @@
         @endif
     </div>
 </section>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let nextPageUrl = document.querySelector('#pagination-wrapper a[rel="next"]')?.href;
+    const grid = document.querySelector('#blog-grid');
+    const sentinel = document.querySelector('#loading-sentinel');
+    const spinner = document.querySelector('#loading-spinner');
+    const endMessage = document.querySelector('#end-of-content');
+    
+    if (!nextPageUrl) {
+        if (grid && grid.children.length > 0) {
+            endMessage.classList.remove('hidden');
+        }
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && nextPageUrl) {
+            loadMorePosts();
+        }
+    }, {
+        rootMargin: '200px'
+    });
+
+    observer.observe(sentinel);
+
+    async function loadMorePosts() {
+        if (!nextPageUrl) return;
+        
+        const currentUrl = nextPageUrl;
+        nextPageUrl = null; 
+        
+        spinner.classList.remove('hidden');
+        
+        try {
+            const response = await fetch(currentUrl, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+            
+            if (!response.ok) throw new Error('Network response was not ok');
+            
+            const html = await response.text();
+            
+            if (html.trim().length > 0) {
+                grid.insertAdjacentHTML('beforeend', html);
+                
+                // Refresh AOS
+                if (typeof AOS !== 'undefined') {
+                    AOS.refresh();
+                }
+
+                // Increment page for next URL
+                const url = new URL(currentUrl);
+                let currentPage = parseInt(url.searchParams.get('page')) || 1;
+                url.searchParams.set('page', currentPage + 1);
+                nextPageUrl = url.toString();
+            } else {
+                nextPageUrl = null;
+                endMessage.classList.remove('hidden');
+            }
+            
+        } catch (error) {
+            console.error('Error loading more posts:', error);
+        } finally {
+            spinner.classList.add('hidden');
+        }
+    }
+});
+</script>
+@endpush
 @endsection

@@ -8,6 +8,16 @@ module.exports = {
         './resources/views/**/*.blade.php',
         './resources/js/**/*.js',
     ],
+    safelist: [
+        'bg-[#ee4d2d]',
+        'bg-[#03ac0e]',
+        'bg-[#0095da]',
+        'bg-[#e31e54]',
+        'bg-[#0f146d]',
+        'bg-black',
+        'bg-miruku-blue',
+        'bg-gray-600',
+    ],
 
     theme: {
         extend: {

@@ -10,4 +10,6 @@ return [
     'related_posts' => 'Artikel Terkait',
     'empty_title' => 'Belum Ada Artikel',
     'empty_subtitle' => 'Konten sedang dalam proses penulisan. Kembali lagi nanti ya!',
+    'loading' => 'Memuat artikel lainnya...',
+    'all_loaded' => 'Semua artikel telah ditampilkan.',
 ];
