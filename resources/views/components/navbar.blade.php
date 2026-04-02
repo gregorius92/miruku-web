@@ -100,6 +100,7 @@
                 ['id' => 'products', 'label' => __('navbar.products')],
                 ['id' => 'reviews', 'label' => __('navbar.reviews')],
                 ['id' => 'blog', 'label' => __('navbar.blog')],
+                ['id' => 'stores', 'label' => __('navbar.find_store')],
             ] as $link)
             <a href="{{ request()->routeIs('home') ? '#' . $link['id'] : route('home') . '#' . $link['id'] }}" 
                @click="mobileMenu = false"

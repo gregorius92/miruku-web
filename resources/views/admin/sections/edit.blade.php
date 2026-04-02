@@ -66,6 +66,23 @@
             @endif
         </div>
         @if($section->section_name === 'about')
+        <div class="grid sm:grid-cols-3 gap-4 bg-blue-50/20 p-5 rounded-2xl border border-blue-100/50">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1.5">Display Rating ⭐</label>
+                <input type="text" name="display_rating" value="{{ old('display_rating', $section->display_rating) }}" placeholder="Contoh: 4.9/5" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue">
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1.5">Total Ulasan (ID)</label>
+                <input type="text" name="display_reviews" id="display_reviews_id" value="{{ old('display_reviews', $section->getRawOriginal('display_reviews')) }}" placeholder="Contoh: Dari 1000+ Ulasan" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue">
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-blue-600 mb-1.5 flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                    Total Ulasan (EN)
+                </label>
+                <input type="text" name="display_reviews_en" id="display_reviews_en" value="{{ old('display_reviews_en', $section->display_reviews_en) }}" placeholder="Example: From 1000+ Reviews" class="w-full border border-blue-100 bg-blue-50/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue">
+            </div>
+        </div>
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1.5">Gambar</label>
             @if($section->image_url) <div class="mb-2"><img src="{{ $section->image_url }}" class="h-20 rounded-lg border border-gray-200"></div> @endif
@@ -215,6 +232,7 @@
 <script>
     autoTranslate('title_id', 'title_en');
     autoTranslate('subtitle_id', 'subtitle_en');
+    autoTranslate('display_reviews_id', 'display_reviews_en');
     autoTranslateSummernote('content', 'content_en');
 </script>
 @endsection

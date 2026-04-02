@@ -46,9 +46,32 @@
                 <label class="block text-sm font-semibold text-blue-500 mb-1.5">Tombol 1 (EN)</label>
                 <input type="text" name="button_text_en" id="button1_en" value="{{ old('button_text_en') }}" placeholder="Explore Products" class="w-full border border-blue-50 bg-blue-50/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue">
             </div>
-            <div class="lg:col-span-2">
+            <div class="lg:col-span-2" x-data="{ 
+                linkType: '{{ old('button_link', '/products') }}',
+                customValue: '{{ old('button_link', '/products') }}',
+                get isCustom() {
+                    return !['/', '/about', '/benefits-lactose-free', '/products', '/blog', '/#about', '/#why', '/#products', '/#reviews', '/#blog', '/#stores'].includes(this.linkType);
+                }
+            }">
                 <label class="block text-sm font-semibold text-gray-700 mb-1.5">Tombol 1 Link</label>
-                <input type="text" name="button_link" value="{{ old('button_link', '/products') }}" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue">
+                <select x-model="linkType" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue mb-2">
+                    <option value="/">Halaman Utama</option>
+                    <option value="/about">Tentang Miruku (Halaman)</option>
+                    <option value="/benefits-lactose-free">Manfaat Susu (Halaman)</option>
+                    <option value="/products">Semua Produk</option>
+                    <option value="/blog">Artikel Blog</option>
+                    <option value="/#about">Section: Tentang</option>
+                    <option value="/#why">Section: Manfaat</option>
+                    <option value="/#products">Section: Produk</option>
+                    <option value="/#reviews">Section: Review</option>
+                    <option value="/#blog">Section: Blog</option>
+                    <option value="/#stores">Section: Lokasi Toko</option>
+                    <option value="custom">Lainnya (Custom Link)</option>
+                </select>
+                <input type="text" name="button_link" x-model="customValue" x-show="linkType === 'custom' || isCustom" 
+                    :placeholder="linkType === 'custom' ? 'Masukkan link manual (contoh: /products/susu-cokelat)' : ''"
+                    class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue"
+                    x-effect="if(linkType !== 'custom' && !isCustom) customValue = linkType">
             </div>
             
             <div>
@@ -59,9 +82,32 @@
                 <label class="block text-sm font-semibold text-blue-500 mb-1.5">Tombol 2 (EN)</label>
                 <input type="text" name="button2_text_en" id="button2_en" value="{{ old('button2_text_en') }}" placeholder="Find Stores" class="w-full border border-blue-50 bg-blue-50/20 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue">
             </div>
-            <div class="lg:col-span-2">
+            <div class="lg:col-span-2" x-data="{ 
+                linkType: '{{ old('button2_link', '/#stores') }}',
+                customValue: '{{ old('button2_link', '/#stores') }}',
+                get isCustom() {
+                    return !['/', '/about', '/benefits-lactose-free', '/products', '/blog', '/#about', '/#why', '/#products', '/#reviews', '/#blog', '/#stores'].includes(this.linkType);
+                }
+            }">
                 <label class="block text-sm font-semibold text-gray-700 mb-1.5">Tombol 2 Link</label>
-                <input type="text" name="button2_link" value="{{ old('button2_link', '/#stores') }}" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue">
+                <select x-model="linkType" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue mb-2">
+                    <option value="/">Halaman Utama</option>
+                    <option value="/about">Tentang Miruku (Halaman)</option>
+                    <option value="/benefits-lactose-free">Manfaat Susu (Halaman)</option>
+                    <option value="/products">Semua Produk</option>
+                    <option value="/blog">Artikel Blog</option>
+                    <option value="/#about">Section: Tentang</option>
+                    <option value="/#why">Section: Manfaat</option>
+                    <option value="/#products">Section: Produk</option>
+                    <option value="/#reviews">Section: Review</option>
+                    <option value="/#blog">Section: Blog</option>
+                    <option value="/#stores">Section: Lokasi Toko</option>
+                    <option value="custom">Lainnya (Custom Link)</option>
+                </select>
+                <input type="text" name="button2_link" x-model="customValue" x-show="linkType === 'custom' || isCustom"
+                    :placeholder="linkType === 'custom' ? 'Masukkan link manual (contoh: /blog/judul-artikel)' : ''"
+                    class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue"
+                    x-effect="if(linkType !== 'custom' && !isCustom) customValue = linkType">
             </div>
         </div>
             <div>

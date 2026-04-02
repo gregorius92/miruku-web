@@ -33,6 +33,9 @@ class SectionController extends Controller
             'order'       => 'nullable|integer',
             'is_active'   => 'nullable',
             'image'       => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'display_rating' => 'nullable|string|max:255',
+            'display_reviews' => 'nullable|string|max:255',
+            'display_reviews_en' => 'nullable|string|max:255',
             
             // Features validation
             'features'               => 'nullable|array',

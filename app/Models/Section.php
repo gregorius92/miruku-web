@@ -11,11 +11,11 @@ class Section extends Model
 {
     use HasFactory, HasTranslations;
 
-    protected $translatable = ['title', 'subtitle', 'content'];
+    protected $translatable = ['title', 'subtitle', 'content', 'display_reviews'];
 
     protected $fillable = [
         'section_name', 'title', 'subtitle', 'content', 'image', 'order', 'is_active',
-        'title_en', 'subtitle_en', 'content_en',
+        'title_en', 'subtitle_en', 'content_en', 'display_rating', 'display_reviews', 'display_reviews_en',
     ];
 
     protected $casts = [

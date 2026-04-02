@@ -113,13 +113,13 @@
 
             <!-- Navigation -->
             <div
-                class="swiper-button-prev !text-white !w-14 !h-14 !bg-white/10 !rounded-full backdrop-blur-md after:hidden hover:!bg-white/20 transition-all duration-500 flex items-center justify-center group/nav shadow-2xl animate-float">
+                class="swiper-button-prev hidden md:flex !text-white !w-14 !h-14 !bg-white/10 !rounded-full backdrop-blur-md after:hidden hover:!bg-white/20 transition-all duration-500 items-center justify-center group/nav shadow-2xl animate-float">
                 <svg class="w-6 h-6 transition-transform duration-500 group-hover/nav:-translate-x-1" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
                 </svg>
             </div>
-            <div class="swiper-button-next !text-white !w-14 !h-14 !bg-white/10 !rounded-full backdrop-blur-md after:hidden hover:!bg-white/20 transition-all duration-500 flex items-center justify-center group/nav shadow-2xl animate-float"
+            <div class="swiper-button-next hidden md:flex !text-white !w-14 !h-14 !bg-white/10 !rounded-full backdrop-blur-md after:hidden hover:!bg-white/20 transition-all duration-500 items-center justify-center group/nav shadow-2xl animate-float"
                 style="animation-delay: 1.5s">
                 <svg class="w-6 h-6 transition-transform duration-500 group-hover/nav:translate-x-1" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -254,8 +254,8 @@
                                     class="w-12 h-12 bg-miruku-blue rounded-xl flex items-center justify-center text-white text-xl">
                                     ⭐</div>
                                 <div>
-                                    <p class="font-bold text-gray-900 text-xl">4.9/5</p>
-                                    <p class="text-gray-500 text-xs">{{ __('home.total_reviews') }}</p>
+                                    <p class="font-bold text-gray-900 text-xl">{{ $sections['about']->display_rating ?? '4.9/5' }}</p>
+                                    <p class="text-gray-500 text-xs">{{ $sections['about']->display_reviews ?? __('home.total_reviews') }}</p>
                                 </div>
                             </div>
                         </div>
