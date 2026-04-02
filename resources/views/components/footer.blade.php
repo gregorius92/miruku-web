@@ -57,11 +57,11 @@
                             <span class="w-2 h-2 rounded-full bg-green-400"></span> Tokopedia Official
                         </a>
                     </li>
-                    <li>
-                        <a href="/#stores" class="text-blue-50 hover:text-white text-sm transition-all duration-200 flex items-center gap-3">
-                            <span class="w-2 h-2 rounded-full bg-blue-300"></span> {{ __('footer.find_offline') }}
-                        </a>
-                    </li>
+                        <li>
+                            <a href="{{ route('home') }}#stores" class="text-blue-50 hover:text-white text-sm transition-all duration-200 flex items-center gap-3">
+                                <span class="w-2 h-2 rounded-full bg-blue-300"></span> {{ __('footer.find_offline') }}
+                            </a>
+                        </li>
                 </ul>
             </div>
 

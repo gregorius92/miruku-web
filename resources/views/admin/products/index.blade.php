@@ -31,9 +31,10 @@
                 <td class="px-5 py-4">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl overflow-hidden bg-blue-50 flex items-center justify-center text-xl flex-shrink-0">
-                            @if($product->image_url)
+                            @if($product->image)
                             <img src="{{ $product->image_url }}" alt="" class="w-full h-full object-cover">
-                            @else 🥛
+                            @else
+                            {{ $product->variantInfo->icon ?? '🥛' }}
                             @endif
                         </div>
                         <div class="truncate">

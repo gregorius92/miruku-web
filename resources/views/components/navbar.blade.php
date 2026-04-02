@@ -34,7 +34,7 @@
                 
 
                 <div class="flex items-center gap-4">
-                    <a href="#stores"
+                    <a href="{{ route('home') }}#stores"
                        class="text-sm font-medium transition-all duration-300 text-white/80 hover:text-white">
                         {{ __('navbar.find_store') }}
                     </a>
