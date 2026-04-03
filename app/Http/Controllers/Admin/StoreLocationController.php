@@ -31,9 +31,9 @@ class StoreLocationController extends Controller
             'province'   => 'nullable|string|max:100',
             'map_embed'  => 'nullable|string',
             'phone'      => 'nullable|string|max:30',
-            'open_time'  => 'nullable|date_format:H:i',
-            'close_time' => 'nullable|date_format:H:i',
-            'is_active'  => 'boolean',
+            'open_time'  => 'nullable',
+            'close_time' => 'nullable',
+            'is_active'  => 'nullable',
         ]);
 
         $data['is_active'] = $request->has('is_active');
@@ -49,25 +49,14 @@ class StoreLocationController extends Controller
 
     public function update(Request $request, StoreLocation $store)
     {
-        $data = $request->validate([
-            'name'       => 'required|string|max:255',
-            'name_en'    => 'nullable|string|max:255',
-            'address'    => 'required|string',
-            'address_en' => 'nullable|string',
-            'city'       => 'required|string|max:100',
-            'city_en'    => 'nullable|string|max:100',
-            'province'   => 'nullable|string|max:100',
-            'map_embed'  => 'nullable|string',
-            'phone'      => 'nullable|string|max:30',
-            'open_time'  => 'nullable|date_format:H:i',
-            'close_time' => 'nullable|date_format:H:i',
-            'is_active'  => 'boolean',
-        ]);
-
+        $data = $request->all();
+        
+        // Handle is_active checkbox manually
         $data['is_active'] = $request->has('is_active');
-
+        
         $store->update($data);
-        return redirect()->route('admin.stores.index')->with('success', 'Lokasi toko berhasil diperbarui!');
+        
+        return redirect()->route('admin.stores.index')->with('success', 'Lokasi Toko berhasil diperbarui.');
     }
 
     public function destroy(StoreLocation $store)

@@ -19,7 +19,7 @@
                     ['id' => 'why', 'label' => __('navbar.benefits')],
                     ['id' => 'products', 'label' => __('navbar.products')],
                     ['id' => 'reviews', 'label' => __('navbar.reviews')],
-                    ['id' => 'blog', 'label' => __('navbar.blog')],
+                    ['id' => 'articles', 'label' => __('navbar.blog')],
                 ] as $link)
                 <a href="{{ request()->routeIs('home') ? '#' . $link['id'] : route('home') . '#' . $link['id'] }}"
                    class="text-sm font-medium transition-all duration-300 hover:opacity-70 relative group text-white">
@@ -99,7 +99,7 @@
                 ['id' => 'why', 'label' => __('navbar.benefits')],
                 ['id' => 'products', 'label' => __('navbar.products')],
                 ['id' => 'reviews', 'label' => __('navbar.reviews')],
-                ['id' => 'blog', 'label' => __('navbar.blog')],
+                ['id' => 'articles', 'label' => __('navbar.blog')],
                 ['id' => 'stores', 'label' => __('navbar.find_store')],
             ] as $link)
             <a href="{{ request()->routeIs('home') ? '#' . $link['id'] : route('home') . '#' . $link['id'] }}" 

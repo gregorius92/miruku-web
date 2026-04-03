@@ -5,7 +5,7 @@ return [
     'products' => 'Produk',
     'about' => 'Tentang',
     'benefits' => 'Manfaat',
-    'blog' => 'Blog',
+    'blog' => 'Artikel',
     'find_store' => 'Cari Toko',
     'buy_now' => 'Beli Sekarang',
     'select_language' => 'Pilih Bahasa',

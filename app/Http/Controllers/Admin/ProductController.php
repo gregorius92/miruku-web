@@ -12,9 +12,21 @@ use App\Services\UploadService;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with(['variantInfo', 'unitInfo'])->latest()->paginate(15);
+        $query = Product::with(['variantInfo', 'unitInfo'])->latest();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('name_en', 'like', "%{$search}%")
+                  ->orWhere('slug', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        $products = $query->paginate(15)->withQueryString();
         return view('admin.products.index', compact('products'));
     }
 

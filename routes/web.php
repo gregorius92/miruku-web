@@ -27,10 +27,13 @@ Route::get('/lang/{locale}', function ($locale) {
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
 
-Route::get('/blog', [\App\Http\Controllers\BlogController::class, 'index'])->name('blog.index');
-Route::get('/blog/{post}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blog.show');
+Route::get('/articles', [\App\Http\Controllers\ArticleController::class, 'index'])->name('articles.index');
+Route::get('/articles/{post}', [\App\Http\Controllers\ArticleController::class, 'show'])->name('articles.show');
+Route::get('/blog', fn() => redirect()->route('articles.index', request()->query()), 301);
+Route::get('/blog/{post}', fn($post) => redirect()->route('articles.show', $post), 301);
 
 Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+Route::get('/stores', [\App\Http\Controllers\StoreController::class, 'index'])->name('stores.index');
 
 // Newsletter
 Route::post('/newsletter/subscribe', [\App\Http\Controllers\NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
@@ -80,8 +83,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     // Store Locations
     Route::resource('stores', Admin\StoreLocationController::class);
 
-    // Blog / Posts
-    Route::resource('posts', Admin\PostController::class);
+    // Articles
+    Route::resource('articles', Admin\PostController::class);
 
     // Sections
     Route::get('sections', [Admin\SectionController::class, 'index'])->name('sections.index');

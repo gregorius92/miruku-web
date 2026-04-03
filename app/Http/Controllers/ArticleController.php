@@ -7,23 +7,35 @@ use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class BlogController extends Controller
+class ArticleController extends Controller
 {
     public function index(Request $request)
     {
-        $posts = Post::active()->latest()->paginate(9);
+        $query = Post::active();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('title_en', 'like', "%{$search}%")
+                  ->orWhere('content', 'like', "%{$search}%")
+                  ->orWhere('content_en', 'like', "%{$search}%");
+            });
+        }
+
+        $posts = $query->latest()->paginate(9)->withQueryString();
         
         $seo = [
-            'title'       => Setting::get('blog_meta_title', 'Blog & Artikel — Miruku'),
+            'title'       => Setting::get('blog_meta_title', 'Artikel — Miruku'),
             'description' => Setting::get('blog_meta_description', 'Baca artikel terbaru dari Miruku tentang kesehatan dan susu lactose-free.'),
-            'keywords'    => Setting::get('blog_meta_keywords', 'blog, artikel, susu lactose free, miruku'),
+            'keywords'    => Setting::get('blog_meta_keywords', 'artikel, susu lactose free, miruku'),
         ];
 
         if ($request->ajax()) {
-            return view('blog._blog_list', compact('posts'));
+            return view('articles._article_list', compact('posts'));
         }
 
-        return view('blog.index', compact('posts', 'seo'));
+        return view('articles.index', compact('posts', 'seo'));
     }
 
     public function show(Post $post)
@@ -46,6 +58,6 @@ class BlogController extends Controller
             ->take(3)
             ->get();
 
-        return view('blog.show', compact('post', 'seo', 'relatedPosts'));
+        return view('articles.show', compact('post', 'seo', 'relatedPosts'));
     }
 }

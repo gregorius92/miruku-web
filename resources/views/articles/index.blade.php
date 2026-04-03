@@ -13,31 +13,51 @@
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
         <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 animate-slide-up">
-            {{ __('blog.title') }}
+            {{ __('articles.title') }}
         </h1>
-        <p class="text-xl text-white/80 max-w-2xl mx-auto animate-fade-in">
-            {{ __('blog.subtitle') }}
+        <p class="text-xl text-white/80 max-w-2xl mx-auto mb-10 animate-fade-in">
+            {{ __('articles.subtitle') }}
         </p>
+
+        <!-- Search Bar -->
+        <div class="max-w-xl mx-auto animate-slide-up-slow relative group">
+            <form action="{{ route('articles.index') }}" method="GET" class="relative">
+                <input type="text" name="search" value="{{ request('search') }}" 
+                       placeholder="{{ __('articles.search_placeholder') }}" 
+                       class="w-full bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 px-6 py-4 rounded-full focus:outline-none focus:ring-4 focus:ring-white/10 focus:bg-white/20 transition-all text-lg">
+                <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 bg-white text-miruku-blue p-2.5 rounded-full hover:scale-105 transition-transform shadow-lg">
+                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </button>
+            </form>
+            @if(request('search'))
+            <a href="{{ route('articles.index') }}" class="absolute -bottom-8 left-1/2 -translate-x-1/2 text-white/60 hover:text-white transition-colors text-xs font-bold uppercase tracking-widest flex items-center gap-1.5 ">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                {{ __('admin.common.reset') ?? 'Reset' }}
+            </a>
+            @endif
+        </div>
     </div>
 </section>
 
 <section class="bg-gray-50 py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         @if($posts->count() > 0)
-        <!-- Blog Grid -->
-        <div id="blog-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            @include('blog._blog_list')
+        <!-- Articles Grid -->
+        <div id="articles-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            @include('articles._article_list')
         </div>
 
         <!-- Loading Sentinel -->
         <div id="loading-sentinel" class="mt-8 flex flex-col items-center justify-center space-y-4 py-8">
             <div id="loading-spinner" class="hidden">
                 <div class="w-12 h-12 border-4 border-miruku-blue/20 border-t-miruku-blue rounded-full animate-spin"></div>
-                <p class="text-sm text-gray-400 font-medium mt-4">{{ __('blog.loading') }}</p>
+                <p class="text-sm text-gray-400 font-medium mt-4">{{ __('articles.loading') }}</p>
             </div>
             <div id="end-of-content" class="hidden text-center mt-8">
                 <div class="text-3xl mb-2">✨</div>
-                <p class="text-gray-400 font-medium text-sm">{{ __('blog.all_loaded') }}</p>
+                <p class="text-gray-400 font-medium text-sm">{{ __('articles.all_loaded') }}</p>
             </div>
         </div>
 
@@ -47,9 +67,18 @@
         </div>
         @else
         <div class="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-gray-200" data-aos="fade-up">
-            <div class="text-6xl mb-6">📝</div>
-            <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ __('blog.empty_title') }}</h3>
-            <p class="text-gray-500">{{ __('blog.empty_subtitle') }}</p>
+            @if(request('search'))
+                <div class="text-6xl mb-6">🔍</div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ __('articles.search_no_results') }}</h3>
+                <p class="text-gray-500 mb-8">{{ __('articles.empty_subtitle') }}</p>
+                <a href="{{ route('articles.index') }}" class="inline-flex items-center gap-2 bg-miruku-blue text-white font-bold px-8 py-3 rounded-full hover:bg-miruku-dark transition-all shadow-lg hover:shadow-miruku-blue/20">
+                    {{ __('articles.back_to_list') }}
+                </a>
+            @else
+                <div class="text-6xl mb-6">📝</div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ __('articles.empty_title') }}</h3>
+                <p class="text-gray-500">{{ __('articles.empty_subtitle') }}</p>
+            @endif
         </div>
         @endif
     </div>
@@ -59,7 +88,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     let nextPageUrl = document.querySelector('#pagination-wrapper a[rel="next"]')?.href;
-    const grid = document.querySelector('#blog-grid');
+    const grid = document.querySelector('#articles-grid');
     const sentinel = document.querySelector('#loading-sentinel');
     const spinner = document.querySelector('#loading-spinner');
     const endMessage = document.querySelector('#end-of-content');

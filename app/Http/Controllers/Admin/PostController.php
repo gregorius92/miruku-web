@@ -14,12 +14,12 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::latest()->paginate(15);
-        return view('admin.posts.index', compact('posts'));
+        return view('admin.articles.index', compact('posts'));
     }
 
     public function create()
     {
-        return view('admin.posts.create');
+        return view('admin.articles.create');
     }
 
     public function store(Request $request)
@@ -46,12 +46,12 @@ class PostController extends Controller
         }
 
         Post::create($data);
-        return redirect()->route('admin.posts.index')->with('success', __('admin.posts.created_success'));
+        return redirect()->route('admin.articles.index')->with('success', __('admin.posts.created_success'));
     }
 
     public function edit(Post $post)
     {
-        return view('admin.posts.edit', compact('post'));
+        return view('admin.articles.edit', compact('post'));
     }
 
     public function update(Request $request, Post $post)
@@ -78,7 +78,7 @@ class PostController extends Controller
         }
 
         $post->update($data);
-        return redirect()->route('admin.posts.index')->with('success', __('admin.posts.updated_success'));
+        return redirect()->route('admin.articles.index')->with('success', __('admin.posts.updated_success'));
     }
 
     public function destroy(Post $post)

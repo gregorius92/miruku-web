@@ -2,8 +2,7 @@
 
 @section('content')
 <article class="relative min-h-screen bg-white">
-    <!-- Post Header -->
-    <!-- Post Header -->
+    <!-- Article Header -->
     <header class="relative py-24 lg:py-32 overflow-hidden bg-miruku-blue miruku-pattern">
         <div class="absolute inset-0 bg-miruku-dark/20 pointer-events-none"></div>
         
@@ -23,7 +22,7 @@
             <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full text-white text-xs font-bold uppercase tracking-widest mb-8 border border-white/10 animate-fade-in">
                 {{ $post->published_at->format('d M Y') }}
                 <span class="w-1 h-1 rounded-full bg-white/50"></span>
-                {{ number_format($post->view_count) }} {{ __('blog.views') }}
+                {{ number_format($post->view_count) }} {{ __('articles.views') }}
             </div>
             <h1 class="text-4xl md:text-6xl font-bold text-white mb-8 leading-tight animate-slide-up">
                 {{ $post->title }}
@@ -38,21 +37,21 @@
             <img src="{{ $post->image_url }}" alt="{{ $post->title }}" class="w-full aspect-[16/9] object-cover">
         </div>
 
-        <!-- Post Body -->
+        <!-- Article Body -->
         <div class="prose prose-lg md:prose-xl max-w-none prose-miruku prose-img:rounded-3xl prose-headings:text-gray-900 prose-p:text-gray-600 prose-a:text-miruku-blue prose-strong:text-gray-900 mb-20" data-aos="fade-up">
             {!! $post->content !!}
         </div>
 
-        <!-- Author/Footer -->
+        <!-- Footer -->
         <div class="border-t border-gray-100 pt-10 flex flex-col sm:flex-row items-center justify-between gap-6" data-aos="fade-up">
-            <a href="{{ route('blog.index') }}" class="inline-flex items-center gap-2 group text-gray-500 hover:text-miruku-blue font-bold transition-colors">
+            <a href="{{ route('articles.index') }}" class="inline-flex items-center gap-2 group text-gray-500 hover:text-miruku-blue font-bold transition-colors">
                 <svg class="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/>
                 </svg>
-                {{ __('blog.back_to_list') }}
+                {{ __('articles.back_to_list') }}
             </a>
             <div class="flex items-center gap-4" x-data="{ copied: false }">
-                <p class="text-sm font-medium text-gray-400">{{ __('blog.share_this') }}:</p>
+                <p class="text-sm font-medium text-gray-400">{{ __('articles.share_this') }}:</p>
                 <div class="flex gap-2">
                     <!-- WhatsApp -->
                     <a href="https://wa.me/?text={{ urlencode($post->title . ' ' . url()->current()) }}" target="_blank" class="w-10 h-10 rounded-full border border-gray-100 flex items-center justify-center text-gray-400 hover:bg-green-50 hover:text-green-600 transition-all" title="Share to WhatsApp">
@@ -88,14 +87,14 @@
     </div>
 
     @if($relatedPosts->count() > 0)
-    <!-- Related Posts Section -->
+    <!-- Related Articles Section -->
     <section class="bg-gray-50 py-24 border-t border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold px-10 text-gray-900 mb-12 text-center" data-aos="fade-up">{{ __('blog.related_posts') }}</h2>
+            <h2 class="text-3xl font-bold px-10 text-gray-900 mb-12 text-center" data-aos="fade-up">{{ __('articles.related_posts') }}</h2>
             <div class="grid md:grid-cols-3 gap-8">
                 @foreach($relatedPosts as $related)
                 <article class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group border border-gray-100 flex flex-col h-full" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-                    <a href="{{ route('blog.show', $related) }}" class="relative block aspect-[16/10] overflow-hidden">
+                    <a href="{{ route('articles.show', $related) }}" class="relative block aspect-[16/10] overflow-hidden">
                         <img src="{{ $related->image_url }}" alt="{{ $related->title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                     </a>
@@ -104,7 +103,7 @@
                             {{ $related->published_at->format('M d, Y') }}
                         </div>
                         <h3 class="text-xl font-bold text-gray-900 group-hover:text-miruku-blue transition-colors line-clamp-2">
-                            <a href="{{ route('blog.show', $related) }}">{{ $related->title }}</a>
+                            <a href="{{ route('articles.show', $related) }}">{{ $related->title }}</a>
                         </h3>
                     </div>
                 </article>

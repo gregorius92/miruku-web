@@ -33,4 +33,22 @@ class StoreLocation extends Model
         }
         return $query;
     }
+
+    /**
+     * Get formatted city name.
+     * Kota Jakarta Selatan -> Jakarta Selatan
+     * Kabupaten Bekasi -> Kab. Bekasi
+     */
+    public function getFormattedCityAttribute()
+    {
+        $city = $this->city;
+        
+        // Remove "Kota " prefix
+        $city = preg_replace('/^kota\s+/i', '', $city);
+        
+        // Replace "Kabupaten " with "Kab. "
+        $city = preg_replace('/^kabupaten\s+/i', 'Kab. ', $city);
+        
+        return ucwords(strtolower($city));
+    }
 }

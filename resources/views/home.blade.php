@@ -702,10 +702,10 @@
     </section>
     
     {{-- =============================================
-     Blog / Latest Articles
+     Latest Articles
      ============================================= --}}
-    <section id="blog" class="py-24 lg:py-32 bg-white relative overflow-hidden">
-        <!-- Wave transition from Reviews to Blog -->
+    <section id="articles" class="py-24 lg:py-32 bg-white relative overflow-hidden">
+        <!-- Wave transition from Reviews to Articles -->
         <div class="absolute top-0 left-0 w-full overflow-hidden leading-[0] transform -translate-y-[99%]">
             <svg fill="white" class="relative block w-[calc(100%+1.3px)] h-[60px]" viewBox="0 0 1200 120"
                 preserveAspectRatio="none">
@@ -718,15 +718,15 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16" data-aos="fade-up">
                 <span class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.blog_badge') }}</span>
-                <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">{{ __('home.blog_title') }}</h2>
-                <p class="text-gray-500 mt-4 text-lg max-w-2xl mx-auto">{{ __('home.blog_subtitle') }}</p>
+                <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">{{ __('articles.title') }}</h2>
+                <p class="text-gray-500 mt-4 text-lg max-w-2xl mx-auto">{{ __('articles.subtitle') }}</p>
             </div>
 
             @if($posts->count() > 0)
             <div class="grid md:grid-cols-3 gap-8">
                 @foreach($posts as $post)
                 <article class="bg-gray-50 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group border border-gray-100 flex flex-col h-full" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-                    <a href="{{ route('blog.show', $post) }}" class="relative block aspect-[16/10] overflow-hidden">
+                    <a href="{{ route('articles.show', $post) }}" class="relative block aspect-[16/10] overflow-hidden">
                         <img src="{{ $post->image_url }}" alt="{{ $post->title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                         <div class="absolute top-4 left-4">
@@ -737,13 +737,13 @@
                     </a>
                     <div class="p-8 flex flex-col flex-1">
                         <h3 class="text-xl font-bold text-gray-900 mb-4 group-hover:text-miruku-blue transition-colors">
-                            <a href="{{ route('blog.show', $post) }}">{{ $post->title }}</a>
+                            <a href="{{ route('articles.show', $post) }}">{{ $post->title }}</a>
                         </h3>
                         <div class="text-gray-500 text-sm mb-6 line-clamp-4">
                             {!! Str::limit(strip_tags($post->content), 180) !!}
                         </div>
                         <div class="mt-auto pt-6 border-t border-gray-100 flex items-center justify-between">
-                            <a href="{{ route('blog.show', $post) }}" class="text-sm font-bold text-miruku-blue flex items-center gap-2 group/link">
+                            <a href="{{ route('articles.show', $post) }}" class="text-sm font-bold text-miruku-blue flex items-center gap-2 group/link">
                                 {{ __('home.read_more') }}
                                 <svg class="w-4 h-4 transition-transform duration-300 group-hover/link:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -755,7 +755,7 @@
                 @endforeach
             </div>
             <div class="text-center mt-12">
-                <a href="{{ route('blog.index') }}" class="inline-flex items-center gap-2 border-2 border-miruku-blue text-miruku-blue hover:bg-miruku-blue hover:text-white font-semibold px-8 py-4 rounded-full transition-all duration-300">
+                <a href="{{ route('articles.index') }}" class="inline-flex items-center gap-2 border-2 border-miruku-blue text-miruku-blue hover:bg-miruku-blue hover:text-white font-semibold px-8 py-4 rounded-full transition-all duration-300">
                     {{ __('home.view_all_articles') }}
                 </a>
             </div>
@@ -802,63 +802,75 @@
                                 :class="activeCity === '{{ $city }}' ? 'bg-miruku-blue text-white' :
                                     'bg-white text-gray-600 hover:bg-blue-50'"
                                 class="px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-200 border border-gray-200">
-                                {{ $city }}
+                                {{ ucwords(strtolower(preg_replace(['/^kota\s+/i', '/^kabupaten\s+/i'], ['', 'Kab. '], $city))) }}
                             </button>
                         @endforeach
                     </div>
 
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        @forelse($stores as $store)
-                            <div x-show="activeCity === 'all' || activeCity === '{{ $store->city }}'" x-transition
-                                data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}"
-                                class="bg-gray-50 rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300">
-                                @if ($store->map_embed)
-                                    <div class="h-40 bg-gray-200 overflow-hidden">
-                                        <iframe src="{{ $store->map_embed }}" class="w-full h-full border-0"
-                                            loading="lazy" title="{{ $store->name }} map"></iframe>
-                                    </div>
-                                @endif
-                                <div class="p-5">
-                                    <h3 class="font-bold text-gray-900 mb-2">{{ $store->name }}</h3>
-                                    <div class="space-y-2 text-sm text-gray-500">
-                                        <p class="flex items-start gap-2">
-                                            <svg class="w-4 h-4 text-miruku-blue flex-shrink-0 mt-0.5" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            </svg>
-                                            {{ $store->address }}, {{ $store->city }}
-                                        </p>
-                                        @if ($store->phone)
-                                            <p class="flex items-center gap-2">
-                                                <svg class="w-4 h-4 text-miruku-blue flex-shrink-0" fill="none"
+                        @php
+                            $storesByCity = $stores->groupBy('city');
+                        @endphp
+                        @foreach($storesByCity as $city => $cityStores)
+                            @foreach($cityStores->take(3) as $store)
+                                <div x-show="activeCity === 'all' || activeCity === '{{ $store->city }}'" x-transition
+                                    data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}"
+                                    class="bg-gray-50 rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300">
+                                    @if ($store->map_embed)
+                                        <div class="h-40 bg-gray-200 overflow-hidden">
+                                            <iframe src="{{ $store->map_embed }}" class="w-full h-full border-0"
+                                                loading="lazy" title="{{ $store->name }} map"></iframe>
+                                        </div>
+                                    @endif
+                                    <div class="p-5">
+                                        <h3 class="font-bold text-gray-900 mb-2">{{ $store->name }}</h3>
+                                        <div class="space-y-2 text-sm text-gray-500">
+                                            <p class="flex items-start gap-2">
+                                                <svg class="w-4 h-4 text-miruku-blue flex-shrink-0 mt-0.5" fill="none"
                                                     viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                                                </svg>
-                                                {{ $store->phone }}
-                                            </p>
-                                        @endif
-                                        @if ($store->open_time && $store->close_time)
-                                            <p class="flex items-center gap-2">
-                                                <svg class="w-4 h-4 text-miruku-blue flex-shrink-0" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
+                                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 </svg>
-                                                {{ \Carbon\Carbon::parse($store->open_time)->format('H:i') }} –
-                                                {{ \Carbon\Carbon::parse($store->close_time)->format('H:i') }}
+                                                {{ $store->address }}, {{ $store->formatted_city }}
                                             </p>
-                                        @endif
+                                            @if ($store->phone)
+                                                <p class="flex items-center gap-2">
+                                                    <svg class="w-4 h-4 text-miruku-blue flex-shrink-0" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                                    </svg>
+                                                    {{ $store->phone }}
+                                                </p>
+                                            @endif
+                                            @if ($store->open_time && $store->close_time)
+                                                <p class="flex items-center gap-2">
+                                                    <svg class="w-4 h-4 text-miruku-blue flex-shrink-0" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                    {{ \Carbon\Carbon::parse($store->open_time)->format('H:i') }} –
+                                                    {{ \Carbon\Carbon::parse($store->close_time)->format('H:i') }}
+                                                </p>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @empty
-                            <div class="col-span-full text-center py-12 text-gray-400">{{ __('home.store_coming_soon') }}
-                            </div>
-                        @endforelse
+                            @endforeach
+                        @endforeach
+                    </div>
+
+                    <div class="text-center mt-12" data-aos="fade-up">
+                        <a href="{{ route('stores.index') }}"
+                            class="inline-flex items-center gap-2 border-2 border-miruku-blue text-miruku-blue hover:bg-miruku-blue hover:text-white font-semibold px-8 py-3.5 rounded-full transition-all duration-300">
+                            {{ __('home.view_all_locations') ?? 'Liat Semua Lokasi' }}
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </a>
                     </div>
                 </div>
             @else
@@ -925,15 +937,36 @@
                 style="animation-delay: 200ms">
                 {!! $sections['cta']->subtitle ?? __('home.join_customers') !!}
             </p>
-            <div class="flex flex-wrap justify-center gap-6 animate-slide-up" style="animation-delay: 300ms">
-                <a href="{{ route('products.index') }}"
-                    class="inline-flex items-center gap-2 bg-white text-miruku-blue font-bold px-10 py-4 rounded-full hover:bg-blue-50 transition-all duration-300 hover:scale-105 shadow-[0_10px_30px_-5px_rgba(255,255,255,0.3)] text-lg">
-                    {{ __('home.buy_now') }}
-                </a>
-                <a href="#stores"
-                    class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/30 text-white font-bold px-10 py-4 rounded-full hover:bg-white/20 transition-all duration-300 hover:scale-105 text-lg">
-                    {{ __('home.find_store') }}
-                </a>
+
+            <!-- Optimized Newsletter Form -->
+            <div class="max-w-xl mx-auto pt-8 animate-fade-in" style="animation-delay: 400ms">
+                <div class="relative z-10 text-center">
+                    <p class="text-blue-50 text-sm mb-6 opacity-80 tracking-widest uppercase font-bold">
+                        {{ __('footer.newsletter_description') }}
+                    </p>
+
+                    <div class="bg-white/10 backdrop-blur-md p-1.5 rounded-[2rem] border border-white/20 shadow-2xl relative group transition-all duration-500 hover:border-white/40">
+                        <form id="newsletter-form" class="flex flex-col sm:flex-row gap-2">
+                            @csrf
+                            <input type="email" name="email" placeholder="{{ __('footer.email_placeholder') }}" id="newsletter-email" required
+                                   class="flex-1 bg-transparent border-none text-white placeholder-blue-100 px-6 py-4 focus:outline-none focus:ring-0 text-base">
+                            
+                            <button type="submit" id="newsletter-submit" 
+                                    class="bg-white text-miruku-blue hover:bg-blue-50 px-10 py-4 rounded-[1.5rem] font-bold transition-all shadow-xl hover:shadow-white/20 flex items-center justify-center gap-2 group/btn whitespace-nowrap text-base active:scale-95">
+                                <span id="submit-text">{{ __('footer.join') }}</span>
+                                <span id="submit-loader" class="hidden w-5 h-5 border-3 border-miruku-blue border-t-transparent rounded-full animate-spin"></span>
+                                <svg class="w-5 h-5 transition-transform group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="mt-6 flex flex-col items-center gap-4">
+                        <div class="g-recaptcha scale-90 sm:scale-100" data-sitekey="{{ config('services.recaptcha.site_key') }}" data-theme="dark"></div>
+                        <p id="newsletter-message" class="text-sm font-medium hidden animate-fade-in text-shadow-premium"></p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

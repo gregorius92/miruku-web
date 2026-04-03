@@ -1,4 +1,4 @@
-<footer class="miruku-wavy miruku-pattern text-white relative overflow-hidden">
+<footer x-data="{ privacyModal: false, termsModal: false }" class="miruku-wavy miruku-pattern text-white relative overflow-hidden">
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
             <!-- Brand -->
@@ -26,15 +26,16 @@
             <!-- Navigation -->
             <div>
                 <h3 class="text-white font-bold mb-6 text-sm uppercase tracking-widest border-b border-white/20 pb-2 inline-block">{{ __('footer.menu') }}</h3>
-                <ul class="space-y-4">
+                <ul class="space-y-4 list-none">
                     @foreach([
                         ['route' => 'home', 'label' => __('footer.home')],
                         ['route' => 'products.index', 'label' => __('footer.products')],
+                        ['route' => 'articles.index', 'label' => __('footer.articles')],
                         ['route' => 'about', 'label' => __('footer.about')],
                         ['route' => 'benefits', 'label' => __('footer.benefits')],
                     ] as $link)
                     <li>
-                        <a href="{{ route($link['route']) }}" class="text-blue-50 hover:text-white text-sm transition-all duration-200 flex items-center gap-2 group">
+                        <a href="{{ route($link['route']) }}" class="text-blue-50 hover:text-white text-sm transition-all duration-200 flex items-center gap-3 group">
                             <span class="w-1.5 h-1.5 rounded-full bg-blue-300 group-hover:bg-white transition-colors"></span>
                             {{ $link['label'] }}
                         </a>
@@ -46,7 +47,7 @@
             <!-- Shop -->
             <div>
                 <h3 class="text-white font-bold mb-6 text-sm uppercase tracking-widest border-b border-white/20 pb-2 inline-block">{{ __('footer.shop_online') }}</h3>
-                <ul class="space-y-4">
+                <ul class="space-y-4 list-none">
                     <li>
                         <a href="{{ $global_seo['shopee_link'] ?? '#' }}" class="text-blue-50 hover:text-white text-sm transition-all duration-200 flex items-center gap-3">
                             <span class="w-2 h-2 rounded-full bg-orange-400"></span> Shopee Official
@@ -57,15 +58,15 @@
                             <span class="w-2 h-2 rounded-full bg-green-400"></span> Tokopedia Official
                         </a>
                     </li>
-                        <li>
-                            <a href="{{ route('home') }}#stores" class="text-blue-50 hover:text-white text-sm transition-all duration-200 flex items-center gap-3">
-                                <span class="w-2 h-2 rounded-full bg-blue-300"></span> {{ __('footer.find_offline') }}
-                            </a>
-                        </li>
+                    <li>
+                        <a href="{{ route('home') }}#stores" class="text-blue-50 hover:text-white text-sm transition-all duration-200 flex items-center gap-3">
+                            <span class="w-2 h-2 rounded-full bg-blue-300"></span> {{ __('footer.find_offline') }}
+                        </a>
+                    </li>
                 </ul>
             </div>
 
-            <!-- Newsletter -->
+            <!-- Contact Us -->
             <div>
                 <h3 class="text-white font-bold mb-6 text-sm uppercase tracking-widest border-b border-white/20 pb-2 inline-block">{{ __('footer.contact_us') }}</h3>
                 <div class="space-y-4 mb-6">
@@ -78,31 +79,142 @@
                         {{ $global_seo['contact_phone'] ?? '+62 812-3456-7890' }}
                     </p>
                 </div>
-                <form id="newsletter-form" class="space-y-3">
-                    @csrf
-                    <div class="flex gap-2">
-                        <input type="email" name="email" placeholder="{{ __('footer.email_placeholder') }}" id="newsletter-email" required
-                               class="flex-1 bg-white/10 border border-white/20 text-white placeholder-blue-200 text-sm px-4 py-3 rounded-lg focus:outline-none focus:bg-white/20 transition-all">
-                        <button type="submit" id="newsletter-submit" class="bg-white text-miruku-blue hover:bg-blue-50 px-5 py-3 rounded-lg text-sm font-bold transition-all shadow-lg flex items-center gap-2">
-                            <span id="submit-text">{{ __('footer.join') }}</span>
-                            <span id="submit-loader" class="hidden w-4 h-4 border-2 border-miruku-blue border-t-transparent rounded-full animate-spin"></span>
-                        </button>
-                    </div>
-                    <div class="g-recaptcha" data-sitekey="{{ config('services.recaptcha.site_key') }}" data-theme="dark"></div>
-                    <p id="newsletter-message" class="text-xs mt-2 hidden"></p>
-                </form>
             </div>
         </div>
 
         <!-- Bottom bar -->
         <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
             <p class="text-blue-100 text-xs opacity-70">
-                &copy; {{ date('Y') }} {{ $global_seo['site_name'] ?? 'Miruku' }}. {{ __('footer.rights_reserved') }}
+                {{ __('footer.rights_reserved') }}
             </p>
             <div class="flex gap-8">
-                <a href="#" class="text-blue-100 hover:text-white text-xs opacity-70 transition-colors uppercase tracking-widest">Privacy</a>
-                <a href="#" class="text-blue-100 hover:text-white text-xs opacity-70 transition-colors uppercase tracking-widest">Terms</a>
+                <a href="javascript:void(0)" @click="privacyModal = true" class="text-blue-100 hover:text-white text-xs opacity-70 transition-colors uppercase tracking-widest">{{ __('footer.privacy_title') }}</a>
+                <a href="javascript:void(0)" @click="termsModal = true" class="text-blue-100 hover:text-white text-xs opacity-70 transition-colors uppercase tracking-widest">{{ __('footer.terms_title') }}</a>
                 <a href="{{ route('admin.dashboard') }}" class="text-blue-200 hover:text-white text-xs opacity-50 transition-colors">Access</a>
+            </div>
+        </div>
+
+        <!-- Privacy Policy Modal -->
+        <div x-show="privacyModal" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="fixed inset-0 z-[100] overflow-y-auto" 
+             style="display: none;"
+             @keydown.window.escape="privacyModal = false">
+            <div class="flex items-center justify-center min-h-screen p-4">
+                <div class="fixed inset-0 bg-miruku-dark/80 backdrop-blur-sm" @click="privacyModal = false"></div>
+                
+                <div x-show="privacyModal"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                     x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                     class="bg-white rounded-3xl overflow-hidden shadow-2xl transform transition-all w-full max-w-2xl relative z-[101]">
+                    <div class="p-8 lg:p-12">
+                        <div class="flex justify-between items-start mb-8">
+                            <h2 class="text-4xl font-bold text-gray-900 font-cormorant">{{ __('footer.privacy_title') }}</h2>
+                            <button @click="privacyModal = false" class="text-gray-400 hover:text-gray-600 transition-colors">
+                                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <div class="space-y-6 text-gray-600 leading-relaxed max-h-[60vh] overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-gray-200 text-left">
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-2 uppercase tracking-wide text-xs italic">{{ __('footer.privacy_p1_title') }}</h4>
+                                <p>{{ __('footer.privacy_p1_text') }}</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-2 uppercase tracking-wide text-xs italic">{{ __('footer.privacy_p2_title') }}</h4>
+                                <p>{{ __('footer.privacy_p2_text') }}</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-2 uppercase tracking-wide text-xs italic">{{ __('footer.privacy_p3_title') }}</h4>
+                                <p>{{ __('footer.privacy_p3_text') }}</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-2 uppercase tracking-wide text-xs italic">{{ __('footer.privacy_p4_title') }}</h4>
+                                <p>{{ __('footer.privacy_p4_text') }}</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-2 uppercase tracking-wide text-xs italic">{{ __('footer.privacy_p5_title') }}</h4>
+                                <p>{{ __('footer.privacy_p5_text') }}</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-10">
+                            <button @click="privacyModal = false" class="w-full bg-miruku-blue hover:bg-miruku-dark text-white font-bold py-4 rounded-2xl transition-all shadow-lg hover:shadow-miruku-blue/30">
+                                {{ __('footer.close') }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Terms of Service Modal -->
+        <div x-show="termsModal" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="fixed inset-0 z-[100] overflow-y-auto" 
+             style="display: none;"
+             @keydown.window.escape="termsModal = false">
+            <div class="flex items-center justify-center min-h-screen p-4">
+                <div class="fixed inset-0 bg-miruku-dark/80 backdrop-blur-sm" @click="termsModal = false"></div>
+                
+                <div x-show="termsModal"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                     x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                     class="bg-white rounded-3xl overflow-hidden shadow-2xl transform transition-all w-full max-w-2xl relative z-[101]">
+                    <div class="p-8 lg:p-12">
+                        <div class="flex justify-between items-start mb-8">
+                            <h2 class="text-4xl font-bold text-gray-900 font-cormorant">{{ __('footer.terms_title') }}</h2>
+                            <button @click="termsModal = false" class="text-gray-400 hover:text-gray-600 transition-colors">
+                                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <div class="space-y-6 text-gray-600 leading-relaxed max-h-[60vh] overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-gray-200 text-left">
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-2 uppercase tracking-wide text-xs italic">{{ __('footer.terms_p1_title') }}</h4>
+                                <p>{{ __('footer.terms_p1_text') }}</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-2 uppercase tracking-wide text-xs italic">{{ __('footer.terms_p2_title') }}</h4>
+                                <p>{{ __('footer.terms_p2_text') }}</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-2 uppercase tracking-wide text-xs italic">{{ __('footer.terms_p3_title') }}</h4>
+                                <p>{{ __('footer.terms_p3_text') }}</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-2 uppercase tracking-wide text-xs italic">{{ __('footer.terms_p4_title') }}</h4>
+                                <p>{{ __('footer.terms_p4_text') }}</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 mb-2 uppercase tracking-wide text-xs italic">{{ __('footer.terms_p5_title') }}</h4>
+                                <p>{{ __('footer.terms_p5_text') }}</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-10">
+                            <button @click="termsModal = false" class="w-full bg-miruku-blue hover:bg-miruku-dark text-white font-bold py-4 rounded-2xl transition-all shadow-lg hover:shadow-miruku-blue/30">
+                                {{ __('footer.understand') }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

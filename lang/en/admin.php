@@ -9,7 +9,7 @@ return [
         'carousels' => 'Carousels',
         'sections' => 'Sections',
         'stores' => 'Stores',
-        'posts' => 'Blog / Articles',
+        'posts' => 'Articles',
         'settings' => 'Settings',
         'newsletter' => 'Newsletter',
         'variants' => 'Product Variants',
@@ -125,7 +125,7 @@ return [
         ],
     ],
     'posts' => [
-        'title' => 'Blog & Articles',
+        'title' => 'Articles',
         'subtitle' => 'Manage Miruku news and latest articles',
         'add' => 'Add Article',
         'edit' => 'Edit Article',

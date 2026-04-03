@@ -1,6 +1,6 @@
 @foreach($posts as $post)
 <article class="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group border border-gray-100 flex flex-col h-full" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-    <a href="{{ route('blog.show', $post) }}" class="relative block aspect-[16/10] overflow-hidden">
+    <a href="{{ route('articles.show', $post) }}" class="relative block aspect-[16/10] overflow-hidden">
         <img src="{{ $post->image_url }}" alt="{{ $post->title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         <div class="absolute top-4 left-4">
@@ -11,14 +11,14 @@
     </a>
     <div class="p-8 flex flex-col flex-1">
         <h2 class="text-xl font-bold text-gray-900 mb-4 group-hover:text-miruku-blue transition-colors">
-            <a href="{{ route('blog.show', $post) }}">{{ $post->title }}</a>
+            <a href="{{ route('articles.show', $post) }}">{{ $post->title }}</a>
         </h2>
         <div class="text-gray-500 text-sm mb-6 line-clamp-4">
             {!! Str::limit(strip_tags($post->content), 200) !!}
         </div>
-        <div class="mt-auto pt-6 border-t border-gray-50 flex items-center justify-between">
-            <a href="{{ route('blog.show', $post) }}" class="text-sm font-bold text-miruku-blue flex items-center gap-2 group/link">
-                {{ __('blog.read_more') }}
+        <div class="mt-auto pt-6 border-t border-gray-100 flex items-center justify-between">
+            <a href="{{ route('articles.show', $post) }}" class="text-sm font-bold text-miruku-blue flex items-center gap-2 group/link">
+                {{ __('articles.read_more') }}
                 <svg class="w-4 h-4 transition-transform duration-300 group-hover/link:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                 </svg>
