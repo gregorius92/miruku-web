@@ -12,6 +12,13 @@
     <meta name="keywords" content="{{ $seo['keywords'] ?? ($global_seo['meta_keywords'] ?? 'susu lactose free, susu sehat, miruku') }}">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="{{ url()->current() }}">
+    <link rel="author" href="humans.txt">
+    <meta name="author" content="Fajar Septian">
+
+    <!-- 
+        Designed & Developed by Fajar Septian
+        LinkedIn: https://www.linkedin.com/in/fajar-septian-229b0173/
+    -->
 
     <!-- Open Graph -->
     <meta property="og:title" content="{{ $seo['title'] ?? ($global_seo['meta_title'] ?? 'Miruku') }}">
