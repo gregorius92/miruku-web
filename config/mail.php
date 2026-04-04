@@ -78,6 +78,13 @@ return [
                 'log',
             ],
         ],
+
+        'mailtrap' => [
+            'transport' => 'mailtrap',
+            'api_key' => env('MAILTRAP_API_KEY'),
+            'inbox_id' => env('MAILTRAP_INBOX_ID'),
+            'is_sandbox' => env('MAILTRAP_IS_SANDBOX', true),
+        ],
     ],
 
     /*

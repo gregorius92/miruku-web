@@ -4,6 +4,12 @@
     "description": "Miruku - Premium Lactose-Free Milk Brand Website",
     "keywords": ["miruku", "lactose-free", "milk"],
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Fajar Septian",
+            "homepage": "https://www.linkedin.com/in/fajar-septian-229b0173/"
+        }
+    ],
     "require": {
         "php": "^8.2",
         "guzzlehttp/guzzle": "^7.2",
@@ -12,8 +18,12 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "league/flysystem-aws-s3-v3": "^3.0",
+        "nyholm/psr7": "^1.8",
+        "railsware/mailtrap-php": "^3.11",
         "spatie/laravel-sitemap": "^7.0",
-        "stichoza/google-translate-php": "^5.3"
+        "stichoza/google-translate-php": "^5.3",
+        "symfony/http-client": "^7.4",
+        "symfony/mailer": "^7.4"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
