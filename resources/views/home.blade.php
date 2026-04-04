@@ -798,22 +798,27 @@
                             {{ __('home.all_cities') }}
                         </button>
                         @foreach ($cities as $city)
+                            @php
+                                // Get a sample store for this city to use its formatted_city attribute
+                                $sampleStore = $stores->firstWhere(fn($s) => $s->getRawOriginal('city') === $city);
+                                $displayCity = $sampleStore ? $sampleStore->formatted_city : $city;
+                            @endphp
                             <button @click="activeCity = '{{ $city }}'"
                                 :class="activeCity === '{{ $city }}' ? 'bg-miruku-blue text-white' :
                                     'bg-white text-gray-600 hover:bg-blue-50'"
                                 class="px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-200 border border-gray-200">
-                                {{ ucwords(strtolower(preg_replace(['/^kota\s+/i', '/^kabupaten\s+/i'], ['', 'Kab. '], $city))) }}
+                                {{ $displayCity }}
                             </button>
                         @endforeach
                     </div>
 
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                         @php
-                            $storesByCity = $stores->groupBy('city');
+                            $storesByCity = $stores->groupBy(fn($s) => $s->getRawOriginal('city'));
                         @endphp
-                        @foreach($storesByCity as $city => $cityStores)
+                        @foreach($storesByCity as $cityKey => $cityStores)
                             @foreach($cityStores->take(3) as $store)
-                                <div x-show="activeCity === 'all' || activeCity === '{{ $store->city }}'" x-transition
+                                <div x-show="activeCity === 'all' || activeCity === '{{ $cityKey }}'" x-transition
                                     data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}"
                                     class="bg-gray-50 rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300">
                                     @if ($store->map_embed)
