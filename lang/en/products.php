@@ -5,6 +5,7 @@ return [
     'hero_title' => 'All Miruku Products',
     'hero_subtitle' => 'Choose your favorite variant — all 0% lactose, 100% premium.',
     'filter_all' => 'All',
+    'all_categories' => 'All Categories',
     'best_seller' => 'Best Seller',
     'view_detail' => 'View Detail',
     'not_found' => 'Product not found.',

@@ -254,8 +254,10 @@
                                     class="w-12 h-12 bg-miruku-blue rounded-xl flex items-center justify-center text-white text-xl">
                                     ⭐</div>
                                 <div>
-                                    <p class="font-bold text-gray-900 text-xl">{{ $sections['about']->display_rating ?? '4.9/5' }}</p>
-                                    <p class="text-gray-500 text-xs">{{ $sections['about']->display_reviews ?? __('home.total_reviews') }}</p>
+                                    <p class="font-bold text-gray-900 text-xl">
+                                        {{ $sections['about']->display_rating ?? '4.9/5' }}</p>
+                                    <p class="text-gray-500 text-xs">
+                                        {{ $sections['about']->display_reviews ?? __('home.total_reviews') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -347,7 +349,8 @@
                 <p class="text-gray-500 mt-4 text-lg">{{ __('home.comparison_subtitle') }}</p>
             </div>
 
-            <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100" data-aos="fade-up" data-aos-delay="100">
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100" data-aos="fade-up"
+                data-aos-delay="100">
                 <div class="grid grid-cols-3 bg-gradient-to-r from-miruku-blue to-miruku-dark text-white">
                     <div class="p-6 text-center font-semibold">{{ __('home.feature') }}</div>
                     <div class="p-6 text-center font-bold text-lg border-x border-white/20">
@@ -399,7 +402,7 @@
     {{-- =============================================
      5. PRODUCTS SECTION
      ============================================= --}}
-    <section id="products" x-data="{ 
+    <section id="products" x-data="{
         activeUnit: 'all',
         products: @js($products->map(fn($p) => ['id' => $p->id, 'unit' => $p->unit])),
         get visibleIds() {
@@ -429,17 +432,20 @@
                 <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">{{ __('home.collection_title') }}
                 </h2>
                 <p class="text-gray-500 mt-4 text-lg max-w-2xl mx-auto">{{ __('home.collection_subtitle') }}</p>
-                
+
                 <!-- Filter Units/Categories -->
                 <div class="flex flex-wrap justify-center gap-3 mt-10">
-                    <button @click="activeUnit = 'all'" 
-                        :class="activeUnit === 'all' ? 'bg-miruku-blue text-white shadow-lg shadow-miruku-blue/20' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+                    <button @click="activeUnit = 'all'"
+                        :class="activeUnit === 'all' ? 'bg-miruku-blue text-white shadow-lg shadow-miruku-blue/20' :
+                            'bg-gray-100 text-gray-600 hover:bg-gray-200'"
                         class="px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300">
-                        All
+                        {{ __('products.all_categories') }}
                     </button>
-                    @foreach($units as $u)
-                        <button @click="activeUnit = '{{ $u->slug }}'" 
-                            :class="activeUnit === '{{ $u->slug }}' ? 'bg-miruku-blue text-white shadow-lg shadow-miruku-blue/20' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+                    @foreach ($units as $u)
+                        <button @click="activeUnit = '{{ $u->slug }}'"
+                            :class="activeUnit === '{{ $u->slug }}' ?
+                                'bg-miruku-blue text-white shadow-lg shadow-miruku-blue/20' :
+                                'bg-gray-100 text-gray-600 hover:bg-gray-200'"
                             class="px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300">
                             {{ $u->name }}
                         </button>
@@ -449,11 +455,11 @@
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse($products as $product)
-                    <div x-show="visibleIds.includes({{ $product->id }})" 
+                    <div x-show="visibleIds.includes({{ $product->id }})"
                         x-transition:enter="transition ease-out duration-300"
                         x-transition:enter-start="opacity-0 transform scale-95"
-                        x-transition:enter-end="opacity-100 transform scale-100"
-                        data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}"
+                        x-transition:enter-end="opacity-100 transform scale-100" data-aos="fade-up"
+                        data-aos-delay="{{ ($loop->index % 3) * 100 }}"
                         class="group relative bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-100">
                         <!-- Image -->
                         <div
@@ -468,7 +474,8 @@
                                         <div class="text-7xl mb-2">
                                             {{ $product->variantInfo->icon ?? '🥛' }}
                                         </div>
-                                        <p class="text-sm font-medium text-gray-400">{{ $product->variantInfo->name ?? ucfirst($product->variant) }}</p>
+                                        <p class="text-sm font-medium text-gray-400">
+                                            {{ $product->variantInfo->name ?? ucfirst($product->variant) }}</p>
                                     </div>
                                 </div>
                             @endif
@@ -542,7 +549,8 @@
     {{-- =============================================
      6. CUSTOMER REVIEWS
      ============================================= --}}
-    <section id="reviews" x-data="{ activeReview: null }" class="py-24 lg:py-32 bg-miruku-blue miruku-pattern overflow-hidden relative text-white">
+    <section id="reviews" x-data="{ activeReview: null }"
+        class="py-24 lg:py-32 bg-miruku-blue miruku-pattern overflow-hidden relative text-white">
         <!-- Wave transition from Products to Reviews -->
         <div class="absolute top-0 left-0 w-full overflow-hidden leading-[0] transform -translate-y-[99%]">
             <svg fill="#3474a2" class="relative block w-[calc(100%+1.3px)] h-[60px]" viewBox="0 0 1200 120"
@@ -557,7 +565,8 @@
             <div class="text-center mb-16 px-4">
                 <span
                     class="text-blue-200 font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.customer_reviews') }}</span>
-                <h2 class="text-4xl lg:text-5xl font-bold text-white font-cormorant text-shadow-premium">{{ __('home.what_they_say') }}
+                <h2 class="text-4xl lg:text-5xl font-bold text-white font-cormorant text-shadow-premium">
+                    {{ __('home.what_they_say') }}
                 </h2>
                 <p class="text-blue-100 mt-4 text-lg opacity-80">{{ __('home.satisfied_customers') }}</p>
             </div>
@@ -568,8 +577,7 @@
                     <div class="swiper-wrapper pb-10">
                         @foreach ($reviews as $review)
                             <div class="swiper-slide h-auto">
-                                <div
-                                    @click="activeReview = { name: '{{ addslashes($review->name) }}', rating: {{ $review->rating }}, comment: {{ json_encode($review->comment) }} }; $dispatch('open-modal', 'review-detail')"
+                                <div @click="activeReview = { name: '{{ addslashes($review->name) }}', rating: {{ $review->rating }}, comment: {{ json_encode($review->comment) }} }; $dispatch('open-modal', 'review-detail')"
                                     class="bg-white/10 backdrop-blur-md rounded-3xl p-8 h-full border border-white/10 hover:border-white/40 hover:bg-white/20 hover:shadow-2xl hover:shadow-black/20 transition-all duration-500 cursor-pointer group flex flex-col">
                                     <!-- Stars -->
                                     <div class="flex gap-1 mb-4">
@@ -582,7 +590,8 @@
                                         @endfor
                                     </div>
                                     <!-- Comment -->
-                                    <p class="text-blue-50 leading-relaxed mb-6 text-base italic line-clamp-3 flex-grow opacity-90">
+                                    <p
+                                        class="text-blue-50 leading-relaxed mb-6 text-base italic line-clamp-3 flex-grow opacity-90">
                                         "{{ $review->comment }}"</p>
                                     <!-- Author -->
                                     <div class="flex items-center gap-3 mt-auto">
@@ -591,7 +600,9 @@
                                             {{ strtoupper(substr($review->name, 0, 1)) }}
                                         </div>
                                         <div>
-                                            <p class="font-semibold text-white group-hover:text-blue-200 transition-colors">{{ $review->name }}</p>
+                                            <p
+                                                class="font-semibold text-white group-hover:text-blue-200 transition-colors">
+                                                {{ $review->name }}</p>
                                             <p class="text-xs text-blue-200/60">{{ __('home.miruku_customer') }}</p>
                                         </div>
                                     </div>
@@ -671,26 +682,34 @@
             <div x-show="activeReview" class="p-8 relative overflow-hidden">
                 <!-- Decoration -->
                 <div class="absolute -top-10 -right-10 w-32 h-32 bg-blue-50 rounded-full blur-2xl opacity-60"></div>
-                
+
                 <div class="relative">
-                    <button @click="$dispatch('close')" class="absolute -top-2 -right-2 p-2 text-gray-400 hover:text-gray-600 transition-colors">
+                    <button @click="$dispatch('close')"
+                        class="absolute -top-2 -right-2 p-2 text-gray-400 hover:text-gray-600 transition-colors">
                         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
 
                     <div class="flex items-center gap-4 mb-6">
-                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-miruku-blue to-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-lg text-shadow-premium">
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-gradient-to-br from-miruku-blue to-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-lg text-shadow-premium">
                             <template x-if="activeReview">
                                 <span x-text="activeReview.name.charAt(0).toUpperCase()"></span>
                             </template>
                         </div>
                         <div>
-                            <h4 class="text-xl font-bold text-gray-900 font-cormorant leading-tight" x-text="activeReview?.name"></h4>
+                            <h4 class="text-xl font-bold text-gray-900 font-cormorant leading-tight"
+                                x-text="activeReview?.name"></h4>
                             <div class="flex gap-0.5 mt-1">
                                 <template x-for="i in 5">
-                                    <svg class="w-4 h-4" :class="i <= activeReview?.rating ? 'text-amber-400 fill-amber-400' : 'text-gray-200 fill-gray-200'" viewBox="0 0 24 24">
-                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                                    <svg class="w-4 h-4"
+                                        :class="i <= activeReview?.rating ? 'text-amber-400 fill-amber-400' :
+                                            'text-gray-200 fill-gray-200'"
+                                        viewBox="0 0 24 24">
+                                        <path
+                                            d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                                     </svg>
                                 </template>
                             </div>
@@ -699,13 +718,16 @@
 
                     <div class="bg-gray-50 rounded-2xl p-6 border border-gray-100">
                         <svg class="w-8 h-8 text-miruku-blue/10 mb-4" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 7.55228 14.017 7V5C14.017 4.44772 14.4647 4 15.017 4H19.017C20.6739 4 22.017 5.34315 22.017 7V15C22.017 16.6569 20.6739 18 19.017 18H16.017L16.017 21H14.017ZM2.017 21L2.017 18C2.017 16.8954 2.91243 16 4.017 16H7.017C7.56928 16 8.017 15.5523 8.017 15V9C8.017 8.44772 7.56928 8 7.017 8H3.017C2.46472 8 2.017 7.55228 2.017 7V5C2.017 4.44772 2.46472 4 3.017 4H7.017C8.67386 4 10.017 5.34315 10.017 7V15C10.017 16.6569 8.67386 18 7.017 18H4.017L4.017 21H2.017Z" />
+                            <path
+                                d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 7.55228 14.017 7V5C14.017 4.44772 14.4647 4 15.017 4H19.017C20.6739 4 22.017 5.34315 22.017 7V15C22.017 16.6569 20.6739 18 19.017 18H16.017L16.017 21H14.017ZM2.017 21L2.017 18C2.017 16.8954 2.91243 16 4.017 16H7.017C7.56928 16 8.017 15.5523 8.017 15V9C8.017 8.44772 7.56928 8 7.017 8H3.017C2.46472 8 2.017 7.55228 2.017 7V5C2.017 4.44772 2.46472 4 3.017 4H7.017C8.67386 4 10.017 5.34315 10.017 7V15C10.017 16.6569 8.67386 18 7.017 18H4.017L4.017 21H2.017Z" />
                         </svg>
-                        <p class="text-gray-700 leading-relaxed italic text-lg whitespace-pre-line" x-text="activeReview?.comment"></p>
+                        <p class="text-gray-700 leading-relaxed italic text-lg whitespace-pre-line"
+                            x-text="activeReview?.comment"></p>
                     </div>
 
                     <div class="mt-8 flex justify-end">
-                        <button @click="$dispatch('close')" class="bg-miruku-blue hover:bg-miruku-dark text-white font-bold px-8 py-3 rounded-xl transition-all duration-300 shadow-lg shadow-miruku-blue/20">
+                        <button @click="$dispatch('close')"
+                            class="bg-miruku-blue hover:bg-miruku-dark text-white font-bold px-8 py-3 rounded-xl transition-all duration-300 shadow-lg shadow-miruku-blue/20">
                             Tutup
                         </button>
                     </div>
@@ -713,7 +735,7 @@
             </div>
         </x-modal>
     </section>
-    
+
     {{-- =============================================
      Latest Articles
      ============================================= --}}
@@ -730,50 +752,61 @@
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16" data-aos="fade-up">
-                <span class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.blog_badge') }}</span>
+                <span
+                    class="text-miruku-blue font-semibold text-sm uppercase tracking-widest mb-4 block">{{ __('home.blog_badge') }}</span>
                 <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 font-cormorant">{{ __('articles.title') }}</h2>
                 <p class="text-gray-500 mt-4 text-lg max-w-2xl mx-auto">{{ __('articles.subtitle') }}</p>
             </div>
 
-            @if($posts->count() > 0)
-            <div class="grid md:grid-cols-3 gap-8">
-                @foreach($posts as $post)
-                <article class="bg-gray-50 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group border border-gray-100 flex flex-col h-full" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-                    <a href="{{ route('articles.show', $post) }}" class="relative block aspect-[16/10] overflow-hidden">
-                        <img src="{{ $post->image_url }}" alt="{{ $post->title }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                        <div class="absolute top-4 left-4">
-                            <span class="bg-white/90 backdrop-blur-md text-miruku-blue text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
-                                {{ $post->published_at->format('M d, Y') }}
-                            </span>
-                        </div>
-                    </a>
-                    <div class="p-8 flex flex-col flex-1">
-                        <h3 class="text-xl font-bold text-gray-900 mb-4 group-hover:text-miruku-blue transition-colors">
-                            <a href="{{ route('articles.show', $post) }}">{{ $post->title }}</a>
-                        </h3>
-                        <div class="text-gray-500 text-sm mb-6 line-clamp-4">
-                            {!! Str::limit(strip_tags($post->content), 180) !!}
-                        </div>
-                        <div class="mt-auto pt-6 border-t border-gray-100 flex items-center justify-between">
-                            <a href="{{ route('articles.show', $post) }}" class="text-sm font-bold text-miruku-blue flex items-center gap-2 group/link">
-                                {{ __('home.read_more') }}
-                                <svg class="w-4 h-4 transition-transform duration-300 group-hover/link:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                                </svg>
+            @if ($posts->count() > 0)
+                <div class="grid md:grid-cols-3 gap-8">
+                    @foreach ($posts as $post)
+                        <article
+                            class="bg-gray-50 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 group border border-gray-100 flex flex-col h-full"
+                            data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                            <a href="{{ route('articles.show', $post) }}"
+                                class="relative block aspect-[16/10] overflow-hidden">
+                                <img src="{{ $post->image_url }}" alt="{{ $post->title }}"
+                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                                <div class="absolute top-4 left-4">
+                                    <span
+                                        class="bg-white/90 backdrop-blur-md text-miruku-blue text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
+                                        {{ $post->published_at->format('M d, Y') }}
+                                    </span>
+                                </div>
                             </a>
-                        </div>
-                    </div>
-                </article>
-                @endforeach
-            </div>
-            <div class="text-center mt-12">
-                <a href="{{ route('articles.index') }}" class="inline-flex items-center gap-2 border-2 border-miruku-blue text-miruku-blue hover:bg-miruku-blue hover:text-white font-semibold px-8 py-4 rounded-full transition-all duration-300">
-                    {{ __('home.view_all_articles') }}
-                </a>
-            </div>
+                            <div class="p-8 flex flex-col flex-1">
+                                <h3
+                                    class="text-xl font-bold text-gray-900 mb-4 group-hover:text-miruku-blue transition-colors">
+                                    <a href="{{ route('articles.show', $post) }}">{{ $post->title }}</a>
+                                </h3>
+                                <div class="text-gray-500 text-sm mb-6 line-clamp-4">
+                                    {!! Str::limit(strip_tags($post->content), 180) !!}
+                                </div>
+                                <div class="mt-auto pt-6 border-t border-gray-100 flex items-center justify-between">
+                                    <a href="{{ route('articles.show', $post) }}"
+                                        class="text-sm font-bold text-miruku-blue flex items-center gap-2 group/link">
+                                        {{ __('home.read_more') }}
+                                        <svg class="w-4 h-4 transition-transform duration-300 group-hover/link:translate-x-1"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
+                <div class="text-center mt-12">
+                    <a href="{{ route('articles.index') }}"
+                        class="inline-flex items-center gap-2 border-2 border-miruku-blue text-miruku-blue hover:bg-miruku-blue hover:text-white font-semibold px-8 py-4 rounded-full transition-all duration-300">
+                        {{ __('home.view_all_articles') }}
+                    </a>
+                </div>
             @else
-            <div class="text-center py-12 text-gray-400">Artikel sedang dalam proses penulisan...</div>
+                <div class="text-center py-12 text-gray-400">Artikel sedang dalam proses penulisan...</div>
             @endif
         </div>
     </section>
@@ -829,8 +862,8 @@
                         @php
                             $storesByCity = $stores->groupBy(fn($s) => $s->getRawOriginal('city'));
                         @endphp
-                        @foreach($storesByCity as $cityKey => $cityStores)
-                            @foreach($cityStores->take(3) as $store)
+                        @foreach ($storesByCity as $cityKey => $cityStores)
+                            @foreach ($cityStores->take(3) as $store)
                                 <div x-show="activeCity === 'all' || activeCity === '{{ $cityKey }}'" x-transition
                                     data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}"
                                     class="bg-gray-50 rounded-2xl shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300">
@@ -857,7 +890,8 @@
                                                 <p class="flex items-center gap-2">
                                                     <svg class="w-4 h-4 text-miruku-blue flex-shrink-0" fill="none"
                                                         viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
                                                             d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                                     </svg>
                                                     {{ $store->phone }}
@@ -867,7 +901,8 @@
                                                 <p class="flex items-center gap-2">
                                                     <svg class="w-4 h-4 text-miruku-blue flex-shrink-0" fill="none"
                                                         viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
                                                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                     </svg>
                                                     {{ \Carbon\Carbon::parse($store->open_time)->format('H:i') }} –
@@ -886,7 +921,8 @@
                             class="inline-flex items-center gap-2 border-2 border-miruku-blue text-miruku-blue hover:bg-miruku-blue hover:text-white font-semibold px-8 py-3.5 rounded-full transition-all duration-300">
                             {{ __('home.view_all_locations') ?? 'Liat Semua Lokasi' }}
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
                             </svg>
                         </a>
                     </div>
@@ -943,7 +979,7 @@
                 style="animation-delay: 100ms">
                 <div class="aspect-video relative">
                     <iframe class="w-full h-full"
-                        src="{{ ($sections['cta']->youtube_embed_url ?? 'https://www.youtube.com/embed/CH3rulpG7ac') . (strpos(($sections['cta']->youtube_embed_url ?? ''), '?') !== false ? '&' : '?') }}vq=hd1080&rel=0"
+                        src="{{ ($sections['cta']->youtube_embed_url ?? 'https://www.youtube.com/embed/CH3rulpG7ac') . (strpos($sections['cta']->youtube_embed_url ?? '', '?') !== false ? '&' : '?') }}vq=hd1080&rel=0"
                         title="YouTube video player" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
@@ -963,26 +999,33 @@
                         {{ __('footer.newsletter_description') }}
                     </p>
 
-                    <div class="bg-white/10 backdrop-blur-md p-1.5 rounded-[2rem] border border-white/20 shadow-2xl relative group transition-all duration-500 hover:border-white/40">
+                    <div
+                        class="bg-white/10 backdrop-blur-md p-1.5 rounded-[2rem] border border-white/20 shadow-2xl relative group transition-all duration-500 hover:border-white/40">
                         <form id="newsletter-form" class="flex flex-col sm:flex-row gap-2">
                             @csrf
-                            <input type="email" name="email" placeholder="{{ __('footer.email_placeholder') }}" id="newsletter-email" required
-                                   class="flex-1 bg-transparent border-none text-white placeholder-blue-100 px-6 py-4 focus:outline-none focus:ring-0 text-base">
-                            
-                            <button type="submit" id="newsletter-submit" 
-                                    class="bg-white text-miruku-blue hover:bg-blue-50 px-10 py-4 rounded-[1.5rem] font-bold transition-all shadow-xl hover:shadow-white/20 flex items-center justify-center gap-2 group/btn whitespace-nowrap text-base active:scale-95">
+                            <input type="email" name="email" placeholder="{{ __('footer.email_placeholder') }}"
+                                id="newsletter-email" required
+                                class="flex-1 bg-transparent border-none text-white placeholder-blue-100 px-6 py-4 focus:outline-none focus:ring-0 text-base">
+
+                            <button type="submit" id="newsletter-submit"
+                                class="bg-white text-miruku-blue hover:bg-blue-50 px-10 py-4 rounded-[1.5rem] font-bold transition-all shadow-xl hover:shadow-white/20 flex items-center justify-center gap-2 group/btn whitespace-nowrap text-base active:scale-95">
                                 <span id="submit-text">{{ __('footer.join') }}</span>
-                                <span id="submit-loader" class="hidden w-5 h-5 border-3 border-miruku-blue border-t-transparent rounded-full animate-spin"></span>
-                                <svg class="w-5 h-5 transition-transform group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                <span id="submit-loader"
+                                    class="hidden w-5 h-5 border-3 border-miruku-blue border-t-transparent rounded-full animate-spin"></span>
+                                <svg class="w-5 h-5 transition-transform group-hover/btn:translate-x-1" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                 </svg>
                             </button>
                         </form>
                     </div>
 
                     <div class="mt-6 flex flex-col items-center gap-4">
-                        <div class="g-recaptcha scale-90 sm:scale-100" data-sitekey="{{ config('services.recaptcha.site_key') }}" data-theme="dark"></div>
-                        <p id="newsletter-message" class="text-sm font-medium hidden animate-fade-in text-shadow-premium"></p>
+                        <div class="g-recaptcha scale-90 sm:scale-100"
+                            data-sitekey="{{ config('services.recaptcha.site_key') }}" data-theme="dark"></div>
+                        <p id="newsletter-message" class="text-sm font-medium hidden animate-fade-in text-shadow-premium">
+                        </p>
                     </div>
                 </div>
             </div>

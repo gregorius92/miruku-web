@@ -5,6 +5,7 @@ return [
     'hero_title' => 'Semua Produk Miruku',
     'hero_subtitle' => 'Pilih varian favorit kamu — semuanya 0% laktosa, 100% premium.',
     'filter_all' => 'Semua',
+    'all_categories' => 'Semua Kategori',
     'best_seller' => 'Terlaris',
     'view_detail' => 'Lihat Detail',
     'not_found' => 'Produk tidak ditemukan.',

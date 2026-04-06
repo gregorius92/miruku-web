@@ -16,7 +16,7 @@
             <div class="flex flex-wrap justify-center gap-3">
                 <a href="{{ route('products.index', request()->except('unit')) }}"
                    class="px-6 py-2.5 rounded-full text-sm font-semibold border transition-all duration-200 {{ !request('unit') ? 'bg-miruku-blue border-miruku-blue text-white shadow-lg shadow-miruku-blue/20' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50' }}">
-                    Semua Kategori
+                    {{ __('products.all_categories') }}
                 </a>
                 @foreach($units as $u)
                 <a href="{{ route('products.index', array_merge(request()->query(), ['unit' => $u->slug])) }}"
