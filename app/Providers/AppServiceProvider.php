@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Mail;
 use Mailtrap\Bridge\Transport\MailtrapSdkTransport;
 use Mailtrap\Config;
 use Mailtrap\MailtrapClient;
+use Symfony\Component\HttpClient\NativeHttpClient;
+use Symfony\Component\HttpClient\Psr18Client;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,13 +34,18 @@ class AppServiceProvider extends ServiceProvider
             $inboxId = $config['inbox_id'] ?? env('MAILTRAP_INBOX_ID');
             $isSandbox = $config['is_sandbox'] ?? env('MAILTRAP_IS_SANDBOX', false);
 
-            $apiLayer = MailtrapClient::initSendingEmails(
-                apiKey: $apiKey,
-                isSandbox: (bool) $isSandbox,
-                inboxId: $inboxId ? (int) $inboxId : null
-            );
+            /**
+             * Force NativeHttpClient to avoid curl_multi_exec which is disabled on InfinityFree
+             */
+            $httpClient = new Psr18Client(new NativeHttpClient());
+            $mailtrapConfig = (new Config($apiKey))->setHttpClient($httpClient);
+            $client = new MailtrapClient($mailtrapConfig);
 
-            return new MailtrapSdkTransport($apiLayer, new Config($apiKey));
+            $apiLayer = $isSandbox
+                ? $client->sandbox()->emails($inboxId ? (int) $inboxId : null)
+                : $client->sending()->emails();
+
+            return new MailtrapSdkTransport($apiLayer, $mailtrapConfig);
         });
     }
 }

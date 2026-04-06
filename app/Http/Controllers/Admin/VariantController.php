@@ -27,7 +27,6 @@ class VariantController extends Controller
             'slug'        => 'required|string|max:255|unique:variants,slug',
             'icon'        => 'nullable|string|max:255',
             'color_class' => 'nullable|string|max:255',
-            'is_active'   => 'nullable|boolean',
         ]);
 
         $data['is_active'] = $request->has('is_active');

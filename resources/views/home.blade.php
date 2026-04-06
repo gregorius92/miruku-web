@@ -399,7 +399,14 @@
     {{-- =============================================
      5. PRODUCTS SECTION
      ============================================= --}}
-    <section id="products" class="py-24 lg:py-32 bg-white relative overflow-hidden">
+    <section id="products" x-data="{ 
+        activeUnit: 'all',
+        products: @js($products->map(fn($p) => ['id' => $p->id, 'unit' => $p->unit])),
+        get visibleIds() {
+            if (this.activeUnit === 'all') return this.products.slice(0, 3).map(p => p.id);
+            return this.products.filter(p => p.unit === this.activeUnit).slice(0, 3).map(p => p.id);
+        }
+    }" class="py-24 lg:py-32 bg-white relative overflow-hidden">
         <!-- Wave transition from Comparison to Products -->
         <div class="absolute top-0 left-0 w-full overflow-hidden leading-[0] transform -translate-y-[99%]">
             <svg fill="white" class="relative block w-[calc(100%+1.3px)] h-[60px]" viewBox="0 0 1200 120"
@@ -425,22 +432,28 @@
                 
                 <!-- Filter Units/Categories -->
                 <div class="flex flex-wrap justify-center gap-3 mt-10">
-                    <a href="{{ route('home') }}#products" 
-                        class="px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 {{ !request('unit') ? 'bg-miruku-blue text-white shadow-lg shadow-miruku-blue/20' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' }}">
+                    <button @click="activeUnit = 'all'" 
+                        :class="activeUnit === 'all' ? 'bg-miruku-blue text-white shadow-lg shadow-miruku-blue/20' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+                        class="px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300">
                         All
-                    </a>
+                    </button>
                     @foreach($units as $u)
-                        <a href="{{ route('home', ['unit' => $u->slug]) }}#products" 
-                            class="px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 {{ request('unit') === $u->slug ? 'bg-miruku-blue text-white shadow-lg shadow-miruku-blue/20' : 'bg-gray-100 text-gray-600 hover:bg-gray-200' }}">
+                        <button @click="activeUnit = '{{ $u->slug }}'" 
+                            :class="activeUnit === '{{ $u->slug }}' ? 'bg-miruku-blue text-white shadow-lg shadow-miruku-blue/20' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+                            class="px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300">
                             {{ $u->name }}
-                        </a>
+                        </button>
                     @endforeach
                 </div>
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse($products as $product)
-                    <div data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}"
+                    <div x-show="visibleIds.includes({{ $product->id }})" 
+                        x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="opacity-0 transform scale-95"
+                        x-transition:enter-end="opacity-100 transform scale-100"
+                        data-aos="fade-up" data-aos-delay="{{ ($loop->index % 3) * 100 }}"
                         class="group relative bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-100">
                         <!-- Image -->
                         <div

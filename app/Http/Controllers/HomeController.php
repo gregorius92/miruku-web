@@ -22,11 +22,7 @@ class HomeController extends Controller
         $products = Product::active()
             ->with(['variantInfo', 'unitInfo'])
             ->where('show_on_home', true)
-            ->when($request->unit, function($query) use ($request) {
-                return $query->where('unit', $request->unit);
-            })
             ->orderBy('is_featured', 'desc')
-            ->take(3)
             ->get();
             
         $reviews = Review::approved()->latest()->take(8)->get();

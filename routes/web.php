@@ -84,7 +84,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::resource('stores', Admin\StoreLocationController::class);
 
     // Articles
-    Route::resource('articles', Admin\PostController::class);
+    Route::resource('articles', Admin\PostController::class)->parameters(['articles' => 'post']);
 
     // Sections
     Route::get('sections', [Admin\SectionController::class, 'index'])->name('sections.index');
