@@ -78,13 +78,11 @@
             const target = document.getElementById(targetId);
             if (!source || !target || source === target) return;
             
-            let manualEdit = false;
-            target.addEventListener('input', () => { manualEdit = true; });
-
             const translate = debounce(async (text) => {
-                const currentTargetValue = target.value.trim();
-                // ONLY translate if target is empty AND has NOT been manually edited
-                if (!text.trim() || currentTargetValue !== '' || manualEdit) return;
+                if (!text.trim()) {
+                    target.value = '';
+                    return;
+                }
 
                 target.style.opacity = '0.5';
                 target.classList.add('animate-pulse');
@@ -100,8 +98,7 @@
                     });
                     
                     const data = await response.json();
-                    // DOUBLE CHECK target is still empty and not manually edited before assigning
-                    if (data.success && target.value.trim() === '' && !manualEdit) {
+                    if (data.success) {
                         target.value = data.translatedText;
                     }
                 } catch (error) {
@@ -110,14 +107,13 @@
                     target.style.opacity = '1';
                     target.classList.remove('animate-pulse');
                 }
-            }, 1000);
+            }, 800);
 
             source.addEventListener('input', (e) => translate(e.target.value));
         };
 
         const autoTranslateSummernote = (sourceName, targetName) => {
             if (sourceName === targetName) return;
-            let manualEdit = false;
 
             const checkEditors = setInterval(() => {
                 const $source = $(`[name="${sourceName}"]`);
@@ -127,14 +123,13 @@
                     clearInterval(checkEditors);
                     
                     const $targetEditor = $target.next('.note-editor');
-                    $targetEditor.find('.note-editable').on('keydown', () => { manualEdit = true; });
 
                     const translate = debounce(async (html) => {
-                        const targetHtml = $target.summernote('code');
-                        const isTargetEmpty = targetHtml === '' || targetHtml === '<p><br></p>' || targetHtml === '<br>';
-
-                        // ONLY translate if target is empty AND has NOT been manually edited
-                        if (!html.trim() || html === '<p><br></p>' || !isTargetEmpty || manualEdit) return;
+                        const isEmpty = html === '' || html === '<p><br></p>' || html === '<br>';
+                        if (isEmpty) {
+                            $target.summernote('code', '');
+                            return;
+                        }
 
                         $targetEditor.css('opacity', '0.5');
                         $targetEditor.addClass('animate-pulse');
@@ -150,11 +145,7 @@
                             });
                             
                             const data = await response.json();
-                            const currentTargetHtml = $target.summernote('code');
-                            const isStillEmpty = currentTargetHtml === '' || currentTargetHtml === '<p><br></p>' || currentTargetHtml === '<br>';
-
-                            // DOUBLE CHECK target is still empty and not manually edited before assigning
-                            if (data.success && isStillEmpty && !manualEdit) {
+                            if (data.success) {
                                 $target.summernote('code', data.translatedText);
                             }
                         } catch (error) {
@@ -163,7 +154,7 @@
                             $targetEditor.css('opacity', '1');
                             $targetEditor.removeClass('animate-pulse');
                         }
-                    }, 1500);
+                    }, 1200);
 
                     $source.on('summernote.change', (we, contents) => translate(contents));
                 }
