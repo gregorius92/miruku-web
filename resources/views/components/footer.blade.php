@@ -70,14 +70,14 @@
             <div>
                 <h3 class="text-white font-bold mb-6 text-sm uppercase tracking-widest border-b border-white/20 pb-2 inline-block">{{ __('footer.contact_us') }}</h3>
                 <div class="space-y-4 mb-6">
-                    <p class="text-blue-50 text-sm flex items-center gap-3">
-                        <svg class="w-5 h-5 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    <a href="mailto:{{ $global_seo['contact_email'] ?? 'hello@miruku.id' }}" class="text-blue-50 hover:text-white text-sm flex items-center gap-3 transition-colors group">
+                        <svg class="w-5 h-5 text-blue-200 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                         {{ $global_seo['contact_email'] ?? 'hello@miruku.id' }}
-                    </p>
-                    <p class="text-blue-50 text-sm flex items-center gap-3">
-                        <svg class="w-5 h-5 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                    </a>
+                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $global_seo['contact_phone'] ?? '628123456789') }}" target="_blank" class="text-blue-50 hover:text-white text-sm flex items-center gap-3 transition-colors group">
+                        <svg class="w-5 h-5 text-blue-200 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                         {{ $global_seo['contact_phone'] ?? '+62 812-3456-7890' }}
-                    </p>
+                    </a>
                 </div>
             </div>
         </div>
