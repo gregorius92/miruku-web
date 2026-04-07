@@ -15,7 +15,7 @@ return [
     'newsletter_description' => 'Dapatkan info promo spesial dan artikel kesehatan terbaru langsung ke email kamu.',
     'email_placeholder' => 'Masukkan alamat email kamu...',
     'join' => 'Daftar Sekarang',
-    'rights_reserved' => '© 2024 Miruku. All rights reserved. | Dibuat dengan semangat untuk Indonesia yang lebih sehat.',
+    'rights_reserved' => 'All rights reserved. | Dibuat dengan semangat untuk Indonesia yang lebih sehat.',
     'subscription_success' => 'Terima kasih telah bergabung dengan newsletter kami!',
     'already_subscribed' => 'Kamu sudah berlangganan newsletter kami.',
     'privacy_title' => 'Kebijakan Privasi',

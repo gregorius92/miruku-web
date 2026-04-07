@@ -85,7 +85,7 @@
         <!-- Bottom bar -->
         <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
             <p class="text-blue-100 text-xs opacity-70">
-                {{ __('footer.rights_reserved') }}
+                &copy; {{ date('Y') }} Miruku. {{ __('footer.rights_reserved') }}
             </p>
             <div class="flex gap-8">
                 <a href="javascript:void(0)" @click="privacyModal = true" class="text-blue-100 hover:text-white text-xs opacity-70 transition-colors uppercase tracking-widest">{{ __('footer.privacy_title') }}</a>
