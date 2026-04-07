@@ -190,25 +190,49 @@
             @endif
 
             <!-- Submit Review -->
-            <div class="max-w-xl bg-blue-50 rounded-2xl p-6 border border-blue-100">
+            <div class="max-w-xl bg-blue-50 rounded-2xl p-6 border border-blue-100" x-data="reviewForm()">
                 <h3 class="font-bold text-gray-900 mb-4">{{ __('products.write_review') }}</h3>
-                <form action="{{ route('reviews.store') }}" method="POST" class="space-y-4">
-                    @csrf
-                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-                    <input type="text" name="name" placeholder="{{ __('products.name_placeholder') }}" required class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue">
-                    <div x-data="{ rating: 5 }" class="flex gap-2 items-center">
+
+                <div x-show="successMessage" x-transition
+                     class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl mb-6 text-sm flex items-center gap-3">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    <span x-text="successMessage"></span>
+                </div>
+
+                <div x-show="errorMessage" x-transition
+                     class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-6 text-sm flex items-center gap-3">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span x-text="errorMessage"></span>
+                </div>
+
+                <form @submit.prevent="submit" class="space-y-4" x-show="!successMessage">
+                    <input type="hidden" name="product_id" x-model="formData.product_id">
+                    <input type="text" name="name" x-model="formData.name" placeholder="{{ __('products.name_placeholder') }}" required class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue">
+                    <div class="flex gap-2 items-center">
                         <span class="text-sm text-gray-600 mr-2">{{ __('products.rating_label') }}:</span>
                         @for($i = 1; $i <= 5; $i++)
-                        <button type="button" @click="rating = {{ $i }}"
-                                :class="rating >= {{ $i }} ? 'text-amber-400' : 'text-gray-300'"
+                        <button type="button" @click="formData.rating = {{ $i }}"
+                                :class="formData.rating >= {{ $i }} ? 'text-amber-400' : 'text-gray-300'"
                                 class="text-2xl transition-colors">★</button>
                         @endfor
-                        <input type="hidden" name="rating" :value="rating">
                     </div>
-                    <textarea name="comment" rows="3" placeholder="{{ __('products.comment_placeholder') }}" required class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue resize-none"></textarea>
-                    <button type="submit" class="w-full bg-miruku-blue hover:bg-miruku-dark text-white font-semibold py-3 rounded-xl transition-colors">{{ __('products.submit_review') }}</button>
+                    <textarea name="comment" x-model="formData.comment" rows="3" placeholder="{{ __('products.comment_placeholder') }}" required class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-miruku-blue resize-none"></textarea>
+                    
+                    <button type="submit" :disabled="loading"
+                        class="w-full bg-miruku-blue hover:bg-miruku-dark text-white font-semibold py-3 rounded-xl transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
+                        <svg x-show="loading" class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                        <span x-text="loading ? 'Mengirim...' : '{{ __('products.submit_review') }}'"></span>
+                    </button>
                 </form>
+
+                <div x-show="successMessage" class="text-center py-4">
+                    <button @click="resetForm" class="text-miruku-blue font-semibold hover:underline text-sm">
+                        {{ __('home.send_another_review') }}
+                    </button>
+                </div>
+
             </div>
+
         </div>
 
         <!-- Related Products -->
@@ -240,3 +264,74 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    function reviewForm() {
+        return {
+            formData: {
+                name: '',
+                email: '',
+                rating: 5,
+                comment: '',
+                product_id: '{{ $product->id }}'
+            },
+            loading: false,
+            successMessage: '',
+            errorMessage: '',
+            async submit() {
+                this.loading = true;
+                this.successMessage = '';
+                this.errorMessage = '';
+
+                try {
+                    const response = await fetch('{{ route('reviews.store') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: JSON.stringify(this.formData)
+                    });
+
+
+                    const contentType = response.headers.get('content-type');
+                    if (contentType && contentType.includes('application/json')) {
+                        const result = await response.json();
+                        if (response.ok) {
+                            this.successMessage = result.message;
+                            this.formData.comment = '';
+                        } else {
+                            this.errorMessage = result.message || '{{ __('home.review_error_default') }}';
+                        }
+                    } else {
+                        // If not JSON, it might be a 500 or 419 error page
+                        const errorText = await response.text();
+                        console.error('Server error response:', errorText);
+                        if (response.status === 419) {
+                            this.errorMessage = 'Sesi telah berakhir. Silakan refresh halaman.';
+                        } else {
+                            this.errorMessage = 'Terjadi kesalahan pada server (Error ' + response.status + ').';
+                        }
+                    }
+                } catch (error) {
+                    console.error('Review submission error:', error);
+                    this.errorMessage = '{{ __('home.review_error_connection') }}';
+                } finally {
+                    this.loading = false;
+                }
+
+
+            },
+            resetForm() {
+                this.successMessage = '';
+                this.errorMessage = '';
+                this.formData.comment = '';
+            }
+        }
+    }
+</script>
+@endpush
+
