@@ -1,5 +1,8 @@
 @foreach($products as $product)
-<div class="group bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-100">
+<div x-transition:enter="transition ease-out duration-300"
+     x-transition:enter-start="opacity-0 transform scale-95"
+     x-transition:enter-end="opacity-100 transform scale-100"
+     class="group bg-white rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-100">
     <div class="aspect-square overflow-hidden bg-gradient-to-br
         {{ $product->variantInfo->color_class ?? 'from-blue-50 to-indigo-50' }}">
         @if($product->image)

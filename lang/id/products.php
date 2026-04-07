@@ -38,4 +38,5 @@ return [
     'loading' => 'Memuat produk lainnya...',
     'all_loaded' => 'Anda telah melihat semua produk.',
     'share_product' => 'Bagikan Produk',
+    'load_more' => 'Muat Lebih Banyak',
 ];

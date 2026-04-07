@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="pt-24 pb-16">
+<div class="pt-24 pb-16" x-data="productFilter()">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Header -->
         <div class="text-center mb-12">
@@ -14,15 +14,17 @@
         <div class="space-y-6 mb-12">
             <!-- Unit/Size Filter (Kategori) -->
             <div class="flex flex-wrap justify-center gap-3">
-                <a href="{{ route('products.index', request()->except('unit')) }}"
-                   class="px-6 py-2.5 rounded-full text-sm font-semibold border transition-all duration-200 {{ !request('unit') ? 'bg-miruku-blue border-miruku-blue text-white shadow-lg shadow-miruku-blue/20' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50' }}">
+                <button @click="changeCategory('all')"
+                   :class="activeUnit === 'all' ? 'bg-miruku-blue border-miruku-blue text-white shadow-lg shadow-miruku-blue/20' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'"
+                   class="px-6 py-2.5 rounded-full text-sm font-semibold border transition-all duration-200">
                     {{ __('products.all_categories') }}
-                </a>
+                </button>
                 @foreach($units as $u)
-                <a href="{{ route('products.index', array_merge(request()->query(), ['unit' => $u->slug])) }}"
-                   class="px-6 py-2.5 rounded-full text-sm font-semibold border transition-all duration-200 {{ request('unit') === $u->slug ? 'bg-miruku-blue border-miruku-blue text-white shadow-lg shadow-miruku-blue/20' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50' }}">
+                <button @click="changeCategory('{{ $u->slug }}')"
+                   :class="activeUnit === '{{ $u->slug }}' ? 'bg-miruku-blue border-miruku-blue text-white shadow-lg shadow-miruku-blue/20' : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'"
+                   class="px-6 py-2.5 rounded-full text-sm font-semibold border transition-all duration-200">
                     {{ $u->name }}
-                </a>
+                </button>
                 @endforeach
             </div>
         </div>
@@ -33,21 +35,30 @@
             @include('products._product_list')
         </div>
 
-        <!-- Loading Sentinel -->
-        <div id="loading-sentinel" class="mt-16 flex flex-col items-center justify-center space-y-4 py-8">
-            <div id="loading-spinner" class="hidden">
-                <div class="w-12 h-12 border-4 border-miruku-blue/20 border-t-miruku-blue rounded-full animate-spin"></div>
+        <!-- Pagination / Load More -->
+        <div class="mt-16 flex flex-col items-center justify-center space-y-6">
+            <!-- Load More Button -->
+            <div x-show="hasMore && !loading" x-cloak>
+                <button @click="loadNextPage()"
+                    class="bg-miruku-blue hover:bg-miruku-dark text-white font-bold px-10 py-4 rounded-full transition-all duration-300 shadow-xl shadow-miruku-blue/20 transform hover:-translate-y-1 active:scale-95 flex items-center gap-3">
+                    {{ __('products.load_more') }}
+                    <svg class="w-5 h-5 transition-transform group-hover:rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div x-show="loading" x-cloak class="text-center">
+                <div class="w-12 h-12 border-4 border-miruku-blue/20 border-t-miruku-blue rounded-full animate-spin mx-auto"></div>
                 <p class="text-sm text-gray-500 font-medium mt-4">{{ __('products.loading') }}</p>
             </div>
-            <div id="end-of-content" class="hidden text-center">
+
+            <!-- End of Content -->
+            <div x-show="!hasMore && !loading && {{ $products->total() }} > 0" x-cloak class="text-center">
                 <div class="text-3xl mb-2">✨</div>
                 <p class="text-gray-400 font-medium text-sm">{{ __('products.all_loaded') }}</p>
             </div>
-        </div>
-
-        <!-- Hidden Standard Pagination (Used to get next page URL) -->
-        <div id="pagination-wrapper" class="hidden">
-            {{ $products->links() }}
         </div>
         @else
         <div class="text-center py-20">
@@ -60,89 +71,78 @@
 
 @push('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    let nextPageUrl = document.querySelector('#pagination-wrapper a[rel="next"]')?.href;
-    const grid = document.querySelector('#product-grid');
-    const sentinel = document.querySelector('#loading-sentinel');
-    const spinner = document.querySelector('#loading-spinner');
-    const endMessage = document.querySelector('#end-of-content');
-    
-    if (!nextPageUrl) {
-        if (grid.children.length > 0) {
-            endMessage.classList.remove('hidden');
-        }
-        return;
-    }
-
-    const observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && nextPageUrl) {
-            loadMoreProducts();
-        }
-    }, {
-        rootMargin: '200px'
-    });
-
-    observer.observe(sentinel);
-
-    async function loadMoreProducts() {
-        if (!nextPageUrl) return;
+function productFilter() {
+    return {
+        activeUnit: 'all',
+        page: {{ $products->currentPage() + 1 }},
+        loading: false,
+        hasMore: {{ $products->hasMorePages() ? 'true' : 'false' }},
         
-        const currentUrl = nextPageUrl;
-        nextPageUrl = null; // Prevent double trigger
+        init() {
+            console.log('Product filter initialized', { page: this.page, hasMore: this.hasMore });
+        },
         
-        spinner.classList.remove('hidden');
+        async changeCategory(unit) {
+            if (this.loading) return;
+            
+            console.log('Changing category to:', unit);
+            this.activeUnit = unit;
+            this.page = 1;
+            this.hasMore = true;
+            this.loading = true;
+            
+            document.getElementById('product-grid').innerHTML = ''; // Clear grid
+            await this.loadNextPage(true);
+        },
         
-        try {
-            const response = await fetch(currentUrl, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
+        async loadNextPage(reset = false) {
+            if (this.loading && !reset) return;
+            this.loading = true;
+            
+            try {
+                // Robust URL construction
+                const baseUrl = '{{ route('products.index', [], false) }}';
+                const url = new URL(baseUrl, window.location.origin);
+                
+                if (this.activeUnit !== 'all') {
+                    url.searchParams.set('unit', this.activeUnit);
                 }
-            });
-            
-            if (!response.ok) throw new Error('Network response was not ok');
-            
-            const html = await response.text();
-            
-            // Append new items
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            
-            // Re-enable AOS if exists
-            const newItems = tempDiv.querySelectorAll('[data-aos]');
-            
-            grid.insertAdjacentHTML('beforeend', html);
-            
-            if (typeof AOS !== 'undefined') {
-                AOS.refresh();
+                url.searchParams.set('page', this.page);
+                
+                console.log('Fetching products:', url.toString());
+                
+                const response = await fetch(url.toString(), {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+                
+                if (!response.ok) throw new Error('Response error: ' + response.status);
+                
+                const html = await response.text();
+                const trimmedHtml = html.trim();
+                
+                if (trimmedHtml.length > 0) {
+                    document.getElementById('product-grid').insertAdjacentHTML('beforeend', trimmedHtml);
+                    
+                    if (typeof AOS !== 'undefined') {
+                        AOS.refresh();
+                    }
+                    
+                    this.page++;
+                    console.log('Loaded products. Next page is:', this.page);
+                } else {
+                    console.log('Empty response, no more products.');
+                    this.hasMore = false;
+                }
+            } catch (error) {
+                console.error('Fetch error:', error);
+            } finally {
+                this.loading = false;
             }
-
-            // Get the next page URL from the new response if we were to parse the whole page, 
-            // but since we only return partial, we need to handle pagination differently.
-            // Better approach: the Controller should ideally return JSON with html and next_page_url,
-            // OR we can just keep fetching page 2, 3, etc. until we get empty results.
-            
-            // Let's refine the controller or the logic:
-            // Since we're using standard Laravel pagination, let's just increment a counter.
-            const url = new URL(currentUrl);
-            let currentPage = parseInt(url.searchParams.get('page')) || 1;
-            const nextPage = currentPage + 1;
-            url.searchParams.set('page', nextPage);
-            
-            // Check if we should continue
-            if (html.trim().length > 0) {
-                nextPageUrl = url.toString();
-            } else {
-                nextPageUrl = null;
-                endMessage.classList.remove('hidden');
-            }
-            
-        } catch (error) {
-            console.error('Error loading more products:', error);
-        } finally {
-            spinner.classList.add('hidden');
         }
     }
-});
+}
 </script>
 @endpush
 @endsection

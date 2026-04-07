@@ -38,4 +38,5 @@ return [
     'loading' => 'Loading more products...',
     'all_loaded' => 'You have seen all products.',
     'share_product' => 'Share Product',
+    'load_more' => 'Load More',
 ];

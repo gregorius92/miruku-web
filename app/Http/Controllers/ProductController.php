@@ -18,7 +18,7 @@ class ProductController extends Controller
             ->with(['variantInfo', 'unitInfo'])
             ->when($request->unit, fn($q) => $q->where('unit', $request->unit))
             ->latest()
-            ->paginate(9);
+            ->paginate(12);
 
         $seo = [
             'title'       => __('products.seo_index_title'),
